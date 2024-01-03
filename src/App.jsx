@@ -1,9 +1,23 @@
-import "./App.css";
+import {
+  Navbar,
+  Hero,
+  Footer,
+  Sidebar,
+  Overlay,
+  Submenu,
+  Loading,
+} from "./components/";
 
 function App() {
   return (
     <>
-      <h1>hello there</h1>
+      <Navbar />
+      <Hero />
+      <Footer />
+      <Sidebar />
+      {/* <Overlay /> */}
+      <Submenu />
+      {/* <Loading /> */}
     </>
   );
 }
