@@ -1,12 +1,21 @@
 import Logo from "../assets/images/logo.png";
+import { useSidebarContext } from "../context/sidebar_context";
 
 const Navbar = () => {
+  const { setShowSidebar } = useSidebarContext();
   return (
     <nav className="nav">
       <div className="nav-center">
         <div className="nav-header">
           <img src={Logo} className="nav-logo" alt="logo" />
-          <button className="btn toggle-btn">menu</button>
+          <button
+            className="btn toggle-btn"
+            onClick={() => {
+              setShowSidebar(true);
+            }}
+          >
+            menu
+          </button>
           <button className="btn new-game-btn navbar-new-game-btn">
             new game
           </button>
