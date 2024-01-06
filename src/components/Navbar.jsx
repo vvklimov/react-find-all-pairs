@@ -1,5 +1,7 @@
 import Logo from "../assets/images/logo.png";
 import { useSidebarContext } from "../context/sidebar_context";
+import { navTags } from "../utils/data";
+import { NavbarTag } from "./";
 
 const Navbar = () => {
   const { setShowSidebar } = useSidebarContext();
@@ -21,20 +23,9 @@ const Navbar = () => {
           </button>
         </div>
         <ul className="nav-tags">
-          <li>
-            <button className="tag-btn tag-btn-gradient nav-btn">
-              difficulty
-            </button>
-          </li>
-          <li>
-            <button className="tag-btn tag-btn-gradient nav-btn">size</button>
-          </li>
-          <li>
-            <button className="tag-btn tag-btn-gradient nav-btn">themes</button>
-          </li>
-          <li>
-            <button className="tag-btn tag-btn-gradient nav-btn">other</button>
-          </li>
+          {navTags.map((item) => {
+            return <NavbarTag key={item.tag} {...item} />;
+          })}
         </ul>
       </div>
     </nav>

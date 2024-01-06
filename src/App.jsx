@@ -20,7 +20,6 @@ function App() {
       <Footer />
       <Sidebar />
       {/* <Overlay /> */}
-      <Submenu />
       {/* <Loading /> */}
     </>
   );

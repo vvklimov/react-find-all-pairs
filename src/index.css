@@ -271,6 +271,9 @@ navbar
   margin: 0;
   height: 100%;
 }
+.nav-tags li {
+  position: relative;
+}
 .tag-btn {
   height: 100%;
   min-width: 6rem;
@@ -676,6 +679,11 @@ end of sidebar
   display: flex;
   margin-left: auto;
   margin-right: auto;
+  text-wrap: nowrap;
+}
+.settings-container {
+  width: fit-content;
+  margin: 0 auto;
 }
 .show-submenu {
   display: block;
@@ -683,6 +691,10 @@ end of sidebar
 .single-setting {
   text-transform: capitalize;
   white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  align-items: center;
 }
 /* end of settings submenu */
 /* timer */

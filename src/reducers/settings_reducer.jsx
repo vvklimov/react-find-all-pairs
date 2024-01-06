@@ -5,7 +5,7 @@ const settings_reducer = (state, action) => {
   if (action.type === SET_SETTINGS) {
     const newSettings = state.tempSettings;
     setStorageItem("settings", newSettings);
-    return { ...state, settings: newSettings };
+    return { ...state, settings: newSettings, settingsAreEqual: true };
   }
   if (action.type === UPDATE_SETTINGS) {
     const { singleSettingName, singleSettingValue, gameState } = action.payload;

@@ -1,3 +1,11 @@
+import darkFantasyBg1 from "../assets/images/backgrounds/dark_fantasy_bg1.png";
+import darkFantasyBg2 from "../assets/images/backgrounds/dark_fantasy_bg2.png";
+import darkFantasyBg3 from "../assets/images/backgrounds/dark_fantasy_bg3.png";
+import natureBg from "../assets/images/backgrounds/nature_bg.png";
+import peopleBg from "../assets/images/backgrounds/people_bg.png";
+import jsFrameworksBg from "../assets/images/backgrounds/js_background.png";
+import surpriseMeBg from "../assets/images/backgrounds/surprise_me_bg.png";
+
 const navTags = [
   {
     tag: "difficulty",
@@ -61,7 +69,6 @@ const navTags = [
         subtagName: "sound effects",
         subtagClass: "sound-effects",
       },
-      ,
       {
         subtagName: "hide found cards",
         subtagClass: "hide-found-cards",
@@ -72,32 +79,36 @@ const navTags = [
 const backgrounds = [
   {
     theme: "dark-fantasy",
-    src: [
-      "./assets/images/backgrounds/dark_fantasy_bg1.png",
-      "./assets/images/backgrounds/dark_fantasy_bg2.png",
-      "./assets/images/backgrounds/dark_fantasy_bg3.png",
-    ],
+    src: [darkFantasyBg1, darkFantasyBg2, darkFantasyBg3],
   },
   {
     theme: "nature",
-    src: "./assets/images/backgrounds/nature_bg.png",
+    src: natureBg,
   },
 
   {
     theme: "people",
-    src: "./assets/images/backgrounds/people_bg.png",
+    src: peopleBg,
   },
 
   {
     theme: "javascript-frameworks",
-    src: "./assets/images/backgrounds/js_background.png",
+    src: jsFrameworksBg,
   },
 
   {
     theme: "surprise-me",
-    src: "./assets/images/backgrounds/surprise_me_bg.png",
+    src: surpriseMeBg,
   },
 ];
+
+const bgDest = {
+  "dark-fantasy": 0,
+  nature: 1,
+  people: 2,
+  "javascript-frameworks": 3,
+  "surprise-me": 4,
+};
 
 const defaultSettings = {
   difficulty: "normal",
@@ -410,4 +421,5 @@ export {
   timers,
   targetTimeValues,
   backgrounds,
+  bgDest,
 };

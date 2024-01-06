@@ -1,10 +1,10 @@
+import BackgroundSlider from "./BackgroundSlider";
+
 const Hero = () => {
   return (
     <div className="hero">
       <div className="timer-container"></div>
-      <div className="hero-slider">
-        <div className="slider-container"></div>
-      </div>
+      <BackgroundSlider />
       <div className="hero-container">
         <div className="deck-container"></div>
       </div>
