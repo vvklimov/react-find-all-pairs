@@ -1,4 +1,5 @@
 import BackgroundSlider from "./BackgroundSlider";
+import DeckContainer from "./DeckContainer";
 import Timers from "./Timers";
 
 const Hero = () => {
@@ -7,7 +8,7 @@ const Hero = () => {
       <Timers />
       <BackgroundSlider />
       <div className="hero-container">
-        <div className="deck-container"></div>
+        <DeckContainer />
       </div>
     </div>
   );

@@ -404,7 +404,8 @@ single card
   z-index: 3;
   position: absolute;
   transition: all 0.5s ease-out;
-  visibility: hidden;
+  /* CHANGE BACK LATER */
+  /* visibility: hidden; */
 }
 .single-card {
   width: 100%;
