@@ -300,118 +300,102 @@ const gameStates = {
   gameoverFailure: "gameoverFailure",
 };
 
-const timers = [
-  {
+const timers = {
+  targetTime: {
     timerClass: "target-time",
     timerName: "target time:",
-    timerUnitMin: "",
-    timerUnitSec: "",
-    timerUnitMsec: "",
+    defaultValues: {
+      min: "",
+      sec: "",
+      msec: "",
+    },
   },
-  {
+  currentGameTime: {
     timerClass: "current-game-time",
     timerName: "time:",
-    timerUnitMin: "00",
-    timerUnitSec: "00",
-    timerUnitMsec: "00",
+    defaultValues: {
+      min: "00",
+      sec: "00",
+      msec: "00",
+    },
   },
-  {
+  bestTime: {
     timerClass: "best-time",
     timerName: "best time:",
-    timerUnitMin: "--",
-    timerUnitSec: "--",
-    timerUnitMsec: "--",
+    defaultValues: {
+      min: "--",
+      sec: "--",
+      msec: "--",
+    },
   },
-];
+};
 const targetTimeValues = {
-  easy16: [
-    {
-      mins: "01",
-      secs: "00",
-      msecs: "00",
-    },
-  ],
-  normal16: [
-    {
-      mins: "00",
-      secs: "30",
-      msecs: "00",
-    },
-  ],
-  hard16: [
-    {
-      mins: "00",
-      // don't forget to change it back to 20 seconds
-      secs: "20",
-      msecs: "00",
-    },
-  ],
-  // 20
-  easy20: [
-    {
-      mins: "01",
-      secs: "10",
-      msecs: "00",
-    },
-  ],
-  normal20: [
-    {
-      mins: "00",
-      secs: "35",
-      msecs: "00",
-    },
-  ],
-  hard20: [
-    {
-      mins: "00",
-      secs: "25",
-      msecs: "00",
-    },
-  ],
-  // 24
-  easy24: [
-    {
-      mins: "01",
-      secs: "20",
-      msecs: "00",
-    },
-  ],
-  normal24: [
-    {
-      mins: "00",
-      secs: "42",
-      msecs: "00",
-    },
-  ],
-  hard24: [
-    {
-      mins: "00",
-      secs: "30",
-      msecs: "00",
-    },
-  ],
-  // 36
-  easy36: [
-    {
-      mins: "02",
-      secs: "30",
-      msecs: "00",
-    },
-  ],
-  normal36: [
-    {
-      mins: "01",
-      secs: "30",
-      msecs: "00",
-    },
-  ],
-  hard36: [
-    {
-      mins: "01",
-      secs: "05",
-      msecs: "00",
-    },
-  ],
+  easy16: {
+    mins: "01",
+    secs: "00",
+    msecs: "00",
+  },
+
+  normal16: {
+    mins: "00",
+    secs: "30",
+    msecs: "00",
+  },
+
+  hard16: {
+    mins: "00",
+    secs: "20",
+    msecs: "00",
+  },
+
+  easy20: {
+    mins: "01",
+    secs: "10",
+    msecs: "00",
+  },
+
+  normal20: {
+    mins: "00",
+    secs: "35",
+    msecs: "00",
+  },
+  hard20: {
+    mins: "00",
+    secs: "25",
+    msecs: "00",
+  },
+  easy24: {
+    mins: "01",
+    secs: "20",
+    msecs: "00",
+  },
+  normal24: {
+    mins: "00",
+    secs: "42",
+    msecs: "00",
+  },
+  hard24: {
+    mins: "00",
+    secs: "30",
+    msecs: "00",
+  },
+  easy36: {
+    mins: "02",
+    secs: "30",
+    msecs: "00",
+  },
+
+  normal36: {
+    mins: "01",
+    secs: "30",
+    msecs: "00",
+  },
+
+  hard36: {
+    mins: "01",
+    secs: "05",
+    msecs: "00",
+  },
 };
 export {
   navTags,

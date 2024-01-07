@@ -658,7 +658,7 @@ end of sidebar
   border-radius: var(--menuBorderRadius);
   padding: 2rem;
   background: var(--navbarGradient);
-  z-index: 3;
+  z-index: 4;
   color: var(--white);
   display: none;
   cursor: default;
