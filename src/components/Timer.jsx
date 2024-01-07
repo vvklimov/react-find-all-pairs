@@ -1,26 +1,19 @@
 import TimerUnitFormat from "./TimerUnitFormat";
-import { targetTimeValues } from "../utils/data";
 import { useSettingsContext } from "../context/settings_context";
-import { c } from "tar";
+import { useTimersContext } from "../context/timers_context";
+import { useEffect } from "react";
 
-const Timer = ({ timerName, timerClass, defaultValues }) => {
+const Timer = ({ name }) => {
   const { settings } = useSettingsContext();
-  let min, sec, msec;
-  if (timerClass === "target-time") {
-    let targetTimeName = `${settings.difficulty}${settings.size.slice(0, 2)}`;
-    const { mins, secs, msecs } = targetTimeValues[targetTimeName];
-    min = mins;
-    sec = secs;
-    msec = msecs;
-  } else if (timerClass === "best-time") {
-    min = "--";
-    sec = "--";
-    msec = "--";
-  } else {
-    min = defaultValues.min;
-    sec = defaultValues.sec;
-    msec = defaultValues.msec;
-  }
+  const {
+    [name]: timerValues,
+    setupTimers,
+    defaultTimers,
+  } = useTimersContext();
+  const { timerClass, timerName } = defaultTimers[name];
+  useEffect(() => {
+    setupTimers(name, settings);
+  }, [settings.difficulty, settings.size]);
   return (
     <div className="timer-wrapper">
       <div className={timerClass}>
@@ -28,11 +21,23 @@ const Timer = ({ timerName, timerClass, defaultValues }) => {
           <h5 className="tag-btn-gradient gradient-hover-effect">
             {timerName}
           </h5>
-          <TimerUnitFormat unitClass="min" unitName="m" unitValue={min} />
+          <TimerUnitFormat
+            unitClass="min"
+            unitName="m"
+            unitValue={timerValues.min}
+          />
           <h5>:</h5>
-          <TimerUnitFormat unitClass="sec" unitName="s" unitValue={sec} />
+          <TimerUnitFormat
+            unitClass="sec"
+            unitName="s"
+            unitValue={timerValues.sec}
+          />
           <h5>:</h5>
-          <TimerUnitFormat unitClass="msec" unitName="ms" unitValue={msec} />
+          <TimerUnitFormat
+            unitClass="msec"
+            unitName="ms"
+            unitValue={timerValues.msec}
+          />
         </div>
       </div>
     </div>
