@@ -5,7 +5,7 @@ import natureBg from "../assets/images/backgrounds/nature_bg.png";
 import peopleBg from "../assets/images/backgrounds/people_bg.png";
 import jsFrameworksBg from "../assets/images/backgrounds/js_background.png";
 import surpriseMeBg from "../assets/images/backgrounds/surprise_me_bg.png";
-import DFDeck from "../assets/images/decks/dark_fantasy/images/image_1.png";
+import DFDeck from "../assets/images/decks/dark_fantasy/dark_fantasy_deck.png";
 import DarkFantasyCard1 from "../assets/images/decks/dark_fantasy/images/image_1.png";
 import DarkFantasyCard2 from "../assets/images/decks/dark_fantasy/images/image_2.png";
 import DarkFantasyCard3 from "../assets/images/decks/dark_fantasy/images/image_3.png";

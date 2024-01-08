@@ -9,3 +9,5 @@ export const GAME = "GAME";
 export const RESUME = "RESUME";
 
 export const SETUP_TIMERS = "SETUP_TIMERS";
+
+export const GET_SHUFFLED_ARRAY = "GET_SHUFFLED_ARRAY";

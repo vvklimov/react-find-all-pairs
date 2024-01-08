@@ -7,4 +7,6 @@ const setStorageItem = (name, item) => {
   return getStorageItem(name);
 };
 
-export { getStorageItem, setStorageItem };
+const getRandomNumber = (from, to) => Math.floor(Math.random() * to + from);
+
+export { getStorageItem, setStorageItem, getRandomNumber };

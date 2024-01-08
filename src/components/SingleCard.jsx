@@ -1,5 +1,6 @@
-const SingleCard = ({ deckName, deckImg, cardsSrc }) => {
-  const src = cardsSrc[0].cardsSrc;
+const SingleCard = ({ deckName, deckImg, cardsSrc, index }) => {
+  const { cardSrc: src } = cardsSrc[index];
+  console.log(cardsSrc);
   return (
     <div className="single-card-wrapper">
       <div

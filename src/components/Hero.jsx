@@ -7,9 +7,7 @@ const Hero = () => {
     <div className="hero">
       <Timers />
       <BackgroundSlider />
-      <div className="hero-container">
-        <DeckContainer />
-      </div>
+      <DeckContainer />
     </div>
   );
 };

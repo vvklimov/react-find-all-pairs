@@ -31,7 +31,6 @@ const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  // console.log(initialState);
   const setSettings = () => {
     dispatch({ type: SET_SETTINGS });
   };
