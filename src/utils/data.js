@@ -227,8 +227,8 @@ const defaultSettings = {
     "hide-found-cards": false,
   },
 };
-const decks = [
-  {
+const decks = {
+  nature: {
     deckName: "nature",
     deckImg: NatureDeck,
     cardsSrc: [
@@ -253,7 +253,7 @@ const decks = [
       { cardSrc: NatureCard19 },
     ],
   },
-  {
+  "dark-fantasy": {
     deckName: "dark-fantasy",
     deckImg: DFDeck,
     cardsSrc: [
@@ -325,7 +325,7 @@ const decks = [
       { cardSrc: DarkFantasyCard66 },
     ],
   },
-  {
+  people: {
     deckName: "people",
     deckImg: PeopleDeck,
     cardsSrc: [
@@ -349,7 +349,7 @@ const decks = [
       { cardSrc: "" },
     ],
   },
-  {
+  "javascript-frameworks": {
     deckName: "javascript-frameworks",
     deckImg: JSDeck,
     cardsSrc: [
@@ -373,7 +373,7 @@ const decks = [
       { cardSrc: JSCard18 },
     ],
   },
-  {
+  "surprise-me": {
     deckName: "surprise-me",
     deckImg: SurpriseMeDeck,
     cardsSrc: [
@@ -397,7 +397,7 @@ const decks = [
       { cardSrc: "" },
     ],
   },
-];
+};
 const gameStates = {
   idle: "idle",
   pause: "pause",

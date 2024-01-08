@@ -11,3 +11,5 @@ export const RESUME = "RESUME";
 export const SETUP_TIMERS = "SETUP_TIMERS";
 
 export const GET_SHUFFLED_ARRAY = "GET_SHUFFLED_ARRAY";
+export const SETUP_GRID = "SETUP_GRID";
+export const SET_WIDTH_TO_CARDS = "SET_WIDTH_TO_CARDS";

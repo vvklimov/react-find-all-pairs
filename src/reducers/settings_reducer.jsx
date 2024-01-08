@@ -1,11 +1,22 @@
 import { IDLE, SET_SETTINGS, UPDATE_SETTINGS } from "../actions";
 import { setStorageItem } from "../utils/helpers";
-import { settingsAreEqual } from "../context/settings_context";
+import {
+  getCurrentDeckArrayLength,
+  settingsAreEqual,
+} from "../context/settings_context";
+
+export const getCurrentSize = (settings) => parseInt(settings.size.slice(0, 2));
 const settings_reducer = (state, action) => {
   if (action.type === SET_SETTINGS) {
     const newSettings = state.tempSettings;
     setStorageItem("settings", newSettings);
-    return { ...state, settings: newSettings, settingsAreEqual: true };
+    return {
+      ...state,
+      settings: newSettings,
+      settingsAreEqual: true,
+      currentSize: getCurrentSize(newSettings),
+      arrayLength: getCurrentDeckArrayLength(newSettings),
+    };
   }
   if (action.type === UPDATE_SETTINGS) {
     const { singleSettingName, singleSettingValue, gameState } = action.payload;

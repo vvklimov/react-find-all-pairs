@@ -5,19 +5,27 @@ import { useDeckContext } from "../context/deck_context";
 import { nanoid } from "nanoid";
 
 const DeckContainer = () => {
-  const { shuffledArray } = useDeckContext();
+  const { shuffledArray, deckContainerRef, gridClassName, deckMaxWidth } =
+    useDeckContext();
   return (
     <div className="hero-container">
-      <div className="deck-container grid-4columns">
-        {decks.map((deck) => {
+      <div
+        className={`deck-container ${gridClassName ? gridClassName : ""}`}
+        ref={deckContainerRef}
+        style={{ maxWidth: deckMaxWidth }}
+      >
+        {
           // make dynamic
-          if (deck.deckName === "dark-fantasy") {
-            console.log(shuffledArray);
-            return shuffledArray.map((index) => {
-              return <SingleCard key={nanoid()} {...deck} index={index} />;
-            });
-          }
-        })}
+          shuffledArray.map((index) => {
+            return (
+              <SingleCard
+                key={nanoid()}
+                {...decks["dark-fantasy"]}
+                index={index}
+              />
+            );
+          })
+        }
       </div>
     </div>
   );

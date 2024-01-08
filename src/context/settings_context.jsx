@@ -1,15 +1,12 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { createContext, useContext, useReducer } from "react";
 import { getStorageItem, setStorageItem } from "../utils/helpers";
 import { defaultSettings } from "../utils/data";
-import reducer from "../reducers/settings_reducer";
+import reducer, { getCurrentSize } from "../reducers/settings_reducer";
 import { SET_SETTINGS, UPDATE_SETTINGS } from "../actions";
+import { decks } from "../utils/data";
 
+export const getCurrentDeckArrayLength = (settings) =>
+  decks[settings.themes].cardsSrc.length;
 export const settingsAreEqual = (settings, tempSettings) =>
   JSON.stringify(settings) === JSON.stringify(tempSettings);
 const getSettings = () => {
@@ -22,6 +19,8 @@ const getSettings = () => {
     settings,
     tempSettings,
     settingsAreEqual: settingsAreEqual(settings, tempSettings),
+    currentSize: getCurrentSize(settings),
+    arrayLength: getCurrentDeckArrayLength(settings),
   };
 };
 
