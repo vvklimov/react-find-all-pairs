@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { decks } from "../utils/data";
 import SingleCard from "./SingleCard";
 import { useDeckContext } from "../context/deck_context";
@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 const DeckContainer = () => {
   const { shuffledArray, deckContainerRef, gridClassName, deckMaxWidth } =
     useDeckContext();
+  const wrapperRef = useRef([]);
   return (
     <div className="hero-container">
       <div
@@ -16,11 +17,13 @@ const DeckContainer = () => {
       >
         {
           // make dynamic
-          shuffledArray.map((index) => {
+          shuffledArray.map((cardIndex, index) => {
             return (
               <SingleCard
+                wrapperRef={wrapperRef}
                 key={nanoid()}
                 {...decks["dark-fantasy"]}
+                cardIndex={cardIndex}
                 index={index}
               />
             );

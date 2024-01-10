@@ -11,14 +11,18 @@ const initialState = {
   shuffledArray: [],
   gridClassName: "",
   girdIntValue: null,
-  cardWidth: "",
-  cardHeight: "",
+  cardWidth: "10px",
+  cardHeight: "16px",
   deckMaxWidth: "",
   deckContainerRef: null,
-  singleCardWrapperRef: null,
-  singleCardRef: null,
+  wrapperDimensions: { width: 0, height: 0 },
 };
-import { GET_SHUFFLED_ARRAY, SETUP_GRID, SET_WIDTH_TO_CARDS } from "../actions";
+import {
+  GET_SHUFFLED_ARRAY,
+  SETUP_GRID,
+  SET_WIDTH_TO_CARDS,
+  SET_WRAPPER_DIMENSIONS,
+} from "../actions";
 import { debounce } from "../utils/helpers";
 const DeckContext = createContext();
 
@@ -26,27 +30,27 @@ export const DeckProvider = ({ children }) => {
   const { currentSize, arrayLength } = useSettingsContext();
   const [state, dispatch] = useReducer(reducer, initialState);
   state.deckContainerRef = useRef();
-  state.singleCardRef = useRef([]);
-  state.singleCardWrapperRef = useRef([]);
-  // console.log(state.singleCardWrapperRef.current);
   useEffect(() => {
     getShuffledArray(arrayLength, currentSize);
   }, [currentSize]);
   useEffect(() => {
     const handleResize = debounce(() => {
       setupGrid(currentSize);
-      setWidthToCards();
+      setWidthToCards(state.wrapperDimensions);
     }, 500);
-
     setupGrid(currentSize);
-    setWidthToCards();
-    console.log(state.singleCardWrapperRef);
-    // FIX TO MAKE IT WORK ON INITIAL RENDER
+    if (state.wrapperDimensions.width !== 0 && state.wrapperDimensions !== 0) {
+      setWidthToCards(state.wrapperDimensions);
+    }
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [currentSize, state.singleCardRef, state.singleCardWrapperRef]);
+  }, [
+    currentSize,
+    state.wrapperDimensions.width,
+    state.wrapperDimensions.height,
+  ]);
   const getShuffledArray = (arrayLength, currentSize) => {
     dispatch({
       type: GET_SHUFFLED_ARRAY,
@@ -56,12 +60,20 @@ export const DeckProvider = ({ children }) => {
   const setupGrid = (currentSize) => {
     dispatch({ type: SETUP_GRID, payload: { currentSize } });
   };
-  const setWidthToCards = (currentSize) => {
-    dispatch({ type: SET_WIDTH_TO_CARDS, payload: { currentSize } });
+  const setWidthToCards = (wrapperDimensions) => {
+    dispatch({ type: SET_WIDTH_TO_CARDS, payload: { wrapperDimensions } });
+  };
+  const setWrapperDimensions = (wrapperDimensions) => {
+    dispatch({ type: SET_WRAPPER_DIMENSIONS, payload: { wrapperDimensions } });
   };
   return (
     <DeckContext.Provider
-      value={{ ...state, getShuffledArray, setWidthToCards }}
+      value={{
+        ...state,
+        getShuffledArray,
+        setWidthToCards,
+        setWrapperDimensions,
+      }}
     >
       {children}
     </DeckContext.Provider>

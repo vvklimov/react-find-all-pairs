@@ -1,43 +1,48 @@
 import { useDeckContext } from "../context/deck_context";
-import { createRef, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const SingleCard = ({ deckName, deckImg, cardsSrc, index }) => {
-  const { cardSrc: src } = cardsSrc[index];
-  const {
-    singleCardWrapperRef,
-    singleCardRef,
-    cardWidth,
-    cardHeight,
-    setWidthToCards,
-  } = useDeckContext();
+const SingleCard = ({
+  deckName,
+  deckImg,
+  cardsSrc,
+  cardIndex,
+  index,
+  wrapperRef,
+}) => {
+  const { cardSrc: src } = cardsSrc[cardIndex];
+  const { cardWidth, cardHeight, setWrapperDimensions, wrapperDimensions } =
+    useDeckContext();
 
-  const addToSingleCardRef = (el) => {
-    singleCardRef.current = [];
-    if (el && !singleCardRef.current.includes(el)) {
-      singleCardRef.current.push(el);
-    }
-  };
-  const addToSingleCardWrapperRef = (el) => {
-    singleCardWrapperRef.current = [];
-    if (el && !singleCardWrapperRef.current.includes(el)) {
-      singleCardWrapperRef.current.push(el);
-    }
-  };
-  // console.log(cardWidth);
-  // console.log(cardHeight);
-  // useEffect(() => {
-  //   // setWidthToCards();
-  // }, [singleCardRef, singleCardWrapperRef]);
-  // console.log(cardsSrc);
+  const [wrapperWidthHeight, setWrapperWidthHeight] =
+    useState(wrapperDimensions);
+
+  useEffect(() => {
+    if (
+      wrapperWidthHeight.width !== wrapperRef?.current[0].clientWidth ||
+      wrapperWidthHeight.height !== wrapperRef?.current[0].clientHeight
+    )
+      setWrapperWidthHeight({
+        width: wrapperRef?.current[0].clientWidth,
+        height: wrapperRef?.current[0].clientHeight,
+      });
+  }, [wrapperRef.current]);
+  useEffect(() => {
+    setWrapperDimensions(wrapperWidthHeight);
+  }, [wrapperWidthHeight.width, wrapperWidthHeight.height]);
   return (
-    <div className="single-card-wrapper" ref={addToSingleCardWrapperRef}>
+    <div
+      className="single-card-wrapper"
+      ref={(el) => (wrapperRef.current[index] = el)}
+    >
       <div
         className="single-card-container"
-        ref={addToSingleCardRef}
-        // REMOVE STYLE LATER
         style={{ width: cardWidth, height: cardHeight }}
       >
-        <div className="single-card" data-card-id="{index}" data-found="false">
+        <div
+          className="single-card"
+          data-card-id={cardIndex}
+          data-found="false"
+        >
           <div className="single-card-back">
             <img src={deckImg} alt="card" className="img card-img" />
           </div>

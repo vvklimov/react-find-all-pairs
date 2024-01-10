@@ -1,5 +1,10 @@
 import { getRandomNumber } from "../utils/helpers";
-import { GET_SHUFFLED_ARRAY, SETUP_GRID, SET_WIDTH_TO_CARDS } from "../actions";
+import {
+  GET_SHUFFLED_ARRAY,
+  SETUP_GRID,
+  SET_WIDTH_TO_CARDS,
+  SET_WRAPPER_DIMENSIONS,
+} from "../actions";
 const deck_reducer = (state, action) => {
   if (action.type === GET_SHUFFLED_ARRAY) {
     const arrayLength = action.payload.arrayLength;
@@ -66,25 +71,30 @@ const deck_reducer = (state, action) => {
       girdIntValue: numberOfColumns,
     };
   } else if (action.type === SET_WIDTH_TO_CARDS) {
-    const currentSize = action.payload.currentSize;
-    const wrapper = state.singleCardWrapperRef?.current[0];
-    const card = state.singleCardRef?.current[0];
+    const { width: wrapperWidth, height: wrapperHeight } =
+      action.payload.wrapperDimensions;
     const singleCardAspectRatio = 1.557;
+    const wrapperAR = wrapperHeight / wrapperWidth;
     let width, height;
-    console.log(state.singleCardWrapperRef);
-    console.log(card);
-    if (!wrapper || !card) {
-      return state;
-    }
-    let wrapperAR = wrapper.clientHeight / wrapper.clientWidth;
     if (wrapperAR > singleCardAspectRatio) {
       width = `100%`;
-      height = `${card.clientHeight * singleCardAspectRatio}px`;
+      height = `${wrapperWidth * singleCardAspectRatio}px`;
     } else {
       height = `100%`;
-      width = `${card.clientHeight / singleCardAspectRatio}px`;
+      width = `${wrapperHeight / singleCardAspectRatio}px`;
     }
     return { ...state, cardWidth: width, cardHeight: height };
+  } else if (action.type === SET_WRAPPER_DIMENSIONS) {
+    const { width, height } = action.payload.wrapperDimensions;
+    if (width === 0 || height === 0) {
+      return state;
+    }
+    if (
+      width === state.wrapperDimensions.width &&
+      height === state.wrapperDimensions.height
+    )
+      return state;
+    return { ...state, wrapperDimensions: { width, height } };
   }
   return state;
 };
