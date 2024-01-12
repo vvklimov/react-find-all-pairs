@@ -20,5 +20,8 @@ const debounce = (func, delay) => {
     }, delay);
   };
 };
+const timeout = async (time) => {
+  return await new Promise((resolve) => setTimeout(resolve, time));
+};
 
-export { getStorageItem, setStorageItem, getRandomNumber, debounce };
+export { getStorageItem, setStorageItem, getRandomNumber, debounce, timeout };

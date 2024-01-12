@@ -7,18 +7,24 @@ import {
 } from "react";
 import reducer from "../reducers/deck_reducer";
 import { useSettingsContext } from "./settings_context";
+import { useGameStateContext } from "./gameState_context";
 const initialState = {
   shuffledArray: [],
   gridClassName: "",
-  girdIntValue: null,
+  gridIntValue: null,
   cardWidth: "10px",
   cardHeight: "16px",
   deckMaxWidth: "",
   deckContainerRef: null,
   wrapperDimensions: { width: 0, height: 0 },
+  flippedCards: [],
+  lastFlippedCard: null,
 };
 import {
+  CARD_FLIP,
+  GAME,
   GET_SHUFFLED_ARRAY,
+  IDLE,
   SETUP_GRID,
   SET_WIDTH_TO_CARDS,
   SET_WRAPPER_DIMENSIONS,
@@ -28,6 +34,7 @@ const DeckContext = createContext();
 
 export const DeckProvider = ({ children }) => {
   const { currentSize, arrayLength } = useSettingsContext();
+  const { gameState, setGameState } = useGameStateContext();
   const [state, dispatch] = useReducer(reducer, initialState);
   state.deckContainerRef = useRef();
   useEffect(() => {
@@ -66,6 +73,9 @@ export const DeckProvider = ({ children }) => {
   const setWrapperDimensions = (wrapperDimensions) => {
     dispatch({ type: SET_WRAPPER_DIMENSIONS, payload: { wrapperDimensions } });
   };
+  const cardFlip = async (event, index) => {
+    dispatch({ type: CARD_FLIP, payload: { event, index, setGameState } });
+  };
   return (
     <DeckContext.Provider
       value={{
@@ -73,6 +83,7 @@ export const DeckProvider = ({ children }) => {
         getShuffledArray,
         setWidthToCards,
         setWrapperDimensions,
+        cardFlip,
       }}
     >
       {children}

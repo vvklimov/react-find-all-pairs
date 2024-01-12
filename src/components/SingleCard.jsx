@@ -10,11 +10,25 @@ const SingleCard = ({
   wrapperRef,
 }) => {
   const { cardSrc: src } = cardsSrc[cardIndex];
-  const { cardWidth, cardHeight, setWrapperDimensions, wrapperDimensions } =
-    useDeckContext();
+  const {
+    cardWidth,
+    cardHeight,
+    setWrapperDimensions,
+    wrapperDimensions,
+    gridIntValue,
+    cardFlip,
+    flippedCards,
+  } = useDeckContext();
 
   const [wrapperWidthHeight, setWrapperWidthHeight] =
     useState(wrapperDimensions);
+  const setOddEvenRow = () => {
+    if (Math.ceil((index + 1) / gridIntValue) % 2 !== 0) {
+      return "odd-row";
+    } else {
+      return "even-row";
+    }
+  };
 
   useEffect(() => {
     if (
@@ -35,15 +49,20 @@ const SingleCard = ({
       ref={(el) => (wrapperRef.current[index] = el)}
     >
       <div
-        className="single-card-container"
+        className={`single-card-container ${setOddEvenRow()}`}
         style={{ width: cardWidth, height: cardHeight }}
       >
         <div
-          className="single-card"
-          data-card-id={cardIndex}
+          className={`single-card ${
+            flippedCards.includes(index) ? "single-card-flip" : ""
+          }`}
+          data-pair-id={cardIndex}
           data-found="false"
         >
-          <div className="single-card-back">
+          <div
+            className="single-card-back"
+            onClick={() => cardFlip(event, index)}
+          >
             <img src={deckImg} alt="card" className="img card-img" />
           </div>
           <div className="single-card-front">

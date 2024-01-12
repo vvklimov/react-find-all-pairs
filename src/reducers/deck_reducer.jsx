@@ -1,9 +1,11 @@
-import { getRandomNumber } from "../utils/helpers";
+import { getRandomNumber, timeout } from "../utils/helpers";
 import {
+  CARD_FLIP,
   GET_SHUFFLED_ARRAY,
   SETUP_GRID,
   SET_WIDTH_TO_CARDS,
   SET_WRAPPER_DIMENSIONS,
+  GAME,
 } from "../actions";
 const deck_reducer = (state, action) => {
   if (action.type === GET_SHUFFLED_ARRAY) {
@@ -68,7 +70,7 @@ const deck_reducer = (state, action) => {
       ...state,
       deckMaxWidth: deckContainerMaxWidth,
       gridClassName: className,
-      girdIntValue: numberOfColumns,
+      gridIntValue: numberOfColumns,
     };
   } else if (action.type === SET_WIDTH_TO_CARDS) {
     const { width: wrapperWidth, height: wrapperHeight } =
@@ -95,6 +97,37 @@ const deck_reducer = (state, action) => {
     )
       return state;
     return { ...state, wrapperDimensions: { width, height } };
+  } else if (action.type === CARD_FLIP) {
+    // setGameState(GAME);
+    const singleCard = action.payload.event.target.parentElement.parentElement;
+    const pairId = parseInt(singleCard.dataset.pairId);
+    const cardIndex = action.payload.index;
+    // console.log(cardIndex);
+    const newFlippedCards = state.flippedCards;
+    newFlippedCards.push(cardIndex);
+    singleCard.classList.add("single-card-flip");
+    let newLastFlippedCard = state.lastFlippedCard;
+    console.log(newLastFlippedCard);
+    if (!newLastFlippedCard) {
+      newLastFlippedCard = pairId;
+    }
+    // else {}
+    setTimeout(() => {
+      console.log(newLastFlippedCard);
+      action.payload.setGameState(GAME);
+      return {
+        ...state,
+        flippedCards: newFlippedCards,
+        lastFlippedCard: newLastFlippedCard,
+      };
+    }, 400);
+    // console.log(pairId);
+    // console.log(action.payload.event.target.parentElement.parentElement);
+    // console.log();
+    // console.log("hello");
+    // singleCard.classList.add("single-card-flip");
+    // console.log(singleCard.classList);
+    // return state;
   }
   return state;
 };
