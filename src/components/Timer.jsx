@@ -1,18 +1,18 @@
 import TimerUnitFormat from "./TimerUnitFormat";
-import { useSettingsContext } from "../context/settings_context";
-import { useTimersContext } from "../context/timers_context";
 import { useEffect } from "react";
-
+import { useSelector, useDispatch } from "react-redux";
+useSelector;
+import { setupTimers } from "../features /timers/timersSlice";
 const Timer = ({ name }) => {
-  const { settings } = useSettingsContext();
-  const {
-    [name]: timerValues,
-    setupTimers,
-    defaultTimers,
-  } = useTimersContext();
+  const dispatch = useDispatch();
+  const { settings } = useSelector((state) => state.settings);
+  const { [name]: timerValues, defaultTimers } = useSelector(
+    (state) => state.timers
+  );
+
   const { timerClass, timerName } = defaultTimers[name];
   useEffect(() => {
-    setupTimers(name, settings);
+    dispatch(setupTimers({ name, settings }));
   }, [settings.difficulty, settings.size]);
   return (
     <div className="timer-wrapper">

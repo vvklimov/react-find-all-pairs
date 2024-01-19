@@ -1,10 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
 import { backgrounds, bgDest } from "../utils/data";
 import BackgroundSlide from "./BackgroundSlide";
-import { useSettingsContext } from "../context/settings_context";
+import { useSelector } from "react-redux";
 
 const BackgroundSlider = () => {
-  const { settings } = useSettingsContext();
+  const { settings } = useSelector((state) => state.settings);
   const [destination, setDestination] = useState(bgDest[settings.themes]);
   useEffect(() => {
     setDestination(bgDest[settings.themes]);

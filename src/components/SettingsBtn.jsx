@@ -1,16 +1,16 @@
-import { useGameStateContext } from "../context/gameState_context";
-import { useSettingsContext } from "../context/settings_context";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSettings } from "../features /settings/settingsSlice";
 
 const SettingsBtn = ({ tag, subtagClass }) => {
-  const { tempSettings, updateSettings } = useSettingsContext();
-  const { gameState } = useGameStateContext();
+  const { tempSettings } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
   let checked =
     tempSettings[tag] === subtagClass || tempSettings[tag][subtagClass];
   return (
     <button
       className="settings-btn checkbox-btn"
       onClick={() => {
-        updateSettings(tag, subtagClass, gameState);
+        dispatch(updateSettings({ tag, subtagClass }));
       }}
     >
       <div className="checkbox-btn-middle-part">

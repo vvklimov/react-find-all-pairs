@@ -1,10 +1,15 @@
+import { useDispatch } from "react-redux";
 import Logo from "../assets/images/logo.png";
-import { useSidebarContext } from "../context/sidebar_context";
+
 import { navTags } from "../utils/data";
 import { NavbarTag } from "./";
+import { setGameState } from "../features /gameState/gameStateSlice";
+import { GAME } from "../gameStateNames";
+setGameState;
+import { setShowSidebar } from "../features /sidebar/sidebarSlice";
 
 const Navbar = () => {
-  const { setShowSidebar } = useSidebarContext();
+  const dispatch = useDispatch();
   return (
     <nav className="nav">
       <div className="nav-center">
@@ -13,12 +18,17 @@ const Navbar = () => {
           <button
             className="btn toggle-btn"
             onClick={() => {
-              setShowSidebar(true);
+              dispatch(setShowSidebar(true));
             }}
           >
             menu
           </button>
-          <button className="btn new-game-btn navbar-new-game-btn">
+          <button
+            className="btn new-game-btn navbar-new-game-btn"
+            onClick={() => {
+              dispatch(setGameState(GAME));
+            }}
+          >
             new game
           </button>
         </div>

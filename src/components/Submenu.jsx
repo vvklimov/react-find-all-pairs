@@ -1,8 +1,8 @@
-import { useSettingsContext } from "../context/settings_context";
+import { useSelector } from "react-redux";
 import SettingsBtn from "./SettingsBtn";
 
 const Submenu = ({ show, subtags, tag }) => {
-  const { settingsAreEqual } = useSettingsContext();
+  const { settingsAreEqual } = useSelector((state) => state.settings);
   return (
     <aside className={`submenu ${show ? "show-submenu" : ""}`}>
       <div className="settings-container">

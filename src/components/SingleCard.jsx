@@ -1,5 +1,4 @@
-import { useDeckContext } from "../context/deck_context";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const SingleCard = ({
   deckName,
@@ -10,18 +9,10 @@ const SingleCard = ({
   wrapperRef,
 }) => {
   const { cardSrc: src } = cardsSrc[cardIndex];
-  const {
-    cardWidth,
-    cardHeight,
-    setWrapperDimensions,
-    wrapperDimensions,
-    gridIntValue,
-    cardFlip,
-    flippedCards,
-  } = useDeckContext();
+  const { gridIntValue, cardWidth, cardHeight } = useSelector(
+    (state) => state.deck
+  );
 
-  const [wrapperWidthHeight, setWrapperWidthHeight] =
-    useState(wrapperDimensions);
   const setOddEvenRow = () => {
     if (Math.ceil((index + 1) / gridIntValue) % 2 !== 0) {
       return "odd-row";
@@ -29,20 +20,6 @@ const SingleCard = ({
       return "even-row";
     }
   };
-
-  useEffect(() => {
-    if (
-      wrapperWidthHeight.width !== wrapperRef?.current[0].clientWidth ||
-      wrapperWidthHeight.height !== wrapperRef?.current[0].clientHeight
-    )
-      setWrapperWidthHeight({
-        width: wrapperRef?.current[0].clientWidth,
-        height: wrapperRef?.current[0].clientHeight,
-      });
-  }, [wrapperRef.current]);
-  useEffect(() => {
-    setWrapperDimensions(wrapperWidthHeight);
-  }, [wrapperWidthHeight.width, wrapperWidthHeight.height]);
   return (
     <div
       className="single-card-wrapper"
@@ -53,15 +30,16 @@ const SingleCard = ({
         style={{ width: cardWidth, height: cardHeight }}
       >
         <div
-          className={`single-card ${
-            flippedCards.includes(index) ? "single-card-flip" : ""
-          }`}
+          // className={`single-card ${
+          //   flippedCards.includes(index) ? "single-card-flip" : ""
+          // }`}
+          className="single-card"
           data-pair-id={cardIndex}
           data-found="false"
         >
           <div
             className="single-card-back"
-            onClick={() => cardFlip(event, index)}
+            // onClick={() => cardFlip(event, index)}
           >
             <img src={deckImg} alt="card" className="img card-img" />
           </div>

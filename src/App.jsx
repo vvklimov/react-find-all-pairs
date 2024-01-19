@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Navbar,
   Hero,
@@ -8,9 +7,6 @@ import {
   Submenu,
   Loading,
 } from "./components/";
-import { useSettingsContext } from "./context/settings_context";
-import { useGameStateContext } from "./context/gameState_context";
-import { IDLE } from "./actions";
 
 function App() {
   return (
