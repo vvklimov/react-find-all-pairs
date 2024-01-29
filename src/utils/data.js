@@ -504,6 +504,13 @@ const targetTimeValues = {
     msecs: "00",
   },
 };
+
+const deckAR = {
+  16: "1/1",
+  20: "1/1",
+  24: "8/7",
+  36: "16/9",
+};
 export {
   navTags,
   defaultSettings,
@@ -513,4 +520,5 @@ export {
   targetTimeValues,
   backgrounds,
   bgDest,
+  deckAR,
 };

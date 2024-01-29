@@ -1,17 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getRandomNumber, timeout } from "../../utils/helpers";
+import { cardFlipThunk } from "./deckThunk";
 
 const initialState = {
   shuffledArray: [],
   gridClassName: "",
   gridIntValue: null,
-  cardWidth: "10px",
-  cardHeight: "16px",
-  deckMaxWidth: "",
   flippedCards: [],
   lastFlippedCard: null,
 };
 
+export const cardFlip = createAsyncThunk(
+  "deck/cardFlip",
+  async (payload, thunkAPI) => {
+    // console.log("HI");
+    // const { tag: name, subtagClass: value } = payload;
+    // console.log(payload);
+    // const gameState = thunkAPI.getState().gameState.gameState;
+    return cardFlipThunk(payload, thunkAPI);
+  }
+);
 const deckSlice = createSlice({
   name: "deck",
   initialState,
@@ -42,8 +50,8 @@ const deckSlice = createSlice({
       state.shuffledArray = randomIndexes;
     },
     setupGrid: (state, { payload }) => {
-      const { currentSize, deckContainerHeight } = payload;
-      let deckContainerMaxWidth, className;
+      const { currentSize } = payload;
+      let className;
       if (currentSize === 36) {
         if (window.innerWidth > 1000) {
           className = "grid-9columns";
@@ -52,19 +60,15 @@ const deckSlice = createSlice({
         } else {
           className = "grid-4columns";
         }
-        deckContainerMaxWidth = `${(deckContainerHeight * 16) / 9}px`;
       } else if (currentSize === 16) {
         className = "grid-4columns";
-        deckContainerMaxWidth = `${deckContainerHeight}px`;
       } else if (currentSize === 20) {
-        deckContainerMaxWidth = `${deckContainerHeight}px`;
         if (window.innerWidth > 600) {
           className = "grid-5columns";
         } else {
           className = "grid-4columns";
         }
       } else if (currentSize === 24) {
-        deckContainerMaxWidth = `${(deckContainerHeight * 8) / 7}px`;
         if (window.innerWidth > 700) {
           className = "grid-6columns";
         } else {
@@ -72,32 +76,22 @@ const deckSlice = createSlice({
         }
       }
       const numberOfColumns = parseInt(className.slice(5, 6));
-      state.deckMaxWidth = deckContainerMaxWidth;
       state.gridClassName = className;
       state.gridIntValue = numberOfColumns;
     },
-    setWidthToCards: (state, { payload }) => {
-      const { wrapperWidth, wrapperHeight } = payload;
-      if (wrapperWidth === 0 || wrapperHeight === 0) return state;
-      const singleCardAspectRatio = 1.557;
+  },
+  extraReducers: (builder) => {
+    builder.addCase(cardFlip.fulfilled, (state, { payload }) => {
+      const { index, cardIndex } = payload;
+      state.flippedCards.push(index);
+      state.lastFlippedCard = { index, cardIndex };
 
-      const wrapperAR = wrapperHeight / wrapperWidth;
-      let width, height;
-      if (wrapperAR > singleCardAspectRatio) {
-        width = `100%`;
-        height = `${wrapperWidth * singleCardAspectRatio}px`;
-      } else {
-        height = `100%`;
-        width = `${wrapperHeight / singleCardAspectRatio}px`;
-      }
-      state.cardWidth = width;
-      state.cardHeight = height;
-    },
+      return state;
+    });
   },
 });
 
-export const { getShuffledArray, setupGrid, setWidthToCards } =
-  deckSlice.actions;
+export const { getShuffledArray, setupGrid } = deckSlice.actions;
 export default deckSlice.reducer;
 
 //TODO

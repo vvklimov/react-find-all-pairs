@@ -366,14 +366,16 @@ navbar
 }
 /* end of hero */
 .deck-container {
-  max-width: 1120px;
+  /* max-width: 1120px; */
+  /* width: 90vw; */
   display: grid;
-  width: 90vw;
+  max-width: 90vw;
   margin: 0 auto;
   user-select: none;
   gap: 1rem;
   height: calc(100vh - 6rem - 1rem - 5rem);
   padding-bottom: 1rem;
+  max-height: 100%;
 }
 .grid-4columns {
   grid-template-columns: repeat(4, auto);
@@ -406,6 +408,10 @@ single card
   transition: all 0.5s ease-out;
   /* CHANGE BACK LATER */
   /* visibility: hidden; */
+  max-height: 100%;
+  max-width: 100%;
+  height: 100%;
+  aspect-ratio: auto 100/156;
 }
 .single-card {
   width: 100%;
@@ -419,6 +425,9 @@ single card
   height: 100%;
   backface-visibility: hidden;
   cursor: pointer;
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
 .single-card-front {
   position: absolute;
@@ -446,7 +455,6 @@ single card
 
 .card-img {
   border-radius: 0.5rem;
-  height: 100%;
   margin: 0;
 }
 
