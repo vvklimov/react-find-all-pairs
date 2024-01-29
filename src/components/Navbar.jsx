@@ -11,9 +11,9 @@ import { setShowSidebar } from "../features /sidebar/sidebarSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   return (
-    <nav className="nav">
+    <nav className="nav center-items">
       <div className="nav-center">
-        <div className="nav-header">
+        <div className="nav-header center-items">
           <img src={Logo} className="nav-logo" alt="logo" />
           <button
             className="btn toggle-btn"

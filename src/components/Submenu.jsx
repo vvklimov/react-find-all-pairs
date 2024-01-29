@@ -9,7 +9,7 @@ const Submenu = ({ show, subtags, tag }) => {
         {subtags.map((subtag, index) => {
           const { subtagName, subtagClass } = subtag;
           return (
-            <div className="single-setting" key={index}>
+            <div className="single-setting center-items" key={index}>
               <SettingsBtn subtagClass={subtagClass} tag={tag} />
               <span>{subtagName}</span>
             </div>

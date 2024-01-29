@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer>
-      <div className="footer">
+      <div className="footer center-items">
         <span>
           Created by
           <a

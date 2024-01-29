@@ -5,7 +5,7 @@ const GameMenu = () => {
         <button className="close-btn btn">
           <i className="fas fa-times"></i>
         </button>
-        <div className="text-content"></div>
+        <div className="text-content center-items"></div>
         <div className="btn-container">
           <button className="btn start-new-game-btn">start new game</button>
         </div>

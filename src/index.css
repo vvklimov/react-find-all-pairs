@@ -182,10 +182,7 @@ ul {
 
 .page-loading {
   background: var(--navbarGradient);
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   z-index: 4;
   width: 100%;
@@ -226,6 +223,11 @@ ul {
   width: 100%;
   display: block;
 }
+.center-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /****************
 ===================
@@ -240,9 +242,6 @@ navbar
   */
 .nav {
   height: 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: var(--navbarGradient);
   cursor: default;
 
@@ -259,9 +258,6 @@ navbar
 }
 .nav-header {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 .nav-tags {
   display: inline-block;
@@ -397,9 +393,6 @@ single card
  */
 .single-card-wrapper {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .single-card-container {
@@ -425,9 +418,6 @@ single card
   height: 100%;
   backface-visibility: hidden;
   cursor: pointer;
-  display: grid;
-  justify-content: center;
-  align-items: center;
 }
 .single-card-front {
   position: absolute;
@@ -495,13 +485,10 @@ footer
 =============
  */
 .footer {
-  display: flex;
   height: 3rem;
   background: var(--navbarPrimary);
   color: var(--white);
   letter-spacing: var(--letterSpacing);
-  justify-content: center;
-  align-items: center;
   margin: 0;
   z-index: 3;
   overflow: hidden;
@@ -700,10 +687,7 @@ end of sidebar
 .single-setting {
   text-transform: capitalize;
   white-space: nowrap;
-  display: flex;
-  justify-content: center;
   width: fit-content;
-  align-items: center;
 }
 /* end of settings submenu */
 /* timer */
@@ -716,9 +700,6 @@ end of sidebar
   cursor: default;
 }
 .timer-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 3;
 }
 .timer-format {
@@ -807,9 +788,6 @@ end of sidebar
 }
 .game-menu > .sidebar > .text-content {
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .game-menu > .sidebar > .btn-container {
   display: flex;

@@ -42,7 +42,7 @@ const SingleCard = ({
   // console.log(flippedCards);
   return (
     <div
-      className="single-card-wrapper"
+      className="single-card-wrapper center-items"
       ref={(el) => (wrapperRef.current[index] = el)}
     >
       <div className={`single-card-container ${setOddEvenRow()}`}>
@@ -53,7 +53,7 @@ const SingleCard = ({
           data-found="false"
         >
           <div
-            className="single-card-back"
+            className="single-card-back center-items"
             onClick={(e) => {
               setIsFlipped(true);
               // dispatch(cardFlip({ e, index, cardIndex }));
@@ -61,7 +61,7 @@ const SingleCard = ({
           >
             <img src={deckImg} alt="card" className="img card-img" />
           </div>
-          <div className="single-card-front">
+          <div className="single-card-front center-items">
             <img src={src} alt="card" className="img card-img" />
           </div>
         </div>

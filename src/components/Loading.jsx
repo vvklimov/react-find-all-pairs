@@ -1,6 +1,6 @@
 const Loading = () => {
   return (
-    <div className="page-loading">
+    <div className="page-loading center-items">
       <div className="loading-spinner-wrapper">
         <div className="loading-spinner"></div>
         <h1 className="tag-btn gradient-hover-effect">Loading...</h1>

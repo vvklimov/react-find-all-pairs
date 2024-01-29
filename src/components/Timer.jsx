@@ -15,7 +15,7 @@ const Timer = ({ name }) => {
     dispatch(setupTimers({ name, settings }));
   }, [settings.difficulty, settings.size]);
   return (
-    <div className="timer-wrapper">
+    <div className="timer-wrapper center-items">
       <div className={timerClass}>
         <div className="timer-format">
           <h5 className="tag-btn-gradient gradient-hover-effect">
