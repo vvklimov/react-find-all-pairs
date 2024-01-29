@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav className="nav center-items">
       <div className="nav-center">
-        <div className="nav-header center-items">
+        <div className="nav-header">
           <img src={Logo} className="nav-logo" alt="logo" />
           <button
             className="btn toggle-btn"
