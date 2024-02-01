@@ -1,37 +1,28 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { cardFlip } from "../features /deck/deckSlice";
 import { useEffect, useState } from "react";
-const SingleCard = ({
-  deckName,
-  deckImg,
-  cardsSrc,
-  cardIndex,
-  index,
-  wrapperRef,
-}) => {
+const SingleCard = ({ deckName, deckImg, cardsSrc, cardIndex, index }) => {
   const { cardSrc: src } = cardsSrc[cardIndex];
-  const { gridIntValue, flippedCards } = useSelector((state) => state.deck);
-  const [isFlipped, setIsFlipped] = useState(flippedCards.includes(index));
-  const dispatch = useDispatch();
+  const { gridIntValue, flippedCards, lastFlippedCard, onClickEnabled } =
+    useSelector((state) => {
+      return {
+        gridIntValue: state.deck.gridIntValue,
+        flippedCards: state.deck.flippedCards,
+        lastFlippedCard: state.deck.lastFlippedCard,
+        onClickEnabled: state.deck.onClickEnabled,
+      };
+    }, shallowEqual);
 
+  const [isFlipped, setIsFlipped] = useState(flippedCards?.includes(index));
+  const dispatch = useDispatch();
   useEffect(() => {
     console.log(isFlipped);
-    const manageFlippedState = () => {
-      // if (
-      //   flippedCards?.includes(index) &&
-      //   flippedCards[flippedCards.length - 1] === index
-      // ) {
-      //   setIsFlipped((prev) => {
-      //     return !prev;
-      //   });
-      //   // console.log(isFlipped);
-      //   console.log();
-      // }
-      // let flipped = isFlipped;
-      // console.log(flipped);
-    };
-    manageFlippedState();
-  }, [isFlipped]);
+    if (index === flippedCards[flippedCards.length - 1] && !isFlipped) {
+      setIsFlipped(true);
+    } else if (!flippedCards.includes(index)) {
+      setIsFlipped(false);
+    }
+  }, [flippedCards]);
   const setOddEvenRow = () => {
     if (Math.ceil((index + 1) / gridIntValue) % 2 !== 0) {
       return "odd-row";
@@ -39,24 +30,33 @@ const SingleCard = ({
       return "even-row";
     }
   };
-  // console.log(flippedCards);
   return (
     <div
       className="single-card-wrapper center-items"
-      ref={(el) => (wrapperRef.current[index] = el)}
+      onDragStart={(e) => e.preventDefault()}
     >
       <div className={`single-card-container ${setOddEvenRow()}`}>
+        {/* remove helping div below later */}
         <div
-          className={`single-card ${isFlipped ? "single-card-flip" : ""}`}
-          // className="single-card"
-          data-pair-id={cardIndex}
-          data-found="false"
+          style={{
+            position: "absolute",
+            top: "0",
+            left: "0",
+            color: "red",
+            zIndex: 1,
+            fontSize: "40px",
+            height: "0",
+          }}
         >
+          {cardIndex}
+        </div>
+        <div className={`single-card ${isFlipped ? "single-card-flip" : ""}`}>
           <div
             className="single-card-back center-items"
-            onClick={(e) => {
-              setIsFlipped(true);
-              // dispatch(cardFlip({ e, index, cardIndex }));
+            onClick={() => {
+              if (onClickEnabled) {
+                dispatch(cardFlip({ index, cardIndex, lastFlippedCard }));
+              }
             }}
           >
             <img src={deckImg} alt="card" className="img card-img" />

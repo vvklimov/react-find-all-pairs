@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getRandomNumber, timeout } from "../../utils/helpers";
-import { cardFlipThunk } from "./deckThunk";
+import { cardFlipThunk, flipCardsBackThunk } from "./deckThunk";
+import { setGameState } from "../gameState/gameStateSlice";
+import { GAMEOVER_SUCCESS } from "../../gameStateNames";
 
 const initialState = {
   shuffledArray: [],
@@ -8,16 +10,21 @@ const initialState = {
   gridIntValue: null,
   flippedCards: [],
   lastFlippedCard: null,
+  testingValue: [],
+  onClickEnabled: true,
+  pairsToWin: null,
 };
 
 export const cardFlip = createAsyncThunk(
   "deck/cardFlip",
   async (payload, thunkAPI) => {
-    // console.log("HI");
-    // const { tag: name, subtagClass: value } = payload;
-    // console.log(payload);
-    // const gameState = thunkAPI.getState().gameState.gameState;
     return cardFlipThunk(payload, thunkAPI);
+  }
+);
+export const flipCardsBack = createAsyncThunk(
+  "deck/flipCardsBack",
+  async (thunkAPI) => {
+    return flipCardsBackThunk(thunkAPI);
   }
 );
 const deckSlice = createSlice({
@@ -79,19 +86,38 @@ const deckSlice = createSlice({
       state.gridClassName = className;
       state.gridIntValue = numberOfColumns;
     },
+    setPairsToWin: (state, { payload }) => {
+      if (payload) {
+        state.pairsToWin = payload.currentSize / 2;
+      } else {
+        state.pairsToWin = state.pairsToWin - 1;
+      }
+    },
   },
-  extraReducers: (builder) => {
-    builder.addCase(cardFlip.fulfilled, (state, { payload }) => {
-      const { index, cardIndex } = payload;
-      state.flippedCards.push(index);
-      state.lastFlippedCard = { index, cardIndex };
 
-      return state;
-    });
+  extraReducers: (builder) => {
+    builder
+      .addCase(cardFlip.fulfilled, (state, { payload }) => {
+        const { index, cardIndex, cardsAreEqual } = payload;
+        console.log(cardsAreEqual);
+        state.flippedCards.push(index);
+        cardsAreEqual
+          ? (state.lastFlippedCard = null)
+          : (state.lastFlippedCard = { index, cardIndex });
+      })
+      .addCase(flipCardsBack.pending, (state) => {
+        state.onClickEnabled = false;
+      })
+      .addCase(flipCardsBack.fulfilled, (state) => {
+        state.flippedCards.pop();
+        state.flippedCards.pop();
+        state.lastFlippedCard = null;
+        state.onClickEnabled = true;
+      });
   },
 });
 
-export const { getShuffledArray, setupGrid } = deckSlice.actions;
+export const { getShuffledArray, setupGrid, setPairsToWin } = deckSlice.actions;
 export default deckSlice.reducer;
 
 //TODO

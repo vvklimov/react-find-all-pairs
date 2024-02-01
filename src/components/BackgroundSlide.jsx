@@ -7,6 +7,7 @@ const BackgroundSlide = ({ theme, distance, src, destination }) => {
   }
   return (
     <div
+      onDragStart={(e) => e.preventDefault()}
       className="slide"
       style={{
         left: `${distance}%`,

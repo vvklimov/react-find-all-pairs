@@ -1,16 +1,29 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { deckAR, decks } from "../utils/data";
 import SingleCard from "./SingleCard";
 import { nanoid } from "nanoid";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getShuffledArray, setupGrid } from "../features /deck/deckSlice";
 import { debounce } from "../utils/helpers";
 const DeckContainer = () => {
-  const wrapperRef = useRef([]);
+  const {
+    currentSize,
+    arrayLength,
+    settings: { themes: currentTheme },
+  } = useSelector((state) => {
+    return {
+      currentSize: state.settings.currentSize,
+      arrayLength: state.settings.arrayLength,
+      settings: state.settings.settings,
+    };
+  }, shallowEqual);
+  const { shuffledArray, gridClassName } = useSelector((state) => {
+    return {
+      shuffledArray: state.deck.shuffledArray,
+      gridClassName: state.deck.gridClassName,
+    };
+  }, shallowEqual);
   const dispatch = useDispatch();
-  const { currentSize, arrayLength } = useSelector((state) => state.settings);
-  const { shuffledArray, gridClassName } = useSelector((state) => state.deck);
-
   useEffect(() => {
     dispatch(getShuffledArray({ arrayLength, currentSize }));
     const handleResize = () => {
@@ -33,9 +46,8 @@ const DeckContainer = () => {
         {shuffledArray.map((cardIndex, index) => {
           return (
             <SingleCard
-              wrapperRef={wrapperRef}
               key={nanoid()}
-              {...decks["dark-fantasy"]}
+              {...decks[currentTheme]}
               cardIndex={cardIndex}
               index={index}
             />
