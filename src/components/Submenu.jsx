@@ -1,7 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SettingsBtn from "./SettingsBtn";
+import { setShowGameMenu } from "../features /gameMenu/gameMenuSlice";
 
 const Submenu = ({ show, subtags, tag }) => {
+  const dispatch = useDispatch();
   const { settingsAreEqual } = useSelector((state) => state.settings);
   return (
     <aside className={`submenu ${show ? "show-submenu" : ""}`}>
@@ -17,7 +19,13 @@ const Submenu = ({ show, subtags, tag }) => {
         })}
       </div>
       {!settingsAreEqual && (
-        <button className="apply-changes-btn btn" style={{ marginTop: "1rem" }}>
+        <button
+          className="apply-changes-btn btn"
+          style={{ marginTop: "1rem" }}
+          onClick={() => {
+            dispatch(setShowGameMenu(true));
+          }}
+        >
           apply changes
         </button>
       )}

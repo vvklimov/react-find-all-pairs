@@ -7,6 +7,7 @@ import { setGameState } from "../features /gameState/gameStateSlice";
 import { GAME } from "../gameStateNames";
 setGameState;
 import { setShowSidebar } from "../features /sidebar/sidebarSlice";
+import { setShowGameMenu } from "../features /gameMenu/gameMenuSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Navbar = () => {
           <button
             className="btn new-game-btn navbar-new-game-btn"
             onClick={() => {
-              dispatch(setGameState(GAME));
+              dispatch(setShowGameMenu(true));
             }}
           >
             new game

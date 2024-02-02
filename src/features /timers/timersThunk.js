@@ -7,8 +7,13 @@ import {
 import { setGameState } from "../gameState/gameStateSlice";
 import { GAMEOVER_FAILURE, GAMEOVER_SUCCESS } from "../../gameStateNames";
 import { setOnClickEnabled } from "../deck/deckSlice";
+import { setShowGameMenu } from "../gameMenu/gameMenuSlice";
 
-export const startTimerThunk = async ({ dispatch, getState }) => {
+export const startTimerThunk = async ({
+  dispatch,
+  getState,
+  rejectWithValue,
+}) => {
   try {
     let milliseconds = 0,
       msFormat = 0,
@@ -54,19 +59,20 @@ export const startTimerThunk = async ({ dispatch, getState }) => {
             if (!bestTimeValue || currentTimeValue < bestTimeValue) {
               dispatch(setNewBestTime(size));
             }
-          }
-          if (currentTimeValue >= targetTimeValue) {
+            dispatch(setShowGameMenu(true));
+          } else if (currentTimeValue >= targetTimeValue) {
             dispatch(stopTimer());
             dispatch(setGameState(GAMEOVER_FAILURE));
             dispatch(setPulseFlag(false));
             dispatch(setOnClickEnabled(false));
+            dispatch(setShowGameMenu(true));
           }
         }
       }, 10);
       return Promise.resolve({ newTimerInterval });
     }
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    return rejectWithValue(error.message);
   }
 };
 const timerUnitFormat = (timerValue) => {

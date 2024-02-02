@@ -6,6 +6,7 @@ import {
   Overlay,
   Submenu,
   Loading,
+  GameMenu,
 } from "./components/";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Hero />
       <Footer />
       <Sidebar />
+      <GameMenu />
       {/* <Overlay /> */}
       {/* <Loading /> */}
     </>

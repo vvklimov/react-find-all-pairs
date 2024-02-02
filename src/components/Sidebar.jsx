@@ -4,6 +4,7 @@ import { SidebarTag } from "./";
 import { FaTimes } from "react-icons/fa";
 import { useEffect } from "react";
 import { setShowSidebar } from "../features /sidebar/sidebarSlice";
+import { setShowGameMenu } from "../features /gameMenu/gameMenuSlice";
 
 const Sidebar = () => {
   const { showSidebar } = useSelector((state) => state.sidebar);
@@ -34,7 +35,7 @@ const Sidebar = () => {
         <button
           className="btn new-game-btn"
           onClick={() => {
-            // setSettings();
+            dispatch(setShowGameMenu(true));
           }}
         >
           {settingsAreEqual ? "new game" : "apply changes and start new game"}

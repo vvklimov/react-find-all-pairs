@@ -14,8 +14,8 @@ const initialState = {
 };
 export const startTimer = createAsyncThunk(
   "timers/startTimer",
-  async (_, { getState, dispatch }) => {
-    return startTimerThunk({ dispatch, getState });
+  async (_, { getState, dispatch, rejectWithValue }) => {
+    return startTimerThunk({ dispatch, getState, rejectWithValue });
   }
 );
 const timersSlice = createSlice({
