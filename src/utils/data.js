@@ -451,7 +451,9 @@ const targetTimeValues = {
 
   hard16: {
     mins: "00",
-    secs: "20",
+    // secs: "20",
+    // CHANGE BACK TO 20
+    secs: "06",
     msecs: "00",
   },
 

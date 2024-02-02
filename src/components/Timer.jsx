@@ -22,18 +22,21 @@ const Timer = ({ name }) => {
             {timerName}
           </h5>
           <TimerUnitFormat
+            timerName={name}
             unitClass="min"
             unitName="m"
             unitValue={timerValues.min}
           />
           <h5>:</h5>
           <TimerUnitFormat
+            timerName={name}
             unitClass="sec"
             unitName="s"
             unitValue={timerValues.sec}
           />
           <h5>:</h5>
           <TimerUnitFormat
+            timerName={name}
             unitClass="msec"
             unitName="ms"
             unitValue={timerValues.msec}

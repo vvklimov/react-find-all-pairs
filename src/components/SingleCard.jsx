@@ -16,7 +16,6 @@ const SingleCard = ({ deckName, deckImg, cardsSrc, cardIndex, index }) => {
   const [isFlipped, setIsFlipped] = useState(flippedCards?.includes(index));
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(isFlipped);
     if (index === flippedCards[flippedCards.length - 1] && !isFlipped) {
       setIsFlipped(true);
     } else if (!flippedCards.includes(index)) {

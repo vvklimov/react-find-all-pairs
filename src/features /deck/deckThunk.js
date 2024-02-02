@@ -1,6 +1,7 @@
 import { GAME, GAMEOVER_SUCCESS, IDLE } from "../../gameStateNames";
 import { timeout } from "../../utils/helpers";
 import { setGameState } from "../gameState/gameStateSlice";
+import { startTimer } from "../timers/timersSlice";
 import { flipCardsBack, setPairsToWin } from "./deckSlice";
 
 export const cardFlipThunk = async (payload, thunkAPI) => {
@@ -12,8 +13,12 @@ export const cardFlipThunk = async (payload, thunkAPI) => {
       // ADD START TIMER
       /////////////////////////////////////////////////////////
       thunkAPI.dispatch(setGameState(GAME));
+      thunkAPI.dispatch(startTimer());
       const currentSize = thunkAPI.getState().settings?.currentSize;
-      thunkAPI.dispatch(setPairsToWin({ currentSize }));
+      // thunkAPI.dispatch(setPairsToWin({ currentSize }));
+      // CHANGE BACK
+      thunkAPI.dispatch(setPairsToWin({ currentSize: 2 }));
+      // CHANGE BACK
     }
     let cardsAreEqual = lastFlippedCard?.cardIndex === cardIndex;
     if (lastFlippedCard) {
@@ -37,7 +42,7 @@ export const cardFlipThunk = async (payload, thunkAPI) => {
 };
 export const flipCardsBackThunk = async (thunkAPI) => {
   try {
-    await timeout(500);
+    await timeout(400);
     return Promise.resolve();
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);

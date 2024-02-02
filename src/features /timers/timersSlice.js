@@ -1,13 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { timers, targetTimeValues, navTags } from "../../utils/data";
 import { getStorageItem, setStorageItem } from "../../utils/helpers";
-
+import { startTimerThunk } from "./timersThunk";
 const initialState = {
   defaultTimers: timers,
   targetTime: timers.targetTime.defaultValues,
   currentGameTime: timers.currentGameTime.defaultValues,
   bestTime: timers.bestTime.defaultValues,
+  timerInterval: false,
+  isPaused: false,
+  pulseFlag: false,
+  newRecordFlag: false,
 };
+export const startTimer = createAsyncThunk(
+  "timers/startTimer",
+  async (_, { getState, dispatch }) => {
+    return startTimerThunk({ dispatch, getState });
+  }
+);
 const timersSlice = createSlice({
   name: "timers",
   initialState,
@@ -30,7 +40,33 @@ const timersSlice = createSlice({
         state.bestTime = bestTimeValues[settings.size];
       } else return state;
     },
+    updateCurrentGameTime: (state, { payload }) => {
+      state.currentGameTime = payload;
+    },
+    stopTimer: (state) => {
+      state.isPaused = true;
+    },
+    resumeTimer: (state) => {
+      state.isPaused = false;
+    },
+    setPulseFlag: (state, { payload }) => {
+      state.pulseFlag = payload;
+    },
+    removeTimer: (state) => {
+      state.timerInterval = null;
+    },
+    setNewBestTime: (state, { payload: currentSize }) => {
+      state.bestTime = state.currentGameTime;
+      state.newRecordFlag = true;
+      const previousBestTime = getStorageItem("bestTime");
+      previousBestTime[currentSize] = state.currentGameTime;
+      setStorageItem("bestTime", previousBestTime);
+    },
   },
+  extraReducers: (builder) =>
+    builder.addCase(startTimer.fulfilled, (state, { payload }) => {
+      state.timerInterval = payload.newTimerInterval;
+    }),
 });
 
 const getBestTime = () => {
@@ -49,5 +85,12 @@ const getBestTime = () => {
   return bestTime;
 };
 
-export const { setupTimers } = timersSlice.actions;
+export const {
+  setupTimers,
+  updateCurrentGameTime,
+  stopTimer,
+  resumeTimer,
+  setPulseFlag,
+  setNewBestTime,
+} = timersSlice.actions;
 export default timersSlice.reducer;

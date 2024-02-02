@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getRandomNumber, timeout } from "../../utils/helpers";
 import { cardFlipThunk, flipCardsBackThunk } from "./deckThunk";
-import { setGameState } from "../gameState/gameStateSlice";
-import { GAMEOVER_SUCCESS } from "../../gameStateNames";
 
 const initialState = {
   shuffledArray: [],
@@ -90,8 +88,11 @@ const deckSlice = createSlice({
       if (payload) {
         state.pairsToWin = payload.currentSize / 2;
       } else {
-        state.pairsToWin = state.pairsToWin - 1;
+        state.pairsToWin -= 1;
       }
+    },
+    setOnClickEnabled: (state, { payload }) => {
+      state.onClickEnabled = payload;
     },
   },
 
@@ -99,7 +100,6 @@ const deckSlice = createSlice({
     builder
       .addCase(cardFlip.fulfilled, (state, { payload }) => {
         const { index, cardIndex, cardsAreEqual } = payload;
-        console.log(cardsAreEqual);
         state.flippedCards.push(index);
         cardsAreEqual
           ? (state.lastFlippedCard = null)
@@ -117,43 +117,6 @@ const deckSlice = createSlice({
   },
 });
 
-export const { getShuffledArray, setupGrid, setPairsToWin } = deckSlice.actions;
+export const { getShuffledArray, setupGrid, setPairsToWin, setOnClickEnabled } =
+  deckSlice.actions;
 export default deckSlice.reducer;
-
-//TODO
-//  const cardFlip = async (event, index) => {
-//    dispatch({ type: CARD_FLIP, payload: { event, index, setGameState } });
-//  }; else if (action.type === CARD_FLIP) {
-//     // setGameState(GAME);
-//     const singleCard = action.payload.event.target.parentElement.parentElement;
-//     const pairId = parseInt(singleCard.dataset.pairId);
-//     const cardIndex = action.payload.index;
-//     // console.log(cardIndex);
-//     const newFlippedCards = state.flippedCards;
-//     newFlippedCards.push(cardIndex);
-//     singleCard.classList.add("single-card-flip");
-//     let newLastFlippedCard = state.lastFlippedCard;
-//     console.log(newLastFlippedCard);
-//     if (!newLastFlippedCard) {
-//       newLastFlippedCard = pairId;
-//     }
-//     // else {}
-//     setTimeout(() => {
-//       console.log(newLastFlippedCard);
-//       action.payload.setGameState(GAME);
-//       return {
-//         ...state,
-//         flippedCards: newFlippedCards,
-//         lastFlippedCard: newLastFlippedCard,
-//       };
-//     }, 400);
-//     // console.log(pairId);
-//     // console.log(action.payload.event.target.parentElement.parentElement);
-//     // console.log();
-//     // console.log("hello");
-//     // singleCard.classList.add("single-card-flip");
-//     // console.log(singleCard.classList);
-//     // return state;
-//   }
-//   return state;
-//
