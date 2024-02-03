@@ -94,6 +94,10 @@ const deckSlice = createSlice({
     setOnClickEnabled: (state, { payload }) => {
       state.onClickEnabled = payload;
     },
+    flipAllCardsBack: (state) => {
+      state.flippedCards = [];
+      state.lastFlippedCard = null;
+    },
   },
 
   extraReducers: (builder) => {
@@ -117,6 +121,11 @@ const deckSlice = createSlice({
   },
 });
 
-export const { getShuffledArray, setupGrid, setPairsToWin, setOnClickEnabled } =
-  deckSlice.actions;
+export const {
+  getShuffledArray,
+  setupGrid,
+  setPairsToWin,
+  setOnClickEnabled,
+  flipAllCardsBack,
+} = deckSlice.actions;
 export default deckSlice.reducer;

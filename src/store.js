@@ -5,6 +5,7 @@ import sidebarReducer from "./features /sidebar/sidebarSlice";
 import timersReducer from "./features /timers/timersSlice";
 import deckReducer from "./features /deck/deckSlice";
 import gameMenuReducer from "./features /gameMenu/gameMenuSlice";
+import transfersReducer from "./features /transfers/transfersSlice";
 export const store = configureStore({
   reducer: {
     settings: settingsReducer,
@@ -13,5 +14,6 @@ export const store = configureStore({
     timers: timersReducer,
     deck: deckReducer,
     gameMenu: gameMenuReducer,
+    transfers: transfersReducer,
   },
 });

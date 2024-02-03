@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { deckAR, decks } from "../utils/data";
 import SingleCard from "./SingleCard";
 import { nanoid } from "nanoid";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getShuffledArray, setupGrid } from "../features /deck/deckSlice";
 import { debounce } from "../utils/helpers";
+import { setHeroCenter } from "../features /transfers/transfersSlice";
 const DeckContainer = () => {
+  const heroRef = useRef();
   const {
     currentSize,
     arrayLength,
@@ -26,9 +28,31 @@ const DeckContainer = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getShuffledArray({ arrayLength, currentSize }));
+    const handleHeroCenter = (heroRef) => {
+      const {
+        left: heroLeft,
+        right: heroRight,
+        bottom: heroBottom,
+        top: heroTop,
+      } = heroRef?.current?.getBoundingClientRect();
+      const heroCenterY = (heroBottom - heroTop) / 2 + heroTop;
+      const heroCenterX = (heroRight - heroLeft) / 2 + heroLeft;
+      dispatch(
+        setHeroCenter({
+          heroCenterY,
+          heroCenterX,
+          heroBottom,
+          heroLeft,
+          heroRight,
+          heroTop,
+        })
+      );
+    };
     const handleResize = () => {
       dispatch(setupGrid({ currentSize }));
+      handleHeroCenter(heroRef);
     };
+
     const delayedResize = debounce(handleResize, 500);
     handleResize();
     window.addEventListener("resize", delayedResize);
@@ -38,7 +62,18 @@ const DeckContainer = () => {
   }, [currentSize]);
 
   return (
-    <div className="hero-container">
+    <div className="hero-container" ref={heroRef}>
+      {/* <div
+        style={{
+          position: "absolute",
+          width: "3px",
+          height: "3px",
+          top: "50%",
+          left: "50%",
+          zIndex: 10,
+          background: "red",
+        }}
+      ></div> */}
       <div
         className={`deck-container ${gridClassName ? gridClassName : ""}`}
         style={{ aspectRatio: `${deckAR[currentSize]}` }}
