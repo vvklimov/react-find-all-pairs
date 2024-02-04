@@ -3,9 +3,17 @@ import { deckAR, decks } from "../utils/data";
 import SingleCard from "./SingleCard";
 import { nanoid } from "nanoid";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getShuffledArray, setupGrid } from "../features /deck/deckSlice";
-import { debounce } from "../utils/helpers";
-import { setHeroCenter } from "../features /transfers/transfersSlice";
+import {
+  getShuffledArray,
+  setOddEvenRow,
+  setupGrid,
+} from "../features /deck/deckSlice";
+import { debounce, timeout } from "../utils/helpers";
+import {
+  setHeroCenter,
+  snakeLikeArrival,
+  updateCurrentPosition,
+} from "../features /transfers/transfersSlice";
 const DeckContainer = () => {
   const heroRef = useRef();
   const {
@@ -18,6 +26,9 @@ const DeckContainer = () => {
       arrayLength: state.settings.arrayLength,
       settings: state.settings.settings,
     };
+  }, shallowEqual);
+  const { isLoaded } = useSelector((state) => {
+    return { isLoaded: state.transfers.isLoaded };
   }, shallowEqual);
   const { shuffledArray, gridClassName } = useSelector((state) => {
     return {
@@ -50,9 +61,9 @@ const DeckContainer = () => {
     };
     const handleResize = () => {
       dispatch(setupGrid({ currentSize }));
+      dispatch(setOddEvenRow());
       handleHeroCenter(heroRef);
     };
-
     const delayedResize = debounce(handleResize, 500);
     handleResize();
     window.addEventListener("resize", delayedResize);
@@ -60,7 +71,16 @@ const DeckContainer = () => {
       window.removeEventListener("resize", delayedResize);
     };
   }, [currentSize]);
-
+  useEffect(() => {
+    const firstAppearance = async () => {
+      if (isLoaded) {
+        dispatch(updateCurrentPosition("moveToLeft"));
+        await timeout(100);
+        dispatch(snakeLikeArrival());
+      }
+    };
+    firstAppearance();
+  }, [isLoaded]);
   return (
     <div className="hero-container" ref={heroRef}>
       {/* <div
@@ -85,6 +105,7 @@ const DeckContainer = () => {
               {...decks[currentTheme]}
               cardIndex={cardIndex}
               index={index}
+              currentSize={currentSize}
             />
           );
         })}

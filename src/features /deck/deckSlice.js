@@ -9,8 +9,9 @@ const initialState = {
   flippedCards: [],
   lastFlippedCard: null,
   testingValue: [],
-  onClickEnabled: true,
+  onClickEnabled: false,
   pairsToWin: null,
+  permutatedArray: [],
 };
 
 export const cardFlip = createAsyncThunk(
@@ -98,6 +99,32 @@ const deckSlice = createSlice({
       state.flippedCards = [];
       state.lastFlippedCard = null;
     },
+    setOddEvenRow: (state) => {
+      const shuffledArray = [...state.shuffledArray];
+      const oddEvenRowArray = shuffledArray.map((_, index) => {
+        if (Math.ceil((index + 1) / state.gridIntValue) % 2 !== 0) {
+          return "odd-row";
+        } else {
+          return "even-row";
+        }
+      });
+      const buffer = [];
+      const permutatedArray = [];
+      for (let i = 0; i < shuffledArray.length; i++) {
+        if (oddEvenRowArray[i] === "odd-row") {
+          while (buffer.length !== 0) {
+            permutatedArray.push(buffer.pop());
+          }
+          permutatedArray.push(i);
+        } else {
+          buffer.push(i);
+        }
+      }
+      while (buffer.length !== 0) {
+        permutatedArray.push(buffer.pop());
+      }
+      state.permutatedArray = permutatedArray;
+    },
   },
 
   extraReducers: (builder) => {
@@ -127,5 +154,6 @@ export const {
   setPairsToWin,
   setOnClickEnabled,
   flipAllCardsBack,
+  setOddEvenRow,
 } = deckSlice.actions;
 export default deckSlice.reducer;

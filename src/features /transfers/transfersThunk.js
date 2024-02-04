@@ -1,9 +1,13 @@
 import { IDLE } from "../../gameStateNames";
 import { timeout } from "../../utils/helpers";
-import { flipAllCardsBack } from "../deck/deckSlice";
+import { flipAllCardsBack, setOnClickEnabled } from "../deck/deckSlice";
 import { setShowGameMenu } from "../gameMenu/gameMenuSlice";
 import { setGameState } from "../gameState/gameStateSlice";
-import { updateCurrentPosition } from "./transfersSlice";
+import {
+  moveToCardsDefaultPosition,
+  setVisibility,
+  updateCurrentPosition,
+} from "./transfersSlice";
 
 export const translateCardsThunk = async ({
   dispatch,
@@ -12,10 +16,10 @@ export const translateCardsThunk = async ({
   payload,
 }) => {
   try {
+    dispatch(setShowGameMenu(false));
     if (payload === "moveCardsAway") {
       const { flippedCards } = getState().deck;
       dispatch(setGameState(IDLE));
-      dispatch(setShowGameMenu(false));
       await timeout(500);
       if (flippedCards.length > 0) {
         dispatch(flipAllCardsBack());
@@ -25,8 +29,34 @@ export const translateCardsThunk = async ({
       await timeout(500);
       dispatch(updateCurrentPosition("moveToRight"));
       await timeout(500);
+    } else if (payload === "moveToLeft") {
+      await dispatch(updateCurrentPosition("moveToLeft"));
+      dispatch(setVisibility(true));
     }
     return Promise.resolve();
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+};
+export const snakeLikeArrivalThunk = async ({
+  dispatch,
+  rejectWithValue,
+  getState,
+}) => {
+  try {
+    const { onClickEnabled } = getState().deck;
+    if (onClickEnabled) {
+      dispatch(setOnClickEnabled(false));
+    }
+    dispatch(setVisibility(true));
+    const permutatedArray = getState().deck.permutatedArray;
+    for (const card of permutatedArray) {
+      dispatch(moveToCardsDefaultPosition(card));
+      await timeout(200);
+    }
+    await timeout(300);
+
+    return Promise.resolve(dispatch(setOnClickEnabled(true)));
   } catch (error) {
     return rejectWithValue(error.message);
   }

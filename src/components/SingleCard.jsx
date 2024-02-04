@@ -1,9 +1,19 @@
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { cardFlip } from "../features /deck/deckSlice";
 import { useEffect, useRef, useState } from "react";
-import { setCardsTransitions } from "../features /transfers/transfersSlice";
+import {
+  setCardsTransitions,
+  snakeLikeArrival,
+} from "../features /transfers/transfersSlice";
 import { debounce } from "../utils/helpers";
-const SingleCard = ({ deckName, deckImg, cardsSrc, cardIndex, index }) => {
+const SingleCard = ({
+  deckName,
+  deckImg,
+  cardsSrc,
+  cardIndex,
+  index,
+  currentSize,
+}) => {
   const { cardSrc: src } = cardsSrc[cardIndex];
   const { gridIntValue, flippedCards, lastFlippedCard, onClickEnabled } =
     useSelector((state) => {
@@ -14,18 +24,21 @@ const SingleCard = ({ deckName, deckImg, cardsSrc, cardIndex, index }) => {
         onClickEnabled: state.deck.onClickEnabled,
       };
     }, shallowEqual);
-  const { moveToDefaultPosition, currentPosition } = useSelector((state) => {
-    return {
-      moveToDefaultPosition: state.transfers.moveToDefaultPosition,
-      currentPosition: state.transfers.currentPosition,
-    };
-  }, shallowEqual);
+  const { moveToDefaultPosition, currentPosition, visible } = useSelector(
+    (state) => {
+      return {
+        moveToDefaultPosition: state.transfers.moveToDefaultPosition,
+        currentPosition: state.transfers.currentPosition,
+        visible: state.transfers.visible,
+      };
+    },
+    shallowEqual
+  );
   const { destCoord } = currentPosition[index] ?? {};
 
   const [isFlipped, setIsFlipped] = useState(flippedCards?.includes(index));
   const wrapperRef = useRef();
   const dispatch = useDispatch();
-  console.log("render");
   useEffect(() => {
     if (index === flippedCards[flippedCards.length - 1] && !isFlipped) {
       setIsFlipped(true);
@@ -33,13 +46,6 @@ const SingleCard = ({ deckName, deckImg, cardsSrc, cardIndex, index }) => {
       setIsFlipped(false);
     }
   }, [flippedCards]);
-  const setOddEvenRow = () => {
-    if (Math.ceil((index + 1) / gridIntValue) % 2 !== 0) {
-      return "odd-row";
-    } else {
-      return "even-row";
-    }
-  };
   useEffect(() => {
     const handleCardTransitions = (wrapperRef) => {
       const {
@@ -59,18 +65,22 @@ const SingleCard = ({ deckName, deckImg, cardsSrc, cardIndex, index }) => {
           cardLeft,
           cardRight,
           cardTop,
+          currentSize,
         })
       );
     };
-    const handleResize = debounce(() => {
-      handleCardTransitions(wrapperRef);
-    }, 500);
     handleCardTransitions(wrapperRef);
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [wrapperRef]);
+
+    // const handleResize = debounce(() => {
+    //   handleCardTransitions(wrapperRef);
+    // }, 500);
+    // const firstAppearance = debounce(() => dispatch(snakeLikeArrival()), 100);
+    // firstAppearance();
+    // window.addEventListener("resize", handleResize);
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
+  }, [wrapperRef, currentSize]);
   return (
     <div
       className="single-card-wrapper center-items"
@@ -81,7 +91,9 @@ const SingleCard = ({ deckName, deckImg, cardsSrc, cardIndex, index }) => {
       // }}
     >
       <div
-        className={`single-card-container ${setOddEvenRow()}`}
+        className={`single-card-container  ${
+          visible ? "single-card-transition" : ""
+        }`}
         style={{
           transform: `${destCoord || moveToDefaultPosition}`,
           // display: "block",

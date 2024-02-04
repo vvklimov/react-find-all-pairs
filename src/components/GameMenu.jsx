@@ -2,7 +2,10 @@ import { FaTimes } from "react-icons/fa";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setShowGameMenu } from "../features /gameMenu/gameMenuSlice";
 import GameMenuTextContent from "./GameMenuTextContent";
-import { translateCards } from "../features /transfers/transfersSlice";
+import {
+  snakeLikeArrival,
+  translateCards,
+} from "../features /transfers/transfersSlice";
 
 const GameMenu = () => {
   const { show, textContent } = useSelector((state) => {
@@ -29,7 +32,8 @@ const GameMenu = () => {
         <div className="btn-container">
           <button
             onClick={() => {
-              dispatch(translateCards("moveCardsAway"));
+              // dispatch(translateCards("moveToLeft"));
+              dispatch(snakeLikeArrival());
             }}
             className="btn start-new-game-btn"
           >
