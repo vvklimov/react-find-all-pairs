@@ -79,9 +79,9 @@ const transfersSlice = createSlice({
       //     heroCenterY - cardCenterY
       //   }px)`,
       // };
-      if (Object.keys(state.moveToRight).length === currentSize) {
-        state.isLoaded = true;
-      }
+      // if (Object.keys(state.moveToRight).length === currentSize) {
+      //   state.isLoaded = true;
+      // }
     },
     updateCurrentPosition: (state, { payload }) => {
       state.currentPosition = state[payload];
@@ -91,6 +91,9 @@ const transfersSlice = createSlice({
     },
     moveToCardsDefaultPosition: (state, { payload }) => {
       delete state.currentPosition[payload];
+    },
+    setIsLoaded: (state, { payload }) => {
+      state.isLoaded = payload;
     },
   },
   extraReducers: (builder) =>
@@ -109,5 +112,6 @@ export const {
   updateCurrentPosition,
   setVisibility,
   moveToCardsDefaultPosition,
+  setIsLoaded,
 } = transfersSlice.actions;
 export default transfersSlice.reducer;

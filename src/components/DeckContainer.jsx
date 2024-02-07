@@ -16,6 +16,7 @@ import {
 } from "../features /transfers/transfersSlice";
 const DeckContainer = () => {
   const heroRef = useRef();
+  // const deckContainerRef = useRef();
   const {
     currentSize,
     arrayLength,
@@ -94,9 +95,22 @@ const DeckContainer = () => {
           background: "red",
         }}
       ></div> */}
+      {/* <div
+        style={{
+          position: "absolute",
+          fontSize: "3rem",
+          zIndex: 100,
+          color: "red",
+        }}
+        className="center-items"
+      >
+        <h3>{deckContainerRef?.current?.clientWidth}</h3>
+        <h3>{deckContainerRef?.current?.clientHeight}</h3>
+      </div> */}
       <div
         className={`deck-container ${gridClassName ? gridClassName : ""}`}
         style={{ aspectRatio: `${deckAR[currentSize]}` }}
+        // ref={deckContainerRef}
       >
         {shuffledArray.map((cardIndex, index) => {
           return (
