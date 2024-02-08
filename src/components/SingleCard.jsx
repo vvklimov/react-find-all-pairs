@@ -24,16 +24,15 @@ const SingleCard = ({
         onClickEnabled: state.deck.onClickEnabled,
       };
     }, shallowEqual);
-  const { moveToDefaultPosition, currentPosition, visible } = useSelector(
-    (state) => {
+  const { moveToDefaultPosition, currentPosition, visible, heroCenter } =
+    useSelector((state) => {
       return {
         moveToDefaultPosition: state.transfers.moveToDefaultPosition,
         currentPosition: state.transfers.currentPosition,
         visible: state.transfers.visible,
+        heroCenter: state.transfers.heroCenter,
       };
-    },
-    shallowEqual
-  );
+    }, shallowEqual);
   const { destCoord } = currentPosition[index] ?? {};
 
   const [isFlipped, setIsFlipped] = useState(flippedCards?.includes(index));
@@ -71,16 +70,16 @@ const SingleCard = ({
     };
     handleCardTransitions(wrapperRef);
 
-    const handleResize = debounce(() => {
-      handleCardTransitions(wrapperRef);
-    }, 10);
+    // const handleResize = debounce(() => {
+    //   handleCardTransitions(wrapperRef);
+    // }, 10);
     // const firstAppearance = debounce(() => dispatch(snakeLikeArrival()), 100);
     // firstAppearance();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [wrapperRef, currentSize]);
+    // window.addEventListener("resize", handleResize);
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
+  }, [wrapperRef, currentSize, heroCenter]);
   return (
     <div
       className="single-card-wrapper center-items"

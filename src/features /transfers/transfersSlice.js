@@ -63,7 +63,7 @@ const transfersSlice = createSlice({
         }px)`,
       };
       state.moveToLeft[index] = {
-        destCoord: `translate(${heroLeft - cardRight - 20}px, ${
+        destCoord: `translate(${-heroRight / 2 - cardRight - 20}px, ${
           heroCenterY - cardCenterY
         }px)`,
       };

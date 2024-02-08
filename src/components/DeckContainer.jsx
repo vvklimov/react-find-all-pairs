@@ -65,16 +65,16 @@ const DeckContainer = () => {
       dispatch(setOddEvenRow());
       handleHeroCenter(heroRef);
     };
-    // const delayedResize = debounce(handleResize, 500);
+    const delayedResize = debounce(handleResize, 100);
     handleResize();
-    // window.addEventListener("resize", delayedResize);
-    // return () => {
-    //   window.removeEventListener("resize", delayedResize);
-    // };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", delayedResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", delayedResize);
     };
+    // window.addEventListener("resize", handleResize);
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
   }, [currentSize]);
   useEffect(() => {
     const firstAppearance = async () => {
