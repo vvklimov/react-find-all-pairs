@@ -71,15 +71,15 @@ const SingleCard = ({
     };
     handleCardTransitions(wrapperRef);
 
-    // const handleResize = debounce(() => {
-    //   handleCardTransitions(wrapperRef);
-    // }, 500);
+    const handleResize = debounce(() => {
+      handleCardTransitions(wrapperRef);
+    }, 10);
     // const firstAppearance = debounce(() => dispatch(snakeLikeArrival()), 100);
     // firstAppearance();
-    // window.addEventListener("resize", handleResize);
-    // return () => {
-    //   window.removeEventListener("resize", handleResize);
-    // };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [wrapperRef, currentSize]);
   return (
     <div

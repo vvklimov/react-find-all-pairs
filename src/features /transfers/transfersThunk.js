@@ -3,6 +3,7 @@ import { timeout } from "../../utils/helpers";
 import { flipAllCardsBack, setOnClickEnabled } from "../deck/deckSlice";
 import { setShowGameMenu } from "../gameMenu/gameMenuSlice";
 import { setGameState } from "../gameState/gameStateSlice";
+import { setShowSidebar } from "../sidebar/sidebarSlice";
 import {
   moveToCardsDefaultPosition,
   setVisibility,
@@ -18,6 +19,10 @@ export const translateCardsThunk = async ({
   try {
     dispatch(setShowGameMenu(false));
     if (payload === "moveCardsAway") {
+      const { showSidebar } = getState().sidebar;
+      if (showSidebar) {
+        dispatch(setShowSidebar(false));
+      }
       const { flippedCards } = getState().deck;
       dispatch(setGameState(IDLE));
       await timeout(500);
@@ -29,6 +34,7 @@ export const translateCardsThunk = async ({
       await timeout(500);
       dispatch(updateCurrentPosition("moveToRight"));
       await timeout(500);
+      dispatch(setVisibility(false));
     } else if (payload === "moveToLeft") {
       await dispatch(updateCurrentPosition("moveToLeft"));
       dispatch(setVisibility(true));

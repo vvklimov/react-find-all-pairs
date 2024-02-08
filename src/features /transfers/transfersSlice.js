@@ -72,6 +72,7 @@ const transfersSlice = createSlice({
           heroCenterY - cardCenterY
         }px)`,
       };
+      console.log(state.heroCenter?.heroCenterX);
       //
       //
       // state.currentPosition[index] = {

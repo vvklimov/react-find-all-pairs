@@ -3,11 +3,18 @@ import {
   stopTimer,
   updateCurrentGameTime,
   setNewBestTime,
+  resumeTimer,
 } from "./timersSlice";
 import { setGameState } from "../gameState/gameStateSlice";
-import { GAMEOVER_FAILURE, GAMEOVER_SUCCESS } from "../../gameStateNames";
+import {
+  GAMEOVER_FAILURE,
+  GAMEOVER_SUCCESS,
+  PAUSE,
+  GAME,
+} from "../../gameStateNames";
 import { setOnClickEnabled } from "../deck/deckSlice";
 import { setShowGameMenu } from "../gameMenu/gameMenuSlice";
+import { timeout } from "../../utils/helpers";
 
 export const startTimerThunk = async ({
   dispatch,
@@ -30,6 +37,12 @@ export const startTimerThunk = async ({
       const newTimerInterval = setInterval(() => {
         const { gameState } = getState().gameState;
         const { isPaused, pulseFlag } = getState().timers;
+        if (gameState === GAME && isPaused) {
+          dispatch(resumeTimer());
+        } else if (gameState === PAUSE && !isPaused) {
+          dispatch(stopTimer());
+        }
+
         if (!isPaused) {
           milliseconds += 10;
           msFormat = milliseconds / 10;

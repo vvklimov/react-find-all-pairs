@@ -4,7 +4,7 @@ import Logo from "../assets/images/logo.png";
 import { navTags } from "../utils/data";
 import { NavbarTag } from "./";
 import { setGameState } from "../features /gameState/gameStateSlice";
-import { GAME } from "../gameStateNames";
+import { GAME, PAUSE } from "../gameStateNames";
 setGameState;
 import { setShowSidebar } from "../features /sidebar/sidebarSlice";
 import { setShowGameMenu } from "../features /gameMenu/gameMenuSlice";
@@ -20,6 +20,7 @@ const Navbar = () => {
             className="btn toggle-btn"
             onClick={() => {
               dispatch(setShowSidebar(true));
+              dispatch(setGameState(PAUSE));
             }}
           >
             menu
@@ -28,6 +29,7 @@ const Navbar = () => {
             className="btn new-game-btn navbar-new-game-btn"
             onClick={() => {
               dispatch(setShowGameMenu(true));
+              dispatch(setGameState(PAUSE));
             }}
           >
             new game

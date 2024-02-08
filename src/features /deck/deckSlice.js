@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getRandomNumber, timeout } from "../../utils/helpers";
-import { cardFlipThunk, flipCardsBackThunk } from "./deckThunk";
+import {
+  cardFlipThunk,
+  flipCardsBackThunk,
+  startNewGameThunk,
+} from "./deckThunk";
 
 const initialState = {
   shuffledArray: [],
@@ -18,6 +22,12 @@ export const cardFlip = createAsyncThunk(
   "deck/cardFlip",
   async (payload, thunkAPI) => {
     return cardFlipThunk(payload, thunkAPI);
+  }
+);
+export const startNewGame = createAsyncThunk(
+  "deck/startNewGame",
+  async (_, { getState, dispatch, rejectWithValue }) => {
+    return startNewGameThunk({ getState, dispatch, rejectWithValue });
   }
 );
 export const flipCardsBack = createAsyncThunk(
@@ -144,6 +154,9 @@ const deckSlice = createSlice({
         state.flippedCards.pop();
         state.lastFlippedCard = null;
         state.onClickEnabled = true;
+      })
+      .addCase(startNewGame.fulfilled, (state, { payload }) => {
+        console.log("fires");
       });
   },
 });

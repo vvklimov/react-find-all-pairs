@@ -7,7 +7,7 @@ const initialState = {
   targetTime: timers.targetTime.defaultValues,
   currentGameTime: timers.currentGameTime.defaultValues,
   bestTime: timers.bestTime.defaultValues,
-  timerInterval: false,
+  timerInterval: null,
   isPaused: false,
   pulseFlag: false,
   newRecordFlag: false,
@@ -52,8 +52,12 @@ const timersSlice = createSlice({
     setPulseFlag: (state, { payload }) => {
       state.pulseFlag = payload;
     },
-    removeTimer: (state) => {
-      state.timerInterval = null;
+    resetTimer: (state) => {
+      if (state.timerInterval) {
+        clearInterval(state.timerInterval);
+        state.timerInterval = null;
+      }
+      state.currentGameTime = state.defaultTimers.currentGameTime.defaultValues;
     },
     setNewBestTime: (state, { payload: currentSize }) => {
       state.bestTime = state.currentGameTime;
@@ -92,5 +96,6 @@ export const {
   resumeTimer,
   setPulseFlag,
   setNewBestTime,
+  resetTimer,
 } = timersSlice.actions;
 export default timersSlice.reducer;

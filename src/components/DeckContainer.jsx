@@ -65,11 +65,15 @@ const DeckContainer = () => {
       dispatch(setOddEvenRow());
       handleHeroCenter(heroRef);
     };
-    const delayedResize = debounce(handleResize, 500);
+    // const delayedResize = debounce(handleResize, 500);
     handleResize();
-    window.addEventListener("resize", delayedResize);
+    // window.addEventListener("resize", delayedResize);
+    // return () => {
+    //   window.removeEventListener("resize", delayedResize);
+    // };
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener("resize", delayedResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [currentSize]);
   useEffect(() => {
