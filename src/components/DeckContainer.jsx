@@ -81,7 +81,7 @@ const DeckContainer = () => {
       if (isLoaded) {
         dispatch(updateCurrentPosition("moveToLeft"));
         await timeout(100);
-        dispatch(snakeLikeArrival());
+        dispatch(snakeLikeArrival("firstLoad"));
       }
     };
     firstAppearance();

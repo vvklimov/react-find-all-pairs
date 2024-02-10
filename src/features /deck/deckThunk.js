@@ -4,7 +4,13 @@ import { setGameState } from "../gameState/gameStateSlice";
 import { setSettings } from "../settings/settingsSlice";
 import { resetTimer, startTimer, stopTimer } from "../timers/timersSlice";
 import { snakeLikeArrival, translateCards } from "../transfers/transfersSlice";
-import { flipCardsBack, getShuffledArray, setPairsToWin } from "./deckSlice";
+import {
+  flipCardsBack,
+  getShuffledArray,
+  setPairsToWin,
+  setStartNewGameCallCounter,
+  setStartNewGamePending,
+} from "./deckSlice";
 
 export const cardFlipThunk = async (payload, thunkAPI) => {
   try {
@@ -56,24 +62,57 @@ export const startNewGameThunk = async ({
   getState,
 }) => {
   try {
-    // ///////////////////
-    // RECALCULATE coords
-    /////////////////////
+    await dispatch(setStartNewGameCallCounter("INC"));
+    const callNumber = getState().deck.startNewGameCallCounter;
+    dispatch(setStartNewGamePending(true));
+    await waitForDisplayDeck({ getState, dispatch, callNumber });
     await dispatch(translateCards("moveCardsAway"));
-    dispatch(setSettings());
-    dispatch(resetTimer());
+    await dispatch(setSettings());
+    await dispatch(resetTimer());
     // ///////////////////////
     // WAIT FOR DECK TRANSITION
     ///////////////////////////
     const { arrayLength, currentSize } = getState().settings;
-    console.log(arrayLength);
-    const { shuffledArray } = getState().deck;
-    console.log(shuffledArray);
-    dispatch(getShuffledArray({ arrayLength, currentSize }));
+    await dispatch(getShuffledArray({ arrayLength, currentSize }));
     await dispatch(translateCards("moveToLeft"));
     await dispatch(snakeLikeArrival());
     return Promise.resolve();
   } catch (error) {
     return rejectWithValue(error.message);
   }
+};
+
+// ///////////////////////////////////////////////////////////
+//  waitForDisplayDeck function
+//  purpose: makes sure that only last call of starNewGame will be executed,
+//  waits if previous call of startNewGame is still executing
+//////////////////////////////////////////////////////////////
+const waitForDisplayDeck = async ({ dispatch, getState, callNumber }) => {
+  return new Promise((resolve, reject) => {
+    const checkDisplayDeckStatus = () => {
+      const counter = getState().deck.startNewGameCallCounter;
+      const isExecuting = getState().deck.startNewGamePending;
+      const snakeLikeArrivalPending =
+        getState().transfers.snakeLikeArrivalPending;
+      // if it is the last call of startNewGame we want to proceed
+      if (callNumber === counter) {
+        // if it the very first call or previous call is finished and snakeLikeArrival animation
+        //after page is fully loaded is finished
+        if ((!isExecuting || counter === 1) && !snakeLikeArrivalPending) {
+          dispatch(setStartNewGameCallCounter(1));
+          resolve("resolved");
+        } else {
+          setTimeout(checkDisplayDeckStatus, 100);
+        }
+      } else {
+        // if it is snakeLikeArrival right after page load
+        if (snakeLikeArrivalPending) {
+          dispatch(setStartNewGamePending(false));
+          // canceling previous calls of startNewGame to for not creating queue of calls
+          reject("Display deck is currently executing");
+        }
+      }
+    };
+    checkDisplayDeckStatus();
+  });
 };

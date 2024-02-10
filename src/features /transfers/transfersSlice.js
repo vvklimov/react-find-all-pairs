@@ -11,6 +11,7 @@ const initialState = {
   moveToDefaultPosition: "translate(0px, 0px)",
   visible: false,
   isLoaded: false,
+  snakeLikeArrivalPending: false,
 };
 
 export const translateCards = createAsyncThunk(
@@ -72,7 +73,7 @@ const transfersSlice = createSlice({
           heroCenterY - cardCenterY
         }px)`,
       };
-      console.log(state.heroCenter?.heroCenterX);
+      // console.log(state.heroCenter?.heroCenterX);
       //
       //
       // state.currentPosition[index] = {
@@ -96,14 +97,23 @@ const transfersSlice = createSlice({
     setIsLoaded: (state, { payload }) => {
       state.isLoaded = payload;
     },
+    setSnakeLikeArrivalPending: (state, { payload }) => {
+      state.snakeLikeArrivalPending = payload;
+    },
   },
+
   extraReducers: (builder) =>
     builder
       .addCase(translateCards.fulfilled, (state, { payload }) => {
-        console.log("translate cards fulfilled");
+        // console.log("translate cards fulfilled");
       })
       .addCase(snakeLikeArrival.fulfilled, (state, { payload }) => {
-        console.log("snakeLikeArrival fulfilled");
+        // console.log("snakeLikeArrival fulfilled");
+        state.snakeLikeArrivalPending = false;
+      })
+      .addCase(snakeLikeArrival.pending, (state, { payload }) => {
+        // console.log("snakeLikeArrival fulfilled");
+        // state.snakeLikeArrivalPending = true;
       }),
 });
 
@@ -114,5 +124,6 @@ export const {
   setVisibility,
   moveToCardsDefaultPosition,
   setIsLoaded,
+  setSnakeLikeArrivalPending,
 } = transfersSlice.actions;
 export default transfersSlice.reducer;

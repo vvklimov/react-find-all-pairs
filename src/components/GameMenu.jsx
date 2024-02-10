@@ -42,6 +42,7 @@ const GameMenu = () => {
         <div className="btn-container">
           <button
             onClick={() => {
+              dispatch(setShowGameMenu(false));
               dispatch(startNewGame());
             }}
             className="btn start-new-game-btn"

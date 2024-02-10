@@ -67,6 +67,8 @@ const SingleCard = ({
           currentSize,
         })
       );
+      // console.log("transitions fires");
+      // console.log(currentSize);
     };
     handleCardTransitions(wrapperRef);
 

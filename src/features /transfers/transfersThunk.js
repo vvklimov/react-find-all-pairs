@@ -6,6 +6,7 @@ import { setGameState } from "../gameState/gameStateSlice";
 import { setShowSidebar } from "../sidebar/sidebarSlice";
 import {
   moveToCardsDefaultPosition,
+  setSnakeLikeArrivalPending,
   setVisibility,
   updateCurrentPosition,
 } from "./transfersSlice";
@@ -17,7 +18,6 @@ export const translateCardsThunk = async ({
   payload,
 }) => {
   try {
-    dispatch(setShowGameMenu(false));
     if (payload === "moveCardsAway") {
       const { showSidebar } = getState().sidebar;
       if (showSidebar) {
@@ -48,8 +48,12 @@ export const snakeLikeArrivalThunk = async ({
   dispatch,
   rejectWithValue,
   getState,
+  payload,
 }) => {
   try {
+    if (payload) {
+      await dispatch(setSnakeLikeArrivalPending(true));
+    }
     const { onClickEnabled } = getState().deck;
     if (onClickEnabled) {
       dispatch(setOnClickEnabled(false));

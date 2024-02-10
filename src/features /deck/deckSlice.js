@@ -16,6 +16,8 @@ const initialState = {
   onClickEnabled: false,
   pairsToWin: null,
   permutatedArray: [],
+  startNewGamePending: false,
+  startNewGameCallCounter: 0,
 };
 
 export const cardFlip = createAsyncThunk(
@@ -135,6 +137,15 @@ const deckSlice = createSlice({
       }
       state.permutatedArray = permutatedArray;
     },
+    setStartNewGamePending: (state, { payload }) => {
+      state.startNewGamePending = payload;
+    },
+    setStartNewGameCallCounter: (state, { payload }) => {
+      if (payload === "INC") state.startNewGameCallCounter += 1;
+      else if (payload === "DEC") state.startNewGameCallCounter -= 1;
+      else if (payload === "RESET") state.startNewGameCallCounter = 0;
+      else state.startNewGameCallCounter = payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -156,8 +167,19 @@ const deckSlice = createSlice({
         state.onClickEnabled = true;
       })
       .addCase(startNewGame.fulfilled, (state, { payload }) => {
-        console.log("fires");
+        // console.log("fires");
+        state.startNewGamePending = false;
+        if (state.startNewGameCallCounter === 1) {
+          state.startNewGameCallCounter = 0;
+        }
+      })
+      .addCase(startNewGame.rejected, (state, { payload }) => {
+        console.log("rejected");
       });
+    // .addCase(startNewGame.pending, (state, { payload }) => {
+    //   // console.log("fires");
+    //   state.startNewGamePending = true;
+    // });
   },
 });
 
@@ -168,5 +190,7 @@ export const {
   setOnClickEnabled,
   flipAllCardsBack,
   setOddEvenRow,
+  setStartNewGamePending,
+  setStartNewGameCallCounter,
 } = deckSlice.actions;
 export default deckSlice.reducer;
