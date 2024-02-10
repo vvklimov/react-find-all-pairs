@@ -14,7 +14,9 @@ const SingleCard = ({
   index,
   currentSize,
 }) => {
-  const { cardSrc: src } = cardsSrc[cardIndex];
+  // console.log(cardsSrc[cardIndex]);
+  // console.log(cardIndex);
+  const { cardSrc: src } = cardsSrc[cardIndex] ?? {};
   const { gridIntValue, flippedCards, lastFlippedCard, onClickEnabled } =
     useSelector((state) => {
       return {

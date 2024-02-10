@@ -23,6 +23,7 @@ const getSettings = () => {
     settingsAreEqual: settingsAreEqual(settings, tempSettings),
     currentSize: getCurrentSize(settings),
     arrayLength: getCurrentDeckArrayLength(settings),
+    themesWereEqual: true,
   };
 };
 
@@ -43,6 +44,8 @@ const settingsSlice = createSlice({
   reducers: {
     setSettings: (state) => {
       setStorageItem("settings", state.tempSettings);
+      state.themesWereEqual =
+        state.settings.themes === state.tempSettings.themes;
       state.settings = state.tempSettings;
       state.settingsAreEqual = true;
       state.currentSize = getCurrentSize(state.tempSettings);

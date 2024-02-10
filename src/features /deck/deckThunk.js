@@ -68,12 +68,16 @@ export const startNewGameThunk = async ({
     await waitForDisplayDeck({ getState, dispatch, callNumber });
     await dispatch(translateCards("moveCardsAway"));
     await dispatch(setSettings());
+    const { themesWereEqual } = getState().settings;
+    if (!themesWereEqual) {
+      await timeout(1000);
+    }
+    const { arrayLength, currentSize } = getState().settings;
+    await dispatch(getShuffledArray({ arrayLength, currentSize }));
     await dispatch(resetTimer());
     // ///////////////////////
     // WAIT FOR DECK TRANSITION
     ///////////////////////////
-    const { arrayLength, currentSize } = getState().settings;
-    await dispatch(getShuffledArray({ arrayLength, currentSize }));
     await dispatch(translateCards("moveToLeft"));
     await dispatch(snakeLikeArrival());
     return Promise.resolve();
