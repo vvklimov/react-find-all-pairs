@@ -1,4 +1,10 @@
-import { GAME, GAMEOVER_SUCCESS, IDLE, PAUSE } from "../../gameStateNames";
+import {
+  GAME,
+  GAMEOVER_SUCCESS,
+  IDLE,
+  PAUSE,
+  RESUME,
+} from "../../gameStateNames";
 import { timeout } from "../../utils/helpers";
 import { setGameState } from "../gameState/gameStateSlice";
 import { setSettings } from "../settings/settingsSlice";
@@ -15,6 +21,9 @@ import {
 export const cardFlipThunk = async (payload, thunkAPI) => {
   try {
     const gameState = thunkAPI.getState().gameState.gameState;
+    if (gameState === PAUSE) {
+      thunkAPI.dispatch(setGameState(RESUME));
+    }
     const { index, cardIndex, lastFlippedCard } = payload;
     if (gameState === IDLE) {
       /////////////////////////////////////////////////////////
