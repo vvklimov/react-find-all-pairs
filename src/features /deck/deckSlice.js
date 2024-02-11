@@ -43,12 +43,14 @@ const deckSlice = createSlice({
   initialState,
   reducers: {
     getShuffledArray: (state, { payload }) => {
-      const { arrayLength, currentSize } = payload;
+      const { arrayLength, currentSize, currentTheme } = payload;
       let randomIndexes = [];
       let randomNumber;
       // choosing cards from the pool
       while (randomIndexes.length !== currentSize) {
-        if (arrayLength) {
+        if (currentTheme === "surprise-me" || currentTheme === "people") {
+          randomNumber = getRandomNumber(0, currentSize / 2);
+        } else if (arrayLength) {
           randomNumber = getRandomNumber(0, arrayLength);
         } else {
           randomNumber = getRandomNumber(0, currentSize);

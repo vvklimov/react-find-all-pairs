@@ -376,26 +376,7 @@ const decks = {
   "surprise-me": {
     deckName: "surprise-me",
     deckImg: SurpriseMeDeck,
-    cardsSrc: [
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-      { cardSrc: "" },
-    ],
+    cardsSrc: [],
   },
 };
 const gameStates = {

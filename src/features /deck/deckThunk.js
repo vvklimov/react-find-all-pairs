@@ -72,8 +72,14 @@ export const startNewGameThunk = async ({
     if (!themesWereEqual) {
       await timeout(1000);
     }
-    const { arrayLength, currentSize } = getState().settings;
-    await dispatch(getShuffledArray({ arrayLength, currentSize }));
+    const {
+      arrayLength,
+      currentSize,
+      settings: { themes: currentTheme },
+    } = getState().settings;
+    await dispatch(
+      getShuffledArray({ arrayLength, currentSize, currentTheme })
+    );
     await dispatch(resetTimer());
     // ///////////////////////
     // WAIT FOR DECK TRANSITION

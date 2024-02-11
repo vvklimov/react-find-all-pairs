@@ -14,6 +14,8 @@ import {
   snakeLikeArrival,
   updateCurrentPosition,
 } from "../features /transfers/transfersSlice";
+import { useQuery } from "@tanstack/react-query";
+import { RandomImageQuery } from "../API/randomImage";
 const DeckContainer = () => {
   const heroRef = useRef();
   // const deckContainerRef = useRef();
@@ -37,9 +39,21 @@ const DeckContainer = () => {
       gridClassName: state.deck.gridClassName,
     };
   }, shallowEqual);
+  useQuery(RandomImageQuery(shuffledArray, currentTheme));
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     console.log(newDeck);
+  //   };
+  //   if (currentTheme === "surprise-me") {
+  //     fetchData();
+  //     const newDeck = useQuery(RandomImageQuery());
+  //   }
+  // }, [shuffledArray]);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getShuffledArray({ arrayLength, currentSize }));
+    dispatch(getShuffledArray({ arrayLength, currentSize, currentTheme }));
     const handleHeroCenter = (heroRef) => {
       const {
         left: heroLeft,
@@ -86,6 +100,11 @@ const DeckContainer = () => {
     };
     firstAppearance();
   }, [isLoaded]);
+  // if (currentTheme === "surprise-me" && shuffledArray) {
+  //   const newDeck = useQuery(RandomImageQuery(shuffledArray));
+  //   console.log(newDeck.data);
+  // }
+  // console.log(decks["surprise-me"]);
   return (
     <div className="hero-container" ref={heroRef}>
       {/* <div
