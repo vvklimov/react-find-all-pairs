@@ -16,6 +16,7 @@ import {
 } from "../features /transfers/transfersSlice";
 import { useQuery } from "@tanstack/react-query";
 import { RandomImageQuery } from "../API/randomImage";
+import { RandomPersonQuery } from "../API/randomPerson";
 const DeckContainer = () => {
   const heroRef = useRef();
   // const deckContainerRef = useRef();
@@ -40,17 +41,7 @@ const DeckContainer = () => {
     };
   }, shallowEqual);
   useQuery(RandomImageQuery(shuffledArray, currentTheme));
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     console.log(newDeck);
-  //   };
-  //   if (currentTheme === "surprise-me") {
-  //     fetchData();
-  //     const newDeck = useQuery(RandomImageQuery());
-  //   }
-  // }, [shuffledArray]);
-
+  useQuery(RandomPersonQuery(shuffledArray, currentTheme));
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getShuffledArray({ arrayLength, currentSize, currentTheme }));

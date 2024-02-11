@@ -30,14 +30,16 @@ export const translateCardsThunk = async ({
         dispatch(flipAllCardsBack());
         await timeout(400);
       }
-      dispatch(updateCurrentPosition("moveToCenter"));
+      await dispatch(updateCurrentPosition("moveToCenter"));
       await timeout(500);
-      dispatch(updateCurrentPosition("moveToRight"));
+      await dispatch(updateCurrentPosition("moveToRight"));
       await timeout(500);
-      dispatch(setVisibility(false));
+      await dispatch(setVisibility(false));
     } else if (payload === "moveToLeft") {
+      await dispatch(setVisibility(false));
       await dispatch(updateCurrentPosition("moveToLeft"));
-      dispatch(setVisibility(true));
+      await timeout(100);
+      await dispatch(setVisibility(true));
     }
     return Promise.resolve();
   } catch (error) {
@@ -58,10 +60,11 @@ export const snakeLikeArrivalThunk = async ({
     if (onClickEnabled) {
       dispatch(setOnClickEnabled(false));
     }
-    dispatch(setVisibility(true));
+    await dispatch(setVisibility(true));
     const permutatedArray = getState().deck.permutatedArray;
     for (const card of permutatedArray) {
-      dispatch(moveToCardsDefaultPosition(card));
+      // console.log(card);
+      await dispatch(moveToCardsDefaultPosition(card));
       await timeout(200);
     }
     await timeout(300);

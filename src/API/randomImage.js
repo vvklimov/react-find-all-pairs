@@ -14,7 +14,7 @@ const RandomImageQuery = (shuffledArray, currentTheme) => {
         return { cardSrc: item?.request?.responseURL };
       });
       decks["surprise-me"].cardsSrc = newDeck;
-      return decks["surprise-me"].cardsSrc;
+      return decks;
     },
   };
 };

@@ -85,6 +85,7 @@ export const startNewGameThunk = async ({
     // WAIT FOR DECK TRANSITION
     ///////////////////////////
     await dispatch(translateCards("moveToLeft"));
+    await timeout(500);
     await dispatch(snakeLikeArrival());
     return Promise.resolve();
   } catch (error) {
