@@ -8,12 +8,12 @@ const Logo = () => {
     >
       <defs id="SvgjsDefs1644">
         <linearGradient id="SvgjsLinearGradient1649">
-          <stop id="SvgjsStop1650" stop-color="#00ff8f" offset="0"></stop>
-          <stop id="SvgjsStop1651" stop-color="#00a1ff" offset="1"></stop>
+          <stop id="SvgjsStop1650" stopColor="#00ff8f" offset="0"></stop>
+          <stop id="SvgjsStop1651" stopColor="#00a1ff" offset="1"></stop>
         </linearGradient>
         <linearGradient id="SvgjsLinearGradient1652">
-          <stop id="SvgjsStop1653" stop-color="#00ff8f" offset="0"></stop>
-          <stop id="SvgjsStop1654" stop-color="#00a1ff" offset="1"></stop>
+          <stop id="SvgjsStop1653" stopColor="#00ff8f" offset="0"></stop>
+          <stop id="SvgjsStop1654" stopColor="#00a1ff" offset="1"></stop>
         </linearGradient>
       </defs>
       <g

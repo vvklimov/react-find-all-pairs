@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setIsLoaded } from "../features /transfers/transfersSlice";
+import preloadImages from "image-preload";
 const Loading = () => {
   const dispatch = useDispatch();
   const { "show-rules": showRules } = useSelector((state) => {
@@ -10,18 +11,24 @@ const Loading = () => {
   }, shallowEqual);
   useEffect(() => {
     const handleLoading = () => {
-      dispatch(setIsLoaded(true));
+      const images = document.querySelectorAll("img");
+      const imageURLs = Array.from(images).map((img) => img.src);
+      preloadImages(imageURLs, {
+        onComplete: () => {
+          dispatch(setIsLoaded(true));
+        },
+      });
     };
     if (document.readyState === "complete") {
       handleLoading();
-    }
-    {
+    } else {
       window.addEventListener("load", handleLoading);
     }
     return () => {
       return window.removeEventListener("load", handleLoading);
     };
   }, []);
+
   return (
     <div className="page-loading center-items">
       <div className="loading-spinner-wrapper">
