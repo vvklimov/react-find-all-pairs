@@ -1,6 +1,4 @@
 import { useDispatch } from "react-redux";
-import Logo from "../assets/images/logo.png";
-
 import { navTags } from "../utils/data";
 import { NavbarTag } from "./";
 import { setGameState } from "../features /gameState/gameStateSlice";
@@ -8,6 +6,7 @@ import { GAME, PAUSE } from "../gameStateNames";
 setGameState;
 import { setShowSidebar } from "../features /sidebar/sidebarSlice";
 import { setShowGameMenu } from "../features /gameMenu/gameMenuSlice";
+import Logo from "./Logo";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -15,7 +14,7 @@ const Navbar = () => {
     <nav className="nav center-items">
       <div className="nav-center">
         <div className="nav-header" onDragStart={(e) => e.preventDefault()}>
-          <img src={Logo} className="nav-logo" alt="logo" />
+          <Logo />
           <button
             className="btn toggle-btn"
             onClick={() => {
