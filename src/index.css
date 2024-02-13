@@ -448,12 +448,15 @@ single card
   transform: rotateY(-180deg);
 }
 .single-card-vanishing {
-  animation: card-vanishing 1s;
+  animation: card-vanishing 1.3s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards, none;
 }
 @keyframes card-vanishing {
   0% {
+    opacity: 1;
+  }
+  23% {
     opacity: 1;
   }
   100% {

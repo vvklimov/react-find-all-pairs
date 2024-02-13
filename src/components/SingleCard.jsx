@@ -17,13 +17,14 @@ const SingleCard = ({
   // console.log(cardsSrc[cardIndex]);
   // console.log(cardIndex);
   const { cardSrc: src } = cardsSrc[cardIndex] ?? {};
-  const { gridIntValue, flippedCards, lastFlippedCard, onClickEnabled } =
+  const { foundCards, flippedCards, lastFlippedCard, onClickEnabled } =
     useSelector((state) => {
       return {
         gridIntValue: state.deck.gridIntValue,
         flippedCards: state.deck.flippedCards,
         lastFlippedCard: state.deck.lastFlippedCard,
         onClickEnabled: state.deck.onClickEnabled,
+        foundCards: state.deck.foundCards,
       };
     }, shallowEqual);
   const { moveToDefaultPosition, currentPosition, visible, heroCenter } =
@@ -35,18 +36,37 @@ const SingleCard = ({
         heroCenter: state.transfers.heroCenter,
       };
     }, shallowEqual);
+  const { "hide-found-cards": hideFoundCards } = useSelector((state) => {
+    return {
+      "hide-found-cards": state.settings.settings.other["hide-found-cards"],
+    };
+  }, shallowEqual);
   const { destCoord } = currentPosition[index] ?? {};
 
   const [isFlipped, setIsFlipped] = useState(flippedCards?.includes(index));
+  const [isHidden, setIsHidden] = useState(foundCards?.includes(index));
   const wrapperRef = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
     if (index === flippedCards[flippedCards.length - 1] && !isFlipped) {
       setIsFlipped(true);
     } else if (!flippedCards.includes(index)) {
+      console.log("fires");
       setIsFlipped(false);
     }
   }, [flippedCards]);
+  useEffect(() => {
+    if (
+      (index === foundCards[foundCards.length - 1] ||
+        index === foundCards[foundCards.length - 2]) &&
+      !isHidden &&
+      hideFoundCards
+    ) {
+      setIsHidden(true);
+    } else if (!hideFoundCards) {
+      setIsHidden(false);
+    }
+  }, [foundCards]);
   useEffect(() => {
     const handleCardTransitions = (wrapperRef) => {
       const {
@@ -116,7 +136,7 @@ const SingleCard = ({
         >
           {cardIndex}
         </div> */}
-        <div className={`single-card ${isFlipped ? "single-card-flip" : ""}`}>
+        <div className={`single-card ${isFlipped ? "single-card-flip" : ""} `}>
           <div
             className="single-card-back center-items"
             onClick={() => {
@@ -127,7 +147,11 @@ const SingleCard = ({
           >
             <img src={deckImg} alt="card" className="img card-img" />
           </div>
-          <div className="single-card-front center-items">
+          <div
+            className={`single-card-front center-items ${
+              isHidden ? "single-card-vanishing" : ""
+            }`}
+          >
             <img src={src} alt="card" className="img card-img" />
           </div>
         </div>

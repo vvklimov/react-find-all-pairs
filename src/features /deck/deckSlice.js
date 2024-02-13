@@ -18,6 +18,7 @@ const initialState = {
   permutatedArray: [],
   startNewGamePending: false,
   startNewGameCallCounter: 0,
+  foundCards: [],
 };
 
 export const cardFlip = createAsyncThunk(
@@ -111,6 +112,7 @@ const deckSlice = createSlice({
     },
     flipAllCardsBack: (state) => {
       state.flippedCards = [];
+      state.foundCards = [];
       state.lastFlippedCard = null;
     },
     setOddEvenRow: (state) => {
@@ -155,9 +157,12 @@ const deckSlice = createSlice({
       .addCase(cardFlip.fulfilled, (state, { payload }) => {
         const { index, cardIndex, cardsAreEqual } = payload;
         state.flippedCards.push(index);
-        cardsAreEqual
-          ? (state.lastFlippedCard = null)
-          : (state.lastFlippedCard = { index, cardIndex });
+        if (cardsAreEqual) {
+          state.lastFlippedCard = null;
+          state.foundCards = state.flippedCards;
+        } else {
+          state.lastFlippedCard = { index, cardIndex };
+        }
       })
       .addCase(flipCardsBack.pending, (state) => {
         state.onClickEnabled = false;
