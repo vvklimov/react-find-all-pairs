@@ -4,6 +4,7 @@ import {
   updateCurrentGameTime,
   setNewBestTime,
   resumeTimer,
+  setLostFlag,
 } from "./timersSlice";
 import { setGameState } from "../gameState/gameStateSlice";
 import {
@@ -76,6 +77,7 @@ export const startTimerThunk = async ({
           } else if (currentTimeValue >= targetTimeValue) {
             dispatch(stopTimer());
             dispatch(setGameState(GAMEOVER_FAILURE));
+            dispatch(setLostFlag(true));
             dispatch(setPulseFlag(false));
             dispatch(setOnClickEnabled(false));
             dispatch(setShowGameMenu(true));

@@ -36,6 +36,7 @@ html {
   --navbarPrimary: #2b2e4a;
   --navbarGradient: linear-gradient(to right, #40435c, #272943);
   --primaryGradient: linear-gradient(to right, #00ff8f 0%, #00a1ff 100%);
+  --gold: #ffd700;
 
   /* gray */
   --gray-50: #f8fafc;
@@ -796,6 +797,12 @@ end of sidebar
   100% {
     transform: scale(1);
   }
+}
+.new-record {
+  color: var(--gold);
+}
+.lost-flag {
+  color: red;
 }
 
 /* new game menu */

@@ -11,6 +11,7 @@ const initialState = {
   isPaused: false,
   pulseFlag: false,
   newRecordFlag: false,
+  lostFlag: false,
 };
 export const startTimer = createAsyncThunk(
   "timers/startTimer",
@@ -58,6 +59,10 @@ const timersSlice = createSlice({
         state.timerInterval = null;
       }
       state.currentGameTime = state.defaultTimers.currentGameTime.defaultValues;
+      state.isPaused = false;
+      state.pulseFlag = false;
+      state.newRecordFlag = false;
+      state.lostFlag = false;
     },
     setNewBestTime: (state, { payload: currentSize }) => {
       state.bestTime = state.currentGameTime;
@@ -65,6 +70,9 @@ const timersSlice = createSlice({
       const previousBestTime = getStorageItem("bestTime");
       previousBestTime[currentSize] = state.currentGameTime;
       setStorageItem("bestTime", previousBestTime);
+    },
+    setLostFlag: (state, { payload }) => {
+      state.lostFlag = payload;
     },
   },
   extraReducers: (builder) =>
@@ -97,5 +105,6 @@ export const {
   setPulseFlag,
   setNewBestTime,
   resetTimer,
+  setLostFlag,
 } = timersSlice.actions;
 export default timersSlice.reducer;
