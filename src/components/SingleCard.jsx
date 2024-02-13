@@ -51,7 +51,7 @@ const SingleCard = ({
     if (index === flippedCards[flippedCards.length - 1] && !isFlipped) {
       setIsFlipped(true);
     } else if (!flippedCards.includes(index)) {
-      console.log("fires");
+      // console.log("fires");
       setIsFlipped(false);
     }
   }, [flippedCards]);
