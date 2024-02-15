@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { translateCardsThunk, snakeLikeArrivalThunk } from "./transfersThunk";
+import playSound, { BTN_CLICK } from "../../utils/playSound";
 
 const initialState = {
   heroCenter: {},
@@ -95,6 +96,7 @@ const transfersSlice = createSlice({
       delete state.currentPosition[payload];
     },
     setIsLoaded: (state, { payload }) => {
+      playSound(BTN_CLICK);
       state.isLoaded = payload;
     },
     setSnakeLikeArrivalPending: (state, { payload }) => {

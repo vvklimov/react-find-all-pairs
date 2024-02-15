@@ -6,6 +6,7 @@ import {
   RESUME,
 } from "../../gameStateNames";
 import { timeout } from "../../utils/helpers";
+import playSound, { FLIP_CARD } from "../../utils/playSound";
 import { setGameState } from "../gameState/gameStateSlice";
 import { setSettings } from "../settings/settingsSlice";
 import { resetTimer, startTimer, stopTimer } from "../timers/timersSlice";
@@ -20,6 +21,7 @@ import {
 
 export const cardFlipThunk = async (payload, thunkAPI) => {
   try {
+    playSound(FLIP_CARD);
     const gameState = thunkAPI.getState().gameState.gameState;
     if (gameState === PAUSE) {
       thunkAPI.dispatch(setGameState(RESUME));

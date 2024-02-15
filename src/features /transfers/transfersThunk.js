@@ -10,6 +10,11 @@ import {
   setVisibility,
   updateCurrentPosition,
 } from "./transfersSlice";
+import playSound, {
+  THROWING_CARD,
+  WHOOP_1,
+  WHOOP_2,
+} from "../../utils/playSound";
 
 export const translateCardsThunk = async ({
   dispatch,
@@ -30,8 +35,10 @@ export const translateCardsThunk = async ({
         dispatch(flipAllCardsBack());
         await timeout(400);
       }
+      playSound(WHOOP_1);
       await dispatch(updateCurrentPosition("moveToCenter"));
       await timeout(500);
+      playSound(WHOOP_2);
       await dispatch(updateCurrentPosition("moveToRight"));
       await timeout(500);
       await dispatch(setVisibility(false));
@@ -64,6 +71,7 @@ export const snakeLikeArrivalThunk = async ({
     const permutatedArray = getState().deck.permutatedArray;
     for (const card of permutatedArray) {
       // console.log(card);
+      playSound(THROWING_CARD);
       await dispatch(moveToCardsDefaultPosition(card));
       await timeout(200);
     }
