@@ -73,14 +73,14 @@ export const startTimerThunk = async ({
             if (!bestTimeValue || currentTimeValue < bestTimeValue) {
               dispatch(setNewBestTime(size));
             }
-            dispatch(setShowGameMenu(true));
+            dispatch(setShowGameMenu({ show: true, sound: false }));
           } else if (currentTimeValue >= targetTimeValue) {
             dispatch(stopTimer());
             dispatch(setGameState(GAMEOVER_FAILURE));
             dispatch(setLostFlag(true));
             dispatch(setPulseFlag(false));
             dispatch(setOnClickEnabled(false));
-            dispatch(setShowGameMenu(true));
+            dispatch(setShowGameMenu({ show: true, sound: false }));
           }
         }
       }, 10);

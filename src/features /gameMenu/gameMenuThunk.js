@@ -9,8 +9,10 @@ export const setShowGameMenuThunk = async ({
   rejectWithValue,
 }) => {
   try {
-    playSound(BTN_CLICK);
     if (payload) {
+      if (payload.sound) {
+        playSound(BTN_CLICK);
+      }
       const { gameState } = getState().gameState;
       const { newRecordFlag, currentGameTime } = getState().timers;
       const { settingsAreEqual } = getState().settings;
