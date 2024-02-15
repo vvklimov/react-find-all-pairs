@@ -34,9 +34,9 @@ export const cardFlipThunk = async (payload, thunkAPI) => {
       thunkAPI.dispatch(setGameState(GAME));
       thunkAPI.dispatch(startTimer());
       const currentSize = thunkAPI.getState().settings?.currentSize;
-      // thunkAPI.dispatch(setPairsToWin({ currentSize }));
+      thunkAPI.dispatch(setPairsToWin({ currentSize }));
       // CHANGE BACK
-      thunkAPI.dispatch(setPairsToWin({ currentSize: 2 }));
+      // thunkAPI.dispatch(setPairsToWin({ currentSize: 2 }));
       // CHANGE BACK
     }
     let cardsAreEqual = lastFlippedCard?.cardIndex === cardIndex;
