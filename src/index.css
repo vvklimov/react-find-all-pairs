@@ -706,9 +706,6 @@ end of sidebar
   width: fit-content;
   margin: 0 auto;
 }
-.page-loading .settings-container {
-  margin-bottom: 1rem;
-}
 .show-submenu {
   display: block;
 }
