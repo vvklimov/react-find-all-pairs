@@ -2,7 +2,6 @@ import { useState } from "react";
 import Submenu from "./Submenu";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { timeout } from "../utils/helpers";
-import { resumeTimer, stopTimer } from "../features /timers/timersSlice";
 import { GAME, PAUSE, RESUME } from "../gameStateNames";
 import { setGameState } from "../features /gameState/gameStateSlice";
 
@@ -15,7 +14,6 @@ const NavbarTag = ({ tag, subtags }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [gradient, setGradient] = useState(false);
-  const [currentTarget, setCurrentTarget] = useState(null);
   return (
     <li
       onMouseEnter={() => {
@@ -30,7 +28,7 @@ const NavbarTag = ({ tag, subtags }) => {
         setGradient(false);
         if (
           gameState === PAUSE &&
-          !e.relatedTarget.classList.contains("nav-btn")
+          !e?.relatedTarget?.classList?.contains("nav-btn")
         ) {
           await timeout(300);
           dispatch(setGameState(RESUME));

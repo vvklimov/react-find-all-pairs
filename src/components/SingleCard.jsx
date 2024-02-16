@@ -36,7 +36,6 @@ const SingleCard = ({ deckImg, cardsSrc, cardIndex, index, forwardedRef }) => {
       setIsFlipped(false);
     }
   }, [flippedCards]);
-  console.log("fires");
   useEffect(() => {
     const handleHideCards = (value) => {
       if (isHidden === value) return;

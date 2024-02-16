@@ -1,7 +1,6 @@
 import { IDLE } from "../../gameStateNames";
 import { timeout } from "../../utils/helpers";
 import { flipAllCardsBack, setOnClickEnabled } from "../deck/deckSlice";
-import { setShowGameMenu } from "../gameMenu/gameMenuSlice";
 import { setGameState } from "../gameState/gameStateSlice";
 import { setShowSidebar } from "../sidebar/sidebarSlice";
 import {

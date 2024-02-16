@@ -5,8 +5,6 @@ import {
   Hero,
   Footer,
   Sidebar,
-  Overlay,
-  Submenu,
   Loading,
   GameMenu,
 } from "./components/";
@@ -18,24 +16,12 @@ function App() {
   }, shallowEqual);
   return (
     <>
-      {/* <div
-        style={{
-          position: "absolute",
-          fontSize: "3rem",
-          zIndex: 100,
-          color: "red",
-        }}
-        className="center-items"
-      >
-        <h3>{window.innerWidth}</h3>
-      </div> */}
       {!isLoaded && <Loading />}
       <Navbar />
       <Hero />
       <Footer />
       <Sidebar />
       <GameMenu />
-      {/* <Overlay /> */}
     </>
   );
 }

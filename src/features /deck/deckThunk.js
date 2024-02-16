@@ -26,16 +26,10 @@ export const cardFlipThunk = async (payload, thunkAPI) => {
     }
     const { index, cardIndex, lastFlippedCard } = payload;
     if (gameState === IDLE) {
-      /////////////////////////////////////////////////////////
-      // ADD START TIMER
-      /////////////////////////////////////////////////////////
       thunkAPI.dispatch(setGameState(GAME));
       thunkAPI.dispatch(startTimer());
       const currentSize = thunkAPI.getState().settings?.currentSize;
       thunkAPI.dispatch(setPairsToWin({ currentSize }));
-      // CHANGE BACK
-      // thunkAPI.dispatch(setPairsToWin({ currentSize: 2 }));
-      // CHANGE BACK
     }
     let cardsAreEqual = lastFlippedCard?.cardIndex === cardIndex;
     if (lastFlippedCard) {
@@ -44,9 +38,6 @@ export const cardFlipThunk = async (payload, thunkAPI) => {
       } else {
         const pairsToWin = thunkAPI.getState().deck.pairsToWin;
         if (pairsToWin === 1) {
-          /////////////////////////////////////////////////////////
-          // ADD STOP TIMER AND COMPARE CURRENT TIME WITH BEST TIME
-          /////////////////////////////////////////////////////////
           thunkAPI.dispatch(setGameState(GAMEOVER_SUCCESS));
         }
         thunkAPI.dispatch(setPairsToWin());
@@ -90,9 +81,6 @@ export const startNewGameThunk = async ({
       getShuffledArray({ arrayLength, currentSize, currentTheme })
     );
     await dispatch(resetTimer());
-    // ///////////////////////
-    // WAIT FOR DECK TRANSITION
-    ///////////////////////////
     await dispatch(translateCards("moveToLeft"));
     await timeout(500);
     await dispatch(snakeLikeArrival());

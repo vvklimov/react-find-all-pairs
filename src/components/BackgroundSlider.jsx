@@ -9,7 +9,6 @@ const BackgroundSlider = () => {
       currentTheme: state.settings.settings.themes,
     };
   }, shallowEqual);
-  console.log(currentTheme);
   const [destination, setDestination] = useState(bgDest[currentTheme]);
   useEffect(() => {
     setDestination(bgDest[currentTheme]);

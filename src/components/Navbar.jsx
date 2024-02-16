@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { navTags } from "../utils/data";
 import { NavbarTag } from "./";
 import { setGameState } from "../features /gameState/gameStateSlice";
-import { GAME, PAUSE } from "../gameStateNames";
+import { PAUSE } from "../gameStateNames";
 setGameState;
 import { setShowSidebar } from "../features /sidebar/sidebarSlice";
 import { setShowGameMenu } from "../features /gameMenu/gameMenuSlice";

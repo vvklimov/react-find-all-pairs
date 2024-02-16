@@ -1,4 +1,3 @@
-import { timers } from "../utils/data";
 import Timer from "./Timer";
 
 const Timers = () => {

@@ -6,7 +6,6 @@ export { default as Hero } from "./Hero";
 export { default as Loading } from "./Loading";
 export { default as Navbar } from "./Navbar";
 export { default as NavbarTag } from "./NavbarTag";
-export { default as Overlay } from "./Overlay";
 export { default as Sidebar } from "./Sidebar";
 export { default as SidebarSubtag } from "./SidebarSubtag";
 export { default as SidebarTag } from "./SidebarTag";

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getRandomNumber, timeout } from "../../utils/helpers";
+import { getRandomNumber } from "../../utils/helpers";
 import {
   cardFlipThunk,
   flipCardsBackThunk,
@@ -173,20 +173,12 @@ const deckSlice = createSlice({
         state.lastFlippedCard = null;
         state.onClickEnabled = true;
       })
-      .addCase(startNewGame.fulfilled, (state, { payload }) => {
-        // console.log("fires");
+      .addCase(startNewGame.fulfilled, (state) => {
         state.startNewGamePending = false;
         if (state.startNewGameCallCounter === 1) {
           state.startNewGameCallCounter = 0;
         }
-      })
-      .addCase(startNewGame.rejected, (state, { payload }) => {
-        console.log("rejected");
       });
-    // .addCase(startNewGame.pending, (state, { payload }) => {
-    //   // console.log("fires");
-    //   state.startNewGamePending = true;
-    // });
   },
 });
 

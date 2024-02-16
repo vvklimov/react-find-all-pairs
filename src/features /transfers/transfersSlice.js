@@ -106,18 +106,9 @@ const transfersSlice = createSlice({
   },
 
   extraReducers: (builder) =>
-    builder
-      .addCase(translateCards.fulfilled, (state, { payload }) => {
-        // console.log("translate cards fulfilled");
-      })
-      .addCase(snakeLikeArrival.fulfilled, (state, { payload }) => {
-        // console.log("snakeLikeArrival fulfilled");
-        state.snakeLikeArrivalPending = false;
-      })
-      .addCase(snakeLikeArrival.pending, (state, { payload }) => {
-        // console.log("snakeLikeArrival fulfilled");
-        // state.snakeLikeArrivalPending = true;
-      }),
+    builder.addCase(snakeLikeArrival.fulfilled, (state) => {
+      state.snakeLikeArrivalPending = false;
+    }),
 });
 
 export const {
