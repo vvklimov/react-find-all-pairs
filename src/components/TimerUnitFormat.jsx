@@ -1,14 +1,17 @@
 import { shallowEqual, useSelector } from "react-redux";
-import gameMenuSlice from "../features /gameMenu/gameMenuSlice";
 
-const TimerUnitFormat = ({ unitValue, unitClass, unitName, timerName }) => {
-  const { pulseFlag, newRecordFlag, lostFlag } = useSelector((state) => {
-    return {
-      pulseFlag: state.timers.pulseFlag,
-      newRecordFlag: state.timers.newRecordFlag,
-      lostFlag: state.timers.lostFlag,
-    };
-  }, shallowEqual);
+const TimerUnitFormat = ({ unitClass, unitName, timerName }) => {
+  const { pulseFlag, newRecordFlag, lostFlag, unitValue } = useSelector(
+    (state) => {
+      return {
+        pulseFlag: state.timers.pulseFlag,
+        newRecordFlag: state.timers.newRecordFlag,
+        lostFlag: state.timers.lostFlag,
+        unitValue: state.timers[timerName][unitClass],
+      };
+    },
+    shallowEqual
+  );
   return (
     <div className="timer-unit-format">
       <h5

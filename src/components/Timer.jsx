@@ -1,19 +1,21 @@
 import TimerUnitFormat from "./TimerUnitFormat";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-useSelector;
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setupTimers } from "../features /timers/timersSlice";
 const Timer = ({ name }) => {
   const dispatch = useDispatch();
   const { settings } = useSelector((state) => state.settings);
-  const { [name]: timerValues, defaultTimers } = useSelector(
-    (state) => state.timers
-  );
+  const { defaultTimers } = useSelector((state) => {
+    return {
+      defaultTimers: state.timers.defaultTimers,
+    };
+  }, shallowEqual);
 
   const { timerClass, timerName } = defaultTimers[name];
   useEffect(() => {
     dispatch(setupTimers({ name, settings }));
   }, [settings.difficulty, settings.size]);
+
   return (
     <div className="timer-wrapper center-items">
       <div className={timerClass}>
@@ -21,26 +23,11 @@ const Timer = ({ name }) => {
           <h5 className="tag-btn-gradient gradient-hover-effect">
             {timerName}
           </h5>
-          <TimerUnitFormat
-            timerName={name}
-            unitClass="min"
-            unitName="m"
-            unitValue={timerValues.min}
-          />
+          <TimerUnitFormat timerName={name} unitClass="min" unitName="m" />
           <h5>:</h5>
-          <TimerUnitFormat
-            timerName={name}
-            unitClass="sec"
-            unitName="s"
-            unitValue={timerValues.sec}
-          />
+          <TimerUnitFormat timerName={name} unitClass="sec" unitName="s" />
           <h5>:</h5>
-          <TimerUnitFormat
-            timerName={name}
-            unitClass="msec"
-            unitName="ms"
-            unitValue={timerValues.msec}
-          />
+          <TimerUnitFormat timerName={name} unitClass="msec" unitName="ms" />
         </div>
       </div>
     </div>
