@@ -23,7 +23,7 @@ const Submenu = ({ show, subtags, tag }) => {
           className="apply-changes-btn btn"
           style={{ marginTop: "1rem" }}
           onClick={() => {
-            dispatch(setShowGameMenu({ show: true, sound: true }));
+            dispatch(setShowGameMenu(true));
           }}
         >
           apply changes

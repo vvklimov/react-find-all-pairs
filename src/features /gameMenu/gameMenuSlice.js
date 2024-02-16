@@ -33,7 +33,7 @@ const gameMenuSlice = createSlice({
   },
   extraReducers: (builder) =>
     builder.addCase(setShowGameMenu.fulfilled, (state, { payload }) => {
-      state.show = payload.show;
+      state.show = payload;
     }),
 });
 

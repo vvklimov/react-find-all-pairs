@@ -27,7 +27,7 @@ const GameMenu = () => {
         <button
           className="close-btn btn"
           onClick={async () => {
-            dispatch(setShowGameMenu({ show: false, sound: true }));
+            dispatch(setShowGameMenu(false));
             if (gameState === PAUSE && !showSidebar) {
               await timeout(500);
               dispatch(setGameState(RESUME));
@@ -42,7 +42,7 @@ const GameMenu = () => {
         <div className="btn-container">
           <button
             onClick={() => {
-              dispatch(setShowGameMenu({ show: false, sound: true }));
+              dispatch(setShowGameMenu(false));
               dispatch(startNewGame());
             }}
             className="btn start-new-game-btn"

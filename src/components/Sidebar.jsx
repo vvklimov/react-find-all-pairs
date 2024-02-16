@@ -45,7 +45,7 @@ const Sidebar = () => {
         <button
           className="btn new-game-btn"
           onClick={() => {
-            dispatch(setShowGameMenu({ show: true, sound: true }));
+            dispatch(setShowGameMenu(true));
           }}
         >
           {settingsAreEqual ? "new game" : "apply changes and start new game"}
