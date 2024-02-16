@@ -60,6 +60,10 @@ const transfersSlice = createSlice({
       };
     },
     setCardsTransitions: (state, { payload }) => {
+      state.cardsCenter = {};
+      state.moveToCenter = {};
+      state.moveToRight = {};
+      state.moveToLeft = {};
       payload.forEach((card) => {
         const {
           index,

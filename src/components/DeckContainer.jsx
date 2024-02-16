@@ -62,14 +62,17 @@ const DeckContainer = () => {
     };
   }, [currentSize]);
   useEffect(() => {
-    if (cardsRef.current?.length === currentSize) {
-      const handleCardsTransitions = () => {
-        const cardsDataArray = cardsRef.current.map((wrapperRef, index) =>
-          getContainerData(wrapperRef, index, currentSize)
-        );
-        dispatch(setCardsTransitions(cardsDataArray));
-      };
-      handleCardsTransitions();
+    if (cardsRef.current?.length !== 0) {
+      try {
+        cardsRef.current = cardsRef.current.filter((item) => item);
+        const handleCardsTransitions = () => {
+          const cardsDataArray = cardsRef.current.map((wrapperRef, index) =>
+            getContainerData(wrapperRef, index, currentSize)
+          );
+          dispatch(setCardsTransitions(cardsDataArray));
+        };
+        handleCardsTransitions();
+      } catch (error) {}
     }
   }, [cardsRef.current.length, currentSize, heroCenter]);
   useEffect(() => {
