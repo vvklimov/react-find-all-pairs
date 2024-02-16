@@ -42,48 +42,51 @@ const transfersSlice = createSlice({
   initialState,
   reducers: {
     setHeroCenter: (state, { payload }) => {
-      state.heroCenter = payload;
+      const {
+        left: heroLeft,
+        right: heroRight,
+        bottom: heroBottom,
+        top: heroTop,
+        centerY: heroCenterY,
+        centerX: heroCenterX,
+      } = payload;
+      state.heroCenter = {
+        heroLeft,
+        heroRight,
+        heroBottom,
+        heroTop,
+        heroCenterX,
+        heroCenterY,
+      };
     },
     setCardsTransitions: (state, { payload }) => {
-      const {
-        index,
-        cardCenterX,
-        cardCenterY,
-        cardRight,
-        cardLeft,
-        cardTop,
-        cardBottom,
-        currentSize,
-      } = payload;
-      const { heroCenterX, heroCenterY, heroRight, heroLeft } =
-        state.heroCenter;
-      state.cardsCenter[index] = { cardCenterX, cardCenterY };
-      state.moveToCenter[index] = {
-        destCoord: `translate(${heroCenterX - cardCenterX}px, ${
-          heroCenterY - cardCenterY
-        }px)`,
-      };
-      state.moveToLeft[index] = {
-        destCoord: `translate(${-heroRight / 2 - cardRight - 20}px, ${
-          heroCenterY - cardCenterY
-        }px)`,
-      };
-      state.moveToRight[index] = {
-        destCoord: `translate(${heroRight - cardLeft + 20}px, ${
-          heroCenterY - cardCenterY
-        }px)`,
-      };
-      // console.log(state.heroCenter?.heroCenterX);
-      //
-      //
-      // state.currentPosition[index] = {
-      //   destCoord: `translate(${heroLeft - cardRight - 20}px, ${
-      //     heroCenterY - cardCenterY
-      //   }px)`,
-      // };
-      // if (Object.keys(state.moveToRight).length === currentSize) {
-      //   state.isLoaded = true;
-      // }
+      payload.forEach((card) => {
+        const {
+          index,
+          centerX: cardCenterX,
+          centerY: cardCenterY,
+          right: cardRight,
+          left: cardLeft,
+        } = card;
+        const { heroCenterX, heroCenterY, heroRight, heroLeft } =
+          state.heroCenter;
+        state.cardsCenter[index] = { cardCenterX, cardCenterY };
+        state.moveToCenter[index] = {
+          destCoord: `translate(${heroCenterX - cardCenterX}px, ${
+            heroCenterY - cardCenterY
+          }px)`,
+        };
+        state.moveToLeft[index] = {
+          destCoord: `translate(${-heroRight / 2 - cardRight - 20}px, ${
+            heroCenterY - cardCenterY
+          }px)`,
+        };
+        state.moveToRight[index] = {
+          destCoord: `translate(${heroRight - cardLeft + 20}px, ${
+            heroCenterY - cardCenterY
+          }px)`,
+        };
+      });
     },
     updateCurrentPosition: (state, { payload }) => {
       state.currentPosition = state[payload];

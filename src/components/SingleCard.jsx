@@ -1,8 +1,7 @@
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { cardFlip } from "../features /deck/deckSlice";
-import { useEffect, useRef, useState } from "react";
-import { setCardsTransitions } from "../features /transfers/transfersSlice";
-const SingleCard = ({ deckImg, cardsSrc, cardIndex, index, currentSize }) => {
+import { useEffect, useState } from "react";
+const SingleCard = ({ deckImg, cardsSrc, cardIndex, index, forwardedRef }) => {
   const { cardSrc: src } = cardsSrc[cardIndex] ?? {};
   const { foundCards, flippedCards, lastFlippedCard, onClickEnabled } =
     useSelector((state) => {
@@ -14,18 +13,14 @@ const SingleCard = ({ deckImg, cardsSrc, cardIndex, index, currentSize }) => {
         foundCards: state.deck.foundCards,
       };
     }, shallowEqual);
-  const { moveToDefaultPosition, destCoord, visible, heroCenter } = useSelector(
-    (state) => {
-      return {
-        moveToDefaultPosition: state.transfers.moveToDefaultPosition,
-        destCoord: state.transfers.currentPosition[index]?.destCoord,
-        visible: state.transfers.visible,
-        heroCenter: state.transfers.heroCenter,
-      };
-    },
-    shallowEqual
-  );
-  console.log("render");
+  const { moveToDefaultPosition, destCoord, visible } = useSelector((state) => {
+    return {
+      moveToDefaultPosition: state.transfers.moveToDefaultPosition,
+      destCoord: state.transfers.currentPosition[index]?.destCoord,
+      visible: state.transfers.visible,
+    };
+  }, shallowEqual);
+
   const { "hide-found-cards": hideFoundCards } = useSelector((state) => {
     return {
       "hide-found-cards": state.settings.settings.other["hide-found-cards"],
@@ -33,16 +28,15 @@ const SingleCard = ({ deckImg, cardsSrc, cardIndex, index, currentSize }) => {
   }, shallowEqual);
   const [isFlipped, setIsFlipped] = useState(flippedCards?.includes(index));
   const [isHidden, setIsHidden] = useState(foundCards?.includes(index));
-  const wrapperRef = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
     if (index === flippedCards[flippedCards.length - 1] && !isFlipped) {
       setIsFlipped(true);
     } else if (!flippedCards.includes(index)) {
-      // console.log("fires");
       setIsFlipped(false);
     }
   }, [flippedCards]);
+  console.log("fires");
   useEffect(() => {
     const handleHideCards = (value) => {
       if (isHidden === value) return;
@@ -59,51 +53,11 @@ const SingleCard = ({ deckImg, cardsSrc, cardIndex, index, currentSize }) => {
       handleHideCards(false);
     }
   }, [foundCards, hideFoundCards]);
-  useEffect(() => {
-    const handleCardTransitions = (wrapperRef) => {
-      const {
-        top: cardTop,
-        left: cardLeft,
-        right: cardRight,
-        bottom: cardBottom,
-      } = wrapperRef?.current?.getBoundingClientRect();
-      const cardCenterY = (cardBottom - cardTop) / 2 + cardTop;
-      const cardCenterX = (cardRight - cardLeft) / 2 + cardLeft;
-      dispatch(
-        setCardsTransitions({
-          index,
-          cardCenterX,
-          cardCenterY,
-          cardBottom,
-          cardLeft,
-          cardRight,
-          cardTop,
-          currentSize,
-        })
-      );
-      // console.log("transitions fires");
-      // console.log(currentSize);
-    };
-    handleCardTransitions(wrapperRef);
-
-    // const handleResize = debounce(() => {
-    //   handleCardTransitions(wrapperRef);
-    // }, 10);
-    // const firstAppearance = debounce(() => dispatch(snakeLikeArrival()), 100);
-    // firstAppearance();
-    // window.addEventListener("resize", handleResize);
-    // return () => {
-    //   window.removeEventListener("resize", handleResize);
-    // };
-  }, [wrapperRef, currentSize, heroCenter]);
   return (
     <div
       className="single-card-wrapper center-items"
       onDragStart={(e) => e.preventDefault()}
-      ref={wrapperRef}
-      // style={{
-
-      // }}
+      ref={(el) => (forwardedRef.current[index] = el)}
     >
       <div
         className={`single-card-container  ${
@@ -111,23 +65,8 @@ const SingleCard = ({ deckImg, cardsSrc, cardIndex, index, currentSize }) => {
         }`}
         style={{
           transform: `${destCoord || moveToDefaultPosition}`,
-          // display: "block",
         }}
       >
-        {/* remove helping div below later */}
-        {/* <div
-          style={{
-            position: "absolute",
-            top: "0",
-            left: "0",
-            color: "red",
-            zIndex: 1,
-            fontSize: "40px",
-            height: "0",
-          }}
-        >
-          {cardIndex}
-        </div> */}
         <div className={`single-card ${isFlipped ? "single-card-flip" : ""} `}>
           <div
             className="single-card-back center-items"

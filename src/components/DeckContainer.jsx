@@ -10,6 +10,7 @@ import {
 } from "../features /deck/deckSlice";
 import { debounce, timeout } from "../utils/helpers";
 import {
+  setCardsTransitions,
   setHeroCenter,
   snakeLikeArrival,
   updateCurrentPosition,
@@ -19,7 +20,7 @@ import { RandomImageQuery } from "../API/randomImage";
 import { RandomPersonQuery } from "../API/randomPerson";
 const DeckContainer = () => {
   const heroRef = useRef();
-  // const deckContainerRef = useRef();
+  const cardsRef = useRef([]);
   const {
     currentSize,
     arrayLength,
@@ -31,8 +32,11 @@ const DeckContainer = () => {
       themes: state.settings.settings.themes,
     };
   }, shallowEqual);
-  const { isLoaded } = useSelector((state) => {
-    return { isLoaded: state.transfers.isLoaded };
+  const { isLoaded, heroCenter } = useSelector((state) => {
+    return {
+      isLoaded: state.transfers.isLoaded,
+      heroCenter: state.transfers.heroCenter,
+    };
   }, shallowEqual);
   const { shuffledArray, gridClassName } = useSelector((state) => {
     return {
@@ -45,86 +49,45 @@ const DeckContainer = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getShuffledArray({ arrayLength, currentSize, currentTheme }));
-    const handleHeroCenter = (heroRef) => {
-      const {
-        left: heroLeft,
-        right: heroRight,
-        bottom: heroBottom,
-        top: heroTop,
-      } = heroRef?.current?.getBoundingClientRect();
-      const heroCenterY = (heroBottom - heroTop) / 2 + heroTop;
-      const heroCenterX = (heroRight - heroLeft) / 2 + heroLeft;
-      dispatch(
-        setHeroCenter({
-          heroCenterY,
-          heroCenterX,
-          heroBottom,
-          heroLeft,
-          heroRight,
-          heroTop,
-        })
-      );
-    };
     const handleResize = () => {
       dispatch(setupGrid({ currentSize }));
       dispatch(setOddEvenRow());
-      handleHeroCenter(heroRef);
+      dispatch(setHeroCenter(getContainerData(heroRef.current)));
     };
-    const delayedResize = debounce(handleResize, 100);
     handleResize();
+    const delayedResize = debounce(handleResize, 100);
     window.addEventListener("resize", delayedResize);
     return () => {
       window.removeEventListener("resize", delayedResize);
     };
-    // window.addEventListener("resize", handleResize);
-    // return () => {
-    //   window.removeEventListener("resize", handleResize);
-    // };
   }, [currentSize]);
+  useEffect(() => {
+    if (cardsRef.current?.length === currentSize) {
+      const handleCardsTransitions = () => {
+        const cardsDataArray = cardsRef.current.map((wrapperRef, index) =>
+          getContainerData(wrapperRef, index, currentSize)
+        );
+        dispatch(setCardsTransitions(cardsDataArray));
+      };
+      handleCardsTransitions();
+    }
+  }, [cardsRef.current.length, currentSize, heroCenter]);
   useEffect(() => {
     if (isLoaded) {
       const firstAppearance = async () => {
         dispatch(updateCurrentPosition("moveToLeft"));
         await timeout(100);
-        // dispatch(snakeLikeArrival("firstLoad"));
+        dispatch(snakeLikeArrival("firstLoad"));
       };
       firstAppearance();
     }
   }, [isLoaded]);
-  // if (currentTheme === "surprise-me" && shuffledArray) {
-  //   const newDeck = useQuery(RandomImageQuery(shuffledArray));
-  //   console.log(newDeck.data);
-  // }
-  // console.log(decks["surprise-me"]);
+
   return (
     <div className="hero-container" ref={heroRef}>
-      {/* <div
-        style={{
-          position: "absolute",
-          width: "3px",
-          height: "3px",
-          top: "50%",
-          left: "50%",
-          zIndex: 10,
-          background: "red",
-        }}
-      ></div> */}
-      {/* <div
-        style={{
-          position: "absolute",
-          fontSize: "3rem",
-          zIndex: 100,
-          color: "red",
-        }}
-        className="center-items"
-      >
-        <h3>{deckContainerRef?.current?.clientWidth}</h3>
-        <h3>{deckContainerRef?.current?.clientHeight}</h3>
-      </div> */}
       <div
         className={`deck-container ${gridClassName ? gridClassName : ""}`}
         style={{ aspectRatio: `${deckAR[currentSize]}` }}
-        // ref={deckContainerRef}
       >
         {shuffledArray.map((cardIndex, index) => {
           return (
@@ -134,11 +97,27 @@ const DeckContainer = () => {
               cardIndex={cardIndex}
               index={index}
               currentSize={currentSize}
+              forwardedRef={cardsRef}
             />
           );
         })}
       </div>
     </div>
   );
+};
+
+const getContainerData = (ref, index) => {
+  const { top, left, right, bottom } = ref?.getBoundingClientRect();
+  const centerY = (bottom - top) / 2 + top;
+  const centerX = (right - left) / 2 + left;
+  return {
+    index,
+    centerX,
+    centerY,
+    top,
+    left,
+    right,
+    bottom,
+  };
 };
 export default DeckContainer;
