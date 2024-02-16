@@ -172,10 +172,7 @@ const navTags = [
         subtagName: "show rules",
         subtagClass: "show-rules",
       },
-      {
-        subtagName: "sound effects",
-        subtagClass: "sound-effects",
-      },
+
       {
         subtagName: "hide found cards",
         subtagClass: "hide-found-cards",
@@ -223,7 +220,6 @@ const defaultSettings = {
   themes: "dark-fantasy",
   other: {
     "show-rules": true,
-    "sound-effects": true,
     "hide-found-cards": false,
   },
 };
