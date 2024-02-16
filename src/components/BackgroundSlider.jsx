@@ -6,9 +6,10 @@ import { shallowEqual, useSelector } from "react-redux";
 const BackgroundSlider = () => {
   const { currentTheme } = useSelector((state) => {
     return {
-      currentTheme: state.settings.themes,
+      currentTheme: state.settings.settings.themes,
     };
   }, shallowEqual);
+  console.log(currentTheme);
   const [destination, setDestination] = useState(bgDest[currentTheme]);
   useEffect(() => {
     setDestination(bgDest[currentTheme]);
