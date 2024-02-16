@@ -1,6 +1,5 @@
 import { GAMEOVER_FAILURE, GAMEOVER_SUCCESS } from "../../gameStateNames";
 import { setTextContent } from "./gameMenuSlice";
-import playSound, { BTN_CLICK } from "../../utils/playSound";
 
 export const setShowGameMenuThunk = async ({
   payload,
@@ -9,7 +8,6 @@ export const setShowGameMenuThunk = async ({
   rejectWithValue,
 }) => {
   try {
-    playSound(BTN_CLICK);
     if (payload) {
       const { gameState } = getState().gameState;
       const { newRecordFlag, currentGameTime } = getState().timers;

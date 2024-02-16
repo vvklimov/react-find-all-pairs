@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setStorageItem, getStorageItem } from "../../utils/helpers";
 import { defaultSettings, decks } from "../../utils/data";
 import { IDLE } from "../../gameStateNames";
-import playSound, { RADIO_BTN_CLICK } from "../../utils/playSound";
 
 export const getCurrentDeckArrayLength = (settings) =>
   decks[settings.themes].cardsSrc.length;
@@ -56,7 +55,6 @@ const settingsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(updateSettings.fulfilled, (state, { payload }) => {
       const { name, value, gameState } = payload;
-
       if (name === "other") {
         state.settings[name][value] = !state.settings[name][value];
         state.tempSettings[name][value] = !state.tempSettings[name][value];
@@ -65,11 +63,7 @@ const settingsSlice = createSlice({
           state.settings,
           state.tempSettings
         );
-        playSound(RADIO_BTN_CLICK);
       } else {
-        if (state.tempSettings[name] !== value) {
-          playSound(RADIO_BTN_CLICK);
-        }
         if (gameState === IDLE && name === "difficulty") {
           state.settings[name] = value;
           state.tempSettings[name] = value;

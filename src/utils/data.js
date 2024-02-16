@@ -113,28 +113,6 @@ import JSCard16 from "../assets/images/decks/javascript/images/storybook.png";
 import JSCard17 from "../assets/images/decks/javascript/images/svelte.png";
 import JSCard18 from "../assets/images/decks/javascript/images/Vue.png";
 import SurpriseMeDeck from "../assets/images/decks/random_images/surprise_me_deck.png";
-////////////////////
-// Sounds///////////
-////////////////////
-import btnClick from "../assets/sounds/btnClick.mp3";
-import cardsBeingShuffled from "../assets/sounds/cardsBeingShuffled.mp3";
-import flipCard from "../assets/sounds/flipCard.mp3";
-import hoverMenuSound from "../assets/sounds/hoverMenuSound.mp3";
-import radioBtnClick from "../assets/sounds/radioBtnClick.mp3";
-import throwingCard from "../assets/sounds/throwingCard.mp3";
-import whoop1 from "../assets/sounds/whoop1.mp3";
-import whoop2 from "../assets/sounds/whoop2.mp3";
-const sounds = {
-  btnClick,
-  cardsBeingShuffled,
-  flipCard,
-  hoverMenuSound,
-  radioBtnClick,
-  throwingCard,
-  whoop1,
-  whoop2,
-};
-
 const navTags = [
   {
     tag: "difficulty",
@@ -507,5 +485,4 @@ export {
   backgrounds,
   bgDest,
   deckAR,
-  sounds,
 };
