@@ -82,14 +82,14 @@ const DeckContainer = () => {
     // };
   }, [currentSize]);
   useEffect(() => {
-    const firstAppearance = async () => {
-      if (isLoaded) {
+    if (isLoaded) {
+      const firstAppearance = async () => {
         dispatch(updateCurrentPosition("moveToLeft"));
         await timeout(100);
-        dispatch(snakeLikeArrival("firstLoad"));
-      }
-    };
-    firstAppearance();
+        // dispatch(snakeLikeArrival("firstLoad"));
+      };
+      firstAppearance();
+    }
   }, [isLoaded]);
   // if (currentTheme === "surprise-me" && shuffledArray) {
   //   const newDeck = useQuery(RandomImageQuery(shuffledArray));

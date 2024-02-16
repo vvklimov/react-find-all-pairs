@@ -1,14 +1,18 @@
 import { useEffect, useState, useMemo } from "react";
 import { backgrounds, bgDest } from "../utils/data";
 import BackgroundSlide from "./BackgroundSlide";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 const BackgroundSlider = () => {
-  const { settings } = useSelector((state) => state.settings);
-  const [destination, setDestination] = useState(bgDest[settings.themes]);
+  const { currentTheme } = useSelector((state) => {
+    return {
+      currentTheme: state.settings.themes,
+    };
+  }, shallowEqual);
+  const [destination, setDestination] = useState(bgDest[currentTheme]);
   useEffect(() => {
-    setDestination(bgDest[settings.themes]);
-  }, [settings.themes]);
+    setDestination(bgDest[currentTheme]);
+  }, [currentTheme]);
 
   return useMemo(() => {
     return (

@@ -1,21 +1,8 @@
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { cardFlip } from "../features /deck/deckSlice";
 import { useEffect, useRef, useState } from "react";
-import {
-  setCardsTransitions,
-  snakeLikeArrival,
-} from "../features /transfers/transfersSlice";
-import { debounce } from "../utils/helpers";
-const SingleCard = ({
-  deckName,
-  deckImg,
-  cardsSrc,
-  cardIndex,
-  index,
-  currentSize,
-}) => {
-  // console.log(cardsSrc[cardIndex]);
-  // console.log(cardIndex);
+import { setCardsTransitions } from "../features /transfers/transfersSlice";
+const SingleCard = ({ deckImg, cardsSrc, cardIndex, index, currentSize }) => {
   const { cardSrc: src } = cardsSrc[cardIndex] ?? {};
   const { foundCards, flippedCards, lastFlippedCard, onClickEnabled } =
     useSelector((state) => {
@@ -27,22 +14,23 @@ const SingleCard = ({
         foundCards: state.deck.foundCards,
       };
     }, shallowEqual);
-  const { moveToDefaultPosition, currentPosition, visible, heroCenter } =
-    useSelector((state) => {
+  const { moveToDefaultPosition, destCoord, visible, heroCenter } = useSelector(
+    (state) => {
       return {
         moveToDefaultPosition: state.transfers.moveToDefaultPosition,
-        currentPosition: state.transfers.currentPosition,
+        destCoord: state.transfers.currentPosition[index]?.destCoord,
         visible: state.transfers.visible,
         heroCenter: state.transfers.heroCenter,
       };
-    }, shallowEqual);
+    },
+    shallowEqual
+  );
+  console.log("render");
   const { "hide-found-cards": hideFoundCards } = useSelector((state) => {
     return {
       "hide-found-cards": state.settings.settings.other["hide-found-cards"],
     };
   }, shallowEqual);
-  const { destCoord } = currentPosition[index] ?? {};
-
   const [isFlipped, setIsFlipped] = useState(flippedCards?.includes(index));
   const [isHidden, setIsHidden] = useState(foundCards?.includes(index));
   const wrapperRef = useRef();

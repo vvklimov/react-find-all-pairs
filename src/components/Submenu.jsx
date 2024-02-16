@@ -1,10 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import SettingsBtn from "./SettingsBtn";
 import { setShowGameMenu } from "../features /gameMenu/gameMenuSlice";
 
 const Submenu = ({ show, subtags, tag }) => {
   const dispatch = useDispatch();
-  const { settingsAreEqual } = useSelector((state) => state.settings);
+  const { settingsAreEqual } = useSelector((state) => {
+    return {
+      settingsAreEqual: state.settings.settingsAreEqual,
+    };
+  }, shallowEqual);
   return (
     <aside className={`submenu ${show ? "show-submenu" : ""}`}>
       <div className="settings-container">

@@ -11,7 +11,11 @@ import { PAUSE, RESUME } from "../gameStateNames";
 
 const Sidebar = () => {
   const { showSidebar } = useSelector((state) => state.sidebar);
-  const { settingsAreEqual } = useSelector((state) => state.settings);
+  const { settingsAreEqual } = useSelector((state) => {
+    return {
+      settingsAreEqual: state.settings.settingsAreEqual,
+    };
+  }, shallowEqual);
   const { gameState } = useSelector((state) => {
     return {
       gameState: state.gameState.gameState,
