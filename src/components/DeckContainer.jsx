@@ -23,12 +23,12 @@ const DeckContainer = () => {
   const {
     currentSize,
     arrayLength,
-    settings: { themes: currentTheme },
+    themes: currentTheme,
   } = useSelector((state) => {
     return {
       currentSize: state.settings.currentSize,
       arrayLength: state.settings.arrayLength,
-      settings: state.settings.settings,
+      themes: state.settings.settings.themes,
     };
   }, shallowEqual);
   const { isLoaded } = useSelector((state) => {

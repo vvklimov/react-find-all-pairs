@@ -56,17 +56,21 @@ const SingleCard = ({
     }
   }, [flippedCards]);
   useEffect(() => {
+    const handleHideCards = (value) => {
+      if (isHidden === value) return;
+      setIsHidden(value);
+    };
     if (
       (index === foundCards[foundCards.length - 1] ||
         index === foundCards[foundCards.length - 2]) &&
       !isHidden &&
       hideFoundCards
     ) {
-      setIsHidden(true);
+      handleHideCards(true);
     } else if (!hideFoundCards) {
-      setIsHidden(false);
+      handleHideCards(false);
     }
-  }, [foundCards]);
+  }, [foundCards, hideFoundCards]);
   useEffect(() => {
     const handleCardTransitions = (wrapperRef) => {
       const {
