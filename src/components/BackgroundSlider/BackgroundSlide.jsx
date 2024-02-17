@@ -1,6 +1,15 @@
 import { useCallback } from "react";
+import { useSelector, shallowEqual } from "react-redux";
+import { bgDest } from "../../utils/data";
+import SlideImage from "./SlideImage";
 
-const BackgroundSlide = ({ theme, distance, src, destination }) => {
+const BackgroundSlide = ({ theme, distance, src }) => {
+  const { currentTheme } = useSelector((state) => {
+    return {
+      currentTheme: state.settings.settings.themes,
+    };
+  }, shallowEqual);
+  const destination = bgDest[currentTheme];
   if (theme === "dark-fantasy") {
     const index = useCallback(Math.floor(Math.random() * src.length), []);
     src = src[index];
@@ -14,7 +23,7 @@ const BackgroundSlide = ({ theme, distance, src, destination }) => {
         transform: `translateX(-${destination * 100}%)`,
       }}
     >
-      <img className="slide-img" src={src} alt={`${theme} img`} />
+      <SlideImage src={src} theme={theme} />
     </div>
   );
 };
