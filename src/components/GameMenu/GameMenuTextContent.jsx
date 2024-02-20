@@ -8,7 +8,11 @@ const GameMenuTextContent = ({ textContent }) => {
     default: Default,
   };
   const TemplateComponent = templates[name];
-  return <TemplateComponent time={time} name={name} />;
+  return (
+    <div className="text-content center-items">
+      <TemplateComponent time={time} name={name} />
+    </div>
+  );
 };
 export default GameMenuTextContent;
 
