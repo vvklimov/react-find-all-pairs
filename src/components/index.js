@@ -7,7 +7,6 @@ export { default as Loading } from "./Loading/Loading";
 export { default as Navbar } from "./Navbar/Navbar";
 export { default as NavbarTag } from "./Navbar/NavbarTag";
 export { default as Sidebar } from "./Sidebar/Sidebar";
-export { default as SidebarSubtag } from "./Sidebar/SidebarSubtag";
 export { default as SidebarSettingsContainer } from "./Sidebar/SidebarSettingsContainer";
 export { default as NavbarDropdown } from "./Navbar/NavbarDropdown";
 export { default as SettingsBtn } from "./SingleSetting/SettingsBtn";
