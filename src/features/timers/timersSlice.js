@@ -39,7 +39,7 @@ const timersSlice = createSlice({
       } else if (name === "bestTime") {
         const bestTimeValues = getBestTime();
         state.bestTime = bestTimeValues[settings.size];
-      } else return state;
+      }
     },
     updateCurrentGameTime: (state, { payload }) => {
       state.currentGameTime = payload;

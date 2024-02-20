@@ -12,7 +12,6 @@ const initialState = {
   gridIntValue: null,
   flippedCards: [],
   lastFlippedCard: null,
-  testingValue: [],
   onClickEnabled: false,
   pairsToWin: null,
   permutatedArray: [],

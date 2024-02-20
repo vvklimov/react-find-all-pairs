@@ -24,4 +24,26 @@ const timeout = async (time) => {
   return await new Promise((resolve) => setTimeout(resolve, time));
 };
 
-export { getStorageItem, setStorageItem, getRandomNumber, debounce, timeout };
+const getContainerData = (ref, index) => {
+  const { top, left, right, bottom } = ref?.getBoundingClientRect();
+  const centerY = (bottom - top) / 2 + top;
+  const centerX = (right - left) / 2 + left;
+  return {
+    index,
+    centerX,
+    centerY,
+    top,
+    left,
+    right,
+    bottom,
+  };
+};
+
+export {
+  getStorageItem,
+  setStorageItem,
+  getRandomNumber,
+  debounce,
+  timeout,
+  getContainerData,
+};

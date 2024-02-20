@@ -12,6 +12,7 @@ const initialState = {
   visible: false,
   isLoaded: false,
   snakeLikeArrivalPending: false,
+  heightAspectRatio: true,
 };
 
 export const translateCards = createAsyncThunk(
@@ -59,6 +60,24 @@ const transfersSlice = createSlice({
         heroCenterY,
       };
     },
+    setCardsAspectRatio: (state, { payload }) => {
+      //  we only need one card
+      const {
+        right: cardWrapperRight,
+        left: cardWrapperLeft,
+        top: cardWrapperTop,
+        bottom: cardWrapperBottom,
+      } = payload[0];
+      const cardWrapperHeight = cardWrapperBottom - cardWrapperTop;
+      const cardWrapperWidth = cardWrapperRight - cardWrapperLeft;
+      const cardWrapperAR = cardWrapperHeight / cardWrapperWidth;
+      if (cardWrapperAR <= 1.567) {
+        state.heightAspectRatio = true;
+      } else {
+        state.heightAspectRatio = false;
+      }
+    },
+
     setCardsTransitions: (state, { payload }) => {
       state.cardsCenter = {};
       state.moveToCenter = {};
@@ -71,6 +90,8 @@ const transfersSlice = createSlice({
           centerY: cardCenterY,
           right: cardRight,
           left: cardLeft,
+          top: cardTop,
+          bottom: cardBottom,
         } = card;
         const { heroCenterX, heroCenterY, heroRight, heroLeft } =
           state.heroCenter;
@@ -123,5 +144,6 @@ export const {
   moveToCardsDefaultPosition,
   setIsLoaded,
   setSnakeLikeArrivalPending,
+  setCardsAspectRatio,
 } = transfersSlice.actions;
 export default transfersSlice.reducer;

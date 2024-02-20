@@ -24,7 +24,8 @@ export const cardFlipThunk = async (payload, thunkAPI) => {
     if (gameState === PAUSE) {
       thunkAPI.dispatch(setGameState(RESUME));
     }
-    const { index, cardIndex, lastFlippedCard } = payload;
+    const lastFlippedCard = thunkAPI.getState().deck.lastFlippedCard;
+    const { index, cardIndex } = payload;
     if (gameState === IDLE) {
       thunkAPI.dispatch(setGameState(GAME));
       thunkAPI.dispatch(startTimer());

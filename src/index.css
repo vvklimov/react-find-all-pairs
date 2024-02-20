@@ -418,7 +418,15 @@ single card
   max-width: 100%;
   height: 100%;
   aspect-ratio: auto 100/156;
-  perspective: 600px;
+  perspective: 250px;
+}
+.height-aspect-ratio {
+  height: 100%;
+  width: auto;
+}
+.width-aspect-ratio {
+  width: 100%;
+  height: auto;
 }
 .single-card-transition {
   transition: all 0.5s ease-out;
@@ -558,7 +566,7 @@ sidebar
   border-radius: var(--menuBorderRadius);
   display: flex;
   flex-direction: column;
-  padding: 4rem 4rem;
+  padding: 4rem 0;
   place-items: center;
 }
 .close-btn {
@@ -570,42 +578,51 @@ sidebar
   place-items: center;
 }
 
-.sidebar-tags {
+.sidebar-settings-wrapper {
+  position: relative;
   height: 100%;
   width: 100%;
-  max-width: 250px;
   display: flex;
   flex-direction: column;
-
+  align-items: center;
   color: rgba(255, 255, 255, 1);
 }
-.sidebar-tags-ul {
+.sidebar-all-settings-container {
   overflow: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
   cursor: default;
-}
-.sidebar-tags-ul::-webkit-scrollbar {
-  display: none;
-}
-.sidebar-tags > ul > li {
-  text-transform: capitalize;
-  /* text-indent: 4rem; */
-  /* border-bottom: 1px solid var(--white); */
+  width: 100%;
+  margin-top: 1rem;
   padding-bottom: 1rem;
-  text-align: center;
 }
-.sidebar-tags > ul > li > h4 {
-  margin-bottom: 0.75rem;
+.sidebar-settings-wrapper::after {
+  position: absolute;
+  content: "";
+  width: 50%;
+  border-bottom: 1px dashed var(--primary-500);
+  bottom: 0;
+  left: 25%;
+}
+.sidebar-settings-wrapper::before {
+  position: absolute;
+  content: "";
+  width: 50%;
+  border-top: 1px dashed var(--primary-500);
+  top: 1rem;
+  left: 25%;
+}
+
+.settings-container > h4 {
+  margin: 1.5rem 0 1rem;
+  padding: 0;
+  text-align: center;
   cursor: default;
 }
-.sidebar-tags > ul > li > ul {
-  padding-left: 10%;
+.sidebar-settings-wrapper::-webkit-scrollbar {
+  display: none;
 }
-.sidebar-tags > ul > li > ul > li {
-  /* text-indent: 3rem; */
-  text-align: start;
-}
+
 .sidebar > .new-game-btn {
   width: 90%;
   min-width: fit-content;
@@ -670,8 +687,8 @@ end of sidebar
 
 /* end of checkbox btn */
 
-/* settings submenu */
-.submenu {
+/* settings dropdown */
+.dropdown {
   position: absolute;
   top: 5rem;
   left: 50%;
@@ -684,7 +701,7 @@ end of sidebar
   display: none;
   cursor: default;
 }
-.submenu::before {
+.dropdown::before {
   content: "";
   display: block;
   width: 8px;
@@ -696,17 +713,18 @@ end of sidebar
   left: 50%;
   transform: translateX(-50%);
 }
-.submenu .apply-changes-btn {
+.dropdown .apply-changes-btn {
   display: flex;
   margin-left: auto;
   margin-right: auto;
   text-wrap: nowrap;
+  margin-top: 1rem;
 }
 .settings-container {
   width: fit-content;
   margin: 0 auto;
 }
-.show-submenu {
+.show-dropdown {
   display: block;
 }
 .single-setting {
@@ -714,7 +732,7 @@ end of sidebar
   white-space: nowrap;
   width: fit-content;
 }
-/* end of settings submenu */
+/* end of settings dropdown */
 /* timer */
 .timer-container {
   width: 100%;
