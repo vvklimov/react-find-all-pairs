@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   IDLE,
   PAUSE,
@@ -7,14 +7,19 @@ import {
   RESUME,
   GAME,
 } from "../../gameStateNames";
+import type { GameStateName } from "../../utils/types";
 
-const initialState = { gameState: IDLE };
+type GameState = { gameState: GameStateName };
+const initialState: GameState = { gameState: IDLE };
 
 const gameStateSlice = createSlice({
   name: "gameState",
   initialState,
   reducers: {
-    setGameState: (state, { payload: newGameState }) => {
+    setGameState: (
+      state,
+      { payload: newGameState }: PayloadAction<GameStateName>
+    ) => {
       if (newGameState === IDLE) state.gameState = IDLE;
       else if (newGameState === GAME && state.gameState === IDLE)
         state.gameState = GAME;
