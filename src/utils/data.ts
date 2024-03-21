@@ -113,7 +113,19 @@ import JSCard16 from "../assets/images/decks/javascript/images/storybook.png";
 import JSCard17 from "../assets/images/decks/javascript/images/svelte.png";
 import JSCard18 from "../assets/images/decks/javascript/images/Vue.png";
 import SurpriseMeDeck from "../assets/images/decks/random_images/surprise_me_deck.png";
-const navTags = [
+
+type Tag = "difficulty" | "size" | "themes" | "other";
+
+type Subtag = {
+  subtagName: string;
+  subtagClass: string;
+};
+
+type NavTag = {
+  tag: Tag;
+  subtags: Subtag[];
+};
+const navTags: NavTag[] = [
   {
     tag: "difficulty",
     subtags: [
@@ -180,6 +192,7 @@ const navTags = [
     ],
   },
 ];
+
 const backgrounds = [
   {
     theme: "dark-fantasy",
