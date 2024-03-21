@@ -114,17 +114,8 @@ import JSCard17 from "../assets/images/decks/javascript/images/svelte.png";
 import JSCard18 from "../assets/images/decks/javascript/images/Vue.png";
 import SurpriseMeDeck from "../assets/images/decks/random_images/surprise_me_deck.png";
 
-type Tag = "difficulty" | "size" | "themes" | "other";
+import type { NavTag, Background, Settings, Decks } from "./types";
 
-type Subtag = {
-  subtagName: string;
-  subtagClass: string;
-};
-
-type NavTag = {
-  tag: Tag;
-  subtags: Subtag[];
-};
 const navTags: NavTag[] = [
   {
     tag: "difficulty",
@@ -193,7 +184,7 @@ const navTags: NavTag[] = [
   },
 ];
 
-const backgrounds = [
+const backgrounds: Background[] = [
   {
     theme: "dark-fantasy",
     src: [darkFantasyBg1, darkFantasyBg2, darkFantasyBg3],
@@ -226,8 +217,7 @@ const bgDest = {
   "javascript-frameworks": 3,
   "surprise-me": 4,
 };
-
-const defaultSettings = {
+const defaultSettings: Settings = {
   difficulty: "normal",
   size: "16-cards",
   themes: "dark-fantasy",
@@ -236,9 +226,9 @@ const defaultSettings = {
     "hide-found-cards": false,
   },
 };
-const decks = {
+
+const decks: Decks = {
   nature: {
-    deckName: "nature",
     deckImg: NatureDeck,
     cardsSrc: [
       { cardSrc: NatureCard1 },
@@ -263,7 +253,6 @@ const decks = {
     ],
   },
   "dark-fantasy": {
-    deckName: "dark-fantasy",
     deckImg: DFDeck,
     cardsSrc: [
       { cardSrc: DarkFantasyCard1 },
@@ -335,12 +324,10 @@ const decks = {
     ],
   },
   people: {
-    deckName: "people",
     deckImg: PeopleDeck,
     cardsSrc: [],
   },
   "javascript-frameworks": {
-    deckName: "javascript-frameworks",
     deckImg: JSDeck,
     cardsSrc: [
       { cardSrc: JSCard1 },
@@ -364,20 +351,10 @@ const decks = {
     ],
   },
   "surprise-me": {
-    deckName: "surprise-me",
     deckImg: SurpriseMeDeck,
     cardsSrc: [],
   },
 };
-const gameStates = {
-  idle: "idle",
-  pause: "pause",
-  resume: "resume",
-  game: "game",
-  gameoverSuccess: "gameoverSuccess",
-  gameoverFailure: "gameoverFailure",
-};
-
 const timers = {
   targetTime: {
     timerClass: "target-time",
@@ -488,7 +465,6 @@ export {
   navTags,
   defaultSettings,
   decks,
-  gameStates,
   timers,
   targetTimeValues,
   backgrounds,

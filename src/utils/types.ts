@@ -5,3 +5,88 @@ export type GameStateName =
   | "GAMEOVER_SUCCESS"
   | "GAME"
   | "RESUME";
+
+export type Tag = "difficulty" | "size" | "themes" | "other";
+
+export type SettingsDifficultyName = "easy" | "normal" | "hard";
+
+export type SettingsDifficultyClass = "easy" | "normal" | "hard";
+
+export type SettingsSizeName =
+  | "16 cards"
+  | "20 cards"
+  | "24 cards"
+  | "36 cards";
+
+export type SettingsSizeClass =
+  | "16-cards"
+  | "20-cards"
+  | "24-cards"
+  | "36-cards";
+
+export type SettingsThemeName =
+  | "dark fantasy"
+  | "nature"
+  | "people"
+  | "JavaScript frameworks"
+  | "surprise me";
+
+export type SettingsThemeClass =
+  | "dark-fantasy"
+  | "nature"
+  | "people"
+  | "javascript-frameworks"
+  | "surprise-me";
+
+export type SettingsOtherName = "show rules" | "hide found cards";
+
+export type SettingsOtherClass = "show-rules" | "hide-found-cards";
+
+export type Subtag = {
+  subtagName:
+    | SettingsDifficultyName
+    | SettingsSizeName
+    | SettingsThemeName
+    | SettingsOtherName;
+  subtagClass:
+    | SettingsDifficultyClass
+    | SettingsSizeClass
+    | SettingsThemeClass
+    | SettingsOtherClass;
+};
+
+export type NavTag = {
+  tag: Tag;
+  subtags: Subtag[];
+};
+
+export type Background = {
+  theme: SettingsThemeClass;
+  src: string | string[];
+};
+
+export type SettingsOtherValue = {
+  "show-rules": boolean;
+  "hide-found-cards": boolean;
+};
+export type Settings = {
+  difficulty: SettingsDifficultyClass;
+  size: SettingsSizeClass;
+  themes: SettingsThemeClass;
+  other: SettingsOtherValue;
+};
+
+export type CardSrc = { cardSrc: string };
+
+export type Decks = {
+  nature: Deck;
+  "dark-fantasy": Deck;
+  people: Deck;
+  "javascript-frameworks": Deck;
+  "surprise-me": Deck;
+};
+
+export type Deck = {
+  deckImg: string;
+  cardsSrc: CardSrc[];
+};
