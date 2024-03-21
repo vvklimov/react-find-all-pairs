@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+type SidebarState = { showSidebar: boolean };
+const initialState: SidebarState = {
   showSidebar: false,
 };
 
@@ -8,7 +9,7 @@ const sidebarSlice = createSlice({
   name: "sidebar",
   initialState,
   reducers: {
-    setShowSidebar: (state, { payload }) => {
+    setShowSidebar: (state, { payload }: PayloadAction<boolean>) => {
       state.showSidebar = payload;
     },
   },
