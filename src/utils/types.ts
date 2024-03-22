@@ -42,17 +42,20 @@ export type SettingsOtherName = "show rules" | "hide found cards";
 
 export type SettingsOtherClass = "show-rules" | "hide-found-cards";
 
+export type SubtagName =
+  | SettingsDifficultyName
+  | SettingsSizeName
+  | SettingsThemeName
+  | SettingsOtherName;
+export type SubtagClass =
+  | SettingsDifficultyClass
+  | SettingsSizeClass
+  | SettingsThemeClass
+  | SettingsOtherClass;
+
 export type Subtag = {
-  subtagName:
-    | SettingsDifficultyName
-    | SettingsSizeName
-    | SettingsThemeName
-    | SettingsOtherName;
-  subtagClass:
-    | SettingsDifficultyClass
-    | SettingsSizeClass
-    | SettingsThemeClass
-    | SettingsOtherClass;
+  subtagName: SubtagName;
+  subtagClass: SubtagClass;
 };
 
 export type NavTag = {
