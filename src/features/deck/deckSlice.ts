@@ -1,15 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { getRandomNumber } from "../../utils/helpers";
 import {
   cardFlipThunk,
   flipCardsBackThunk,
   startNewGameThunk,
 } from "./deckThunk";
-
-const initialState = {
+import {
+  SettingsThemeClass,
+  type DeckState,
+  CallCounterCommandNames,
+  LastFlippedCard,
+} from "../../utils/types";
+import { AsyncThunkConfig } from "../../store";
+const initialState: DeckState = {
   shuffledArray: [],
   gridClassName: "",
-  gridIntValue: null,
+  gridIntValue: 4,
   flippedCards: [],
   lastFlippedCard: null,
   onClickEnabled: false,
@@ -20,21 +26,33 @@ const initialState = {
   foundCards: [],
 };
 
-export const cardFlip = createAsyncThunk(
-  "deck/cardFlip",
-  async (payload, thunkAPI) => {
-    return cardFlipThunk(payload, thunkAPI);
+const popBuffer = (permutatedArray: number[], buffer: number[]) => {
+  if (buffer.length > 0) {
+    permutatedArray.push(...buffer);
+    buffer.length = 0;
   }
-);
+  return;
+};
+
+export type CardFlipProps = LastFlippedCard & { cardsAreEqual: boolean };
+
+export const cardFlip = createAsyncThunk<
+  CardFlipProps,
+  CardFlipProps,
+  AsyncThunkConfig
+>("deck/cardFlip", async (payload, thunkAPI) => {
+  return cardFlipThunk(payload, thunkAPI);
+});
+
 export const startNewGame = createAsyncThunk(
   "deck/startNewGame",
-  async (_, { getState, dispatch, rejectWithValue }) => {
-    return startNewGameThunk({ getState, dispatch, rejectWithValue });
+  async (_, thunkAPI) => {
+    return startNewGameThunk(thunkAPI);
   }
 );
 export const flipCardsBack = createAsyncThunk(
   "deck/flipCardsBack",
-  async (thunkAPI) => {
+  async (_, thunkAPI) => {
     return flipCardsBackThunk(thunkAPI);
   }
 );
@@ -42,10 +60,19 @@ const deckSlice = createSlice({
   name: "deck",
   initialState,
   reducers: {
-    getShuffledArray: (state, { payload }) => {
+    getShuffledArray: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        arrayLength: number;
+        currentSize: number;
+        currentTheme: SettingsThemeClass;
+      }>
+    ) => {
       const { arrayLength, currentSize, currentTheme } = payload;
-      let randomIndexes = [];
-      let randomNumber;
+      const randomIndexes: number[] = [];
+      let randomNumber: number;
       // choosing cards from the pool
       while (randomIndexes.length !== currentSize) {
         if (currentTheme === "surprise-me" || currentTheme === "people") {
@@ -69,7 +96,7 @@ const deckSlice = createSlice({
       }
       state.shuffledArray = randomIndexes;
     },
-    setupGrid: (state, { payload }) => {
+    setupGrid: (state, { payload }: PayloadAction<{ currentSize: number }>) => {
       const { currentSize } = payload;
       let className;
       if (currentSize === 36) {
@@ -94,19 +121,24 @@ const deckSlice = createSlice({
         } else {
           className = "grid-4columns";
         }
+      } else {
+        className = "grid-4columns";
       }
       const numberOfColumns = parseInt(className.slice(5, 6));
-      state.gridClassName = className;
       state.gridIntValue = numberOfColumns;
+      state.gridClassName = className;
     },
-    setPairsToWin: (state, { payload }) => {
+    setPairsToWin: (
+      state,
+      { payload }: PayloadAction<{ currentSize: number } | null>
+    ) => {
       if (payload) {
         state.pairsToWin = payload.currentSize / 2;
-      } else {
+      } else if (state.pairsToWin) {
         state.pairsToWin -= 1;
       }
     },
-    setOnClickEnabled: (state, { payload }) => {
+    setOnClickEnabled: (state, { payload }: PayloadAction<boolean>) => {
       state.onClickEnabled = payload;
     },
     flipAllCardsBack: (state) => {
@@ -116,34 +148,30 @@ const deckSlice = createSlice({
     },
     setOddEvenRow: (state) => {
       const shuffledArray = [...state.shuffledArray];
-      const oddEvenRowArray = shuffledArray.map((_, index) => {
+      const buffer: number[] = [];
+      const permutatedArray: number[] = [];
+
+      shuffledArray.forEach((_, index) => {
         if (Math.ceil((index + 1) / state.gridIntValue) % 2 !== 0) {
-          return "odd-row";
+          // in case previous index was in even row we want to push items from the buffer
+          popBuffer(permutatedArray, buffer);
+          // add to the end of permutated array
+          permutatedArray.push(index);
         } else {
-          return "even-row";
+          // adding indexes to the beginning of the buffer array
+          buffer.unshift(index);
         }
       });
-      const buffer = [];
-      const permutatedArray = [];
-      for (let i = 0; i < shuffledArray.length; i++) {
-        if (oddEvenRowArray[i] === "odd-row") {
-          while (buffer.length !== 0) {
-            permutatedArray.push(buffer.pop());
-          }
-          permutatedArray.push(i);
-        } else {
-          buffer.push(i);
-        }
-      }
-      while (buffer.length !== 0) {
-        permutatedArray.push(buffer.pop());
-      }
+      popBuffer(permutatedArray, buffer);
       state.permutatedArray = permutatedArray;
     },
-    setStartNewGamePending: (state, { payload }) => {
+    setStartNewGamePending: (state, { payload }: PayloadAction<boolean>) => {
       state.startNewGamePending = payload;
     },
-    setStartNewGameCallCounter: (state, { payload }) => {
+    setStartNewGameCallCounter: (
+      state,
+      { payload }: PayloadAction<CallCounterCommandNames | number>
+    ) => {
       if (payload === "INC") state.startNewGameCallCounter += 1;
       else if (payload === "DEC") state.startNewGameCallCounter -= 1;
       else if (payload === "RESET") state.startNewGameCallCounter = 0;
@@ -153,16 +181,20 @@ const deckSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(cardFlip.fulfilled, (state, { payload }) => {
-        const { index, cardIndex, cardsAreEqual } = payload;
-        state.flippedCards.push(index);
-        if (cardsAreEqual) {
-          state.lastFlippedCard = null;
-          state.foundCards = state.flippedCards;
-        } else {
-          state.lastFlippedCard = { index, cardIndex };
+      .addCase(
+        cardFlip.fulfilled,
+        (state, { payload }: PayloadAction<CardFlipProps>) => {
+          const { index, cardIndex, cardsAreEqual } = payload;
+
+          state.flippedCards.push(index);
+          if (cardsAreEqual) {
+            state.lastFlippedCard = null;
+            state.foundCards = state.flippedCards;
+          } else {
+            state.lastFlippedCard = { index, cardIndex };
+          }
         }
-      })
+      )
       .addCase(flipCardsBack.pending, (state) => {
         state.onClickEnabled = false;
       })
