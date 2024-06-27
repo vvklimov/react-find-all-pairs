@@ -11,6 +11,7 @@ import {
   type SettingsSizeClass,
   type SettingsDifficultyClass,
   type SettingsOtherClass,
+  type SettingsState,
 } from "../../utils/types";
 import { RootState } from "../../store";
 export const getCurrentDeckArrayLength = (settings: Settings): number =>
@@ -21,15 +22,6 @@ export const settingsAreEqual = (settings: Settings, tempSettings: Settings) =>
 
 export const getCurrentSize = (settings: Settings) =>
   parseInt(settings.size.slice(0, 2));
-
-type SettingsState = {
-  settings: Settings;
-  tempSettings: Settings;
-  settingsAreEqual: boolean;
-  currentSize: number;
-  arrayLength: number;
-  themesWereEqual: boolean;
-};
 const getSettings = (): SettingsState => {
   let settings = getStorageItem("settings");
   if (!settings) {
