@@ -93,3 +93,32 @@ export type Deck = {
   deckImg: string;
   cardsSrc: CardSrc[];
 };
+
+export type LastFlippedCard = {
+  index: number;
+  cardIndex: number;
+};
+export type DeckState = {
+  shuffledArray: number[];
+  gridClassName: string;
+  gridIntValue: number;
+  flippedCards: number[];
+  lastFlippedCard: LastFlippedCard | null;
+  onClickEnabled: boolean;
+  pairsToWin: number | null;
+  permutatedArray: number[];
+  startNewGamePending: boolean;
+  startNewGameCallCounter: number;
+  foundCards: number[];
+};
+
+export type CallCounterCommandNames = "INC" | "DEC" | "RESET";
+
+export type SettingsState = {
+  settings: Settings;
+  tempSettings: Settings;
+  settingsAreEqual: boolean;
+  currentSize: number;
+  arrayLength: number;
+  themesWereEqual: boolean;
+};
