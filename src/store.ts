@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, createAsyncThunk } from "@reduxjs/toolkit";
 import settingsReducer from "./features/settings/settingsSlice";
 import gameStateReducer from "./features/gameState/gameStateSlice";
 import sidebarReducer from "./features/sidebar/sidebarSlice";
@@ -18,11 +18,22 @@ export const store = configureStore({
     transfers: transfersReducer,
   },
 });
-
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export type ReduxStore = {
   getState: () => RootState;
   dispatch: AppDispatch;
+  rejectValue: string;
+};
+export const createAppAsyncThunk = createAsyncThunk.withTypes<{
+  state: RootState;
+  dispatch: AppDispatch;
+  rejectValue: string;
+}>();
+
+export type AsyncThunkConfig = {
+  state: RootState;
+  dispatch: AppDispatch;
+  rejectValue: { error: string };
 };
