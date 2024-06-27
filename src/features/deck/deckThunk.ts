@@ -8,7 +8,7 @@ import {
 import { timeout } from "../../utils/helpers";
 import { setGameState } from "../gameState/gameStateSlice";
 import { setSettings } from "../settings/settingsSlice";
-import { resetTimer, startTimer, stopTimer } from "../timers/timersSlice";
+import { resetTimer, startTimer } from "../timers/timersSlice";
 import { snakeLikeArrival, translateCards } from "../transfers/transfersSlice";
 import {
   flipCardsBack,
@@ -17,58 +17,79 @@ import {
   setStartNewGameCallCounter,
   setStartNewGamePending,
 } from "./deckSlice";
-
-export const cardFlipThunk = async (payload, thunkAPI) => {
+import { AsyncThunkConfig } from "../../store";
+import { CardFlipProps } from "./deckSlice";
+import { GetThunkAPI } from "@reduxjs/toolkit";
+export const cardFlipThunk = async (
+  payload: CardFlipProps,
+  { dispatch, getState, rejectWithValue }: GetThunkAPI<AsyncThunkConfig>
+) => {
   try {
-    const gameState = thunkAPI.getState().gameState.gameState;
+    const gameState = getState().gameState.gameState;
     if (gameState === PAUSE) {
-      thunkAPI.dispatch(setGameState(RESUME));
+      dispatch(setGameState(RESUME));
     }
-    const lastFlippedCard = thunkAPI.getState().deck.lastFlippedCard;
+    const lastFlippedCard = getState().deck.lastFlippedCard;
     const { index, cardIndex } = payload;
     if (gameState === IDLE) {
-      thunkAPI.dispatch(setGameState(GAME));
-      thunkAPI.dispatch(startTimer());
-      const currentSize = thunkAPI.getState().settings?.currentSize;
-      thunkAPI.dispatch(setPairsToWin({ currentSize }));
+      dispatch(setGameState(GAME));
+      dispatch(startTimer());
+      const currentSize = getState().settings?.currentSize;
+      dispatch(setPairsToWin({ currentSize }));
     }
     let cardsAreEqual = lastFlippedCard?.cardIndex === cardIndex;
     if (lastFlippedCard) {
       if (!cardsAreEqual) {
-        thunkAPI.dispatch(flipCardsBack({ index, cardIndex, lastFlippedCard }));
+        dispatch(flipCardsBack());
       } else {
-        const pairsToWin = thunkAPI.getState().deck.pairsToWin;
+        const pairsToWin = getState().deck.pairsToWin;
+        // we will flip the last card
         if (pairsToWin === 1) {
-          thunkAPI.dispatch(setGameState(GAMEOVER_SUCCESS));
+          dispatch(setGameState(GAMEOVER_SUCCESS));
         }
-        thunkAPI.dispatch(setPairsToWin());
+        // decrement pairs to win
+        dispatch(setPairsToWin(null));
       }
     }
-    return Promise.resolve({ index, cardIndex, cardsAreEqual });
+    return Promise.resolve({
+      index,
+      cardIndex,
+      cardsAreEqual,
+    }) as Promise<CardFlipProps>;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    return rejectWithValue({
+      error: `error in cardFlipThunk: ${error}`,
+    });
   }
 };
-export const flipCardsBackThunk = async (thunkAPI) => {
+
+export const flipCardsBackThunk = async ({
+  rejectWithValue,
+}: GetThunkAPI<AsyncThunkConfig>) => {
   try {
     await timeout(400);
     return Promise.resolve();
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    return rejectWithValue({
+      error: `error in flipCardsBackThunk: ${error}`,
+    });
   }
 };
 export const startNewGameThunk = async ({
   dispatch,
   rejectWithValue,
   getState,
-}) => {
+}: GetThunkAPI<AsyncThunkConfig>) => {
   try {
-    await dispatch(setStartNewGameCallCounter("INC"));
+    dispatch(setStartNewGameCallCounter("INC"));
     const callNumber = getState().deck.startNewGameCallCounter;
     dispatch(setStartNewGamePending(true));
-    await waitForDisplayDeck({ getState, dispatch, callNumber });
+    await waitForDisplayDeck(callNumber, {
+      getState,
+      dispatch,
+    } as GetThunkAPI<AsyncThunkConfig>);
     await dispatch(translateCards("moveCardsAway"));
-    await dispatch(setSettings());
+    dispatch(setSettings());
     const { themesWereEqual } = getState().settings;
     if (!themesWereEqual) {
       await timeout(1000);
@@ -78,16 +99,16 @@ export const startNewGameThunk = async ({
       currentSize,
       settings: { themes: currentTheme },
     } = getState().settings;
-    await dispatch(
-      getShuffledArray({ arrayLength, currentSize, currentTheme })
-    );
+    dispatch(getShuffledArray({ arrayLength, currentSize, currentTheme }));
     await dispatch(resetTimer());
     await dispatch(translateCards("moveToLeft"));
     await timeout(500);
     await dispatch(snakeLikeArrival());
     return Promise.resolve();
   } catch (error) {
-    return rejectWithValue(error.message);
+    return rejectWithValue({
+      error: `error in startNewGameThunk: ${error}`,
+    });
   }
 };
 
@@ -96,7 +117,10 @@ export const startNewGameThunk = async ({
 //  purpose: makes sure that only last call of starNewGame will be executed,
 //  waits if previous call of startNewGame is still executing
 //////////////////////////////////////////////////////////////
-const waitForDisplayDeck = async ({ dispatch, getState, callNumber }) => {
+const waitForDisplayDeck = async (
+  callNumber: number,
+  { dispatch, getState }: GetThunkAPI<AsyncThunkConfig>
+) => {
   return new Promise((resolve, reject) => {
     const checkDisplayDeckStatus = () => {
       const counter = getState().deck.startNewGameCallCounter;
@@ -105,7 +129,7 @@ const waitForDisplayDeck = async ({ dispatch, getState, callNumber }) => {
         getState().transfers.snakeLikeArrivalPending;
       // if it is the last call of startNewGame we want to proceed
       if (callNumber === counter) {
-        // if it the very first call or previous call is finished and snakeLikeArrival animation
+        // if it the very first call or previous call and snakeLikeArrival animation is finished
         //after page is fully loaded is finished
         if ((!isExecuting || counter === 1) && !snakeLikeArrivalPending) {
           dispatch(setStartNewGameCallCounter(1));
