@@ -7,16 +7,8 @@ const BackgroundSlider = () => {
     <div className="hero-slider">
       <div className="slider-container">
         {backgrounds.map((bg, index) => {
-          const { theme, src } = bg;
           const distance = index * 100;
-          return (
-            <BackgroundSlide
-              key={index}
-              distance={distance}
-              theme={theme}
-              src={src}
-            />
-          );
+          return <BackgroundSlide key={index} distance={distance} bg={bg} />;
         })}
       </div>
     </div>
