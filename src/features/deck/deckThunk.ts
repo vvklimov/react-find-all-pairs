@@ -103,7 +103,7 @@ export const startNewGameThunk = async ({
     await dispatch(resetTimer());
     await dispatch(translateCards("moveToLeft"));
     await timeout(500);
-    await dispatch(snakeLikeArrival());
+    await dispatch(snakeLikeArrival(false));
     return Promise.resolve();
   } catch (error) {
     return rejectWithValue({
