@@ -1,8 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { timers, targetTimeValues, navTags } from "../../utils/data";
 import { getStorageItem, setStorageItem } from "../../utils/helpers";
 import { startTimerThunk } from "./timersThunk";
-const initialState = {
+import {
+  BestTimeLocalStorageFormat,
+  Settings,
+  SettingsSizeClass,
+  TargetTimeValues,
+  TimerName,
+  TimerValues,
+  TimersState,
+} from "../../utils/types";
+const initialState: TimersState = {
   defaultTimers: timers,
   targetTime: timers.targetTime.defaultValues,
   currentGameTime: timers.currentGameTime.defaultValues,
@@ -15,22 +24,25 @@ const initialState = {
 };
 export const startTimer = createAsyncThunk(
   "timers/startTimer",
-  async (_, { getState, dispatch, rejectWithValue }) => {
-    return startTimerThunk({ dispatch, getState, rejectWithValue });
+  async (_, thunkAPI) => {
+    return startTimerThunk(thunkAPI);
   }
 );
 const timersSlice = createSlice({
   name: "timers",
   initialState,
   reducers: {
-    setupTimers: (state, { payload }) => {
+    setupTimers: (
+      state,
+      { payload }: PayloadAction<{ name: TimerName; settings: Settings }>
+    ) => {
       const { name, settings } = payload;
       let min, sec, msec;
       if (name === "targetTime") {
         let targetTimeName = `${settings.difficulty}${settings.size.slice(
           0,
           2
-        )}`;
+        )}` as keyof TargetTimeValues;
         const { mins, secs, msecs } = targetTimeValues[targetTimeName];
         min = mins;
         sec = secs;
@@ -41,18 +53,23 @@ const timersSlice = createSlice({
         state.bestTime = bestTimeValues[settings.size];
       }
     },
-    updateCurrentGameTime: (state, { payload }) => {
+
+    updateCurrentGameTime: (state, { payload }: PayloadAction<TimerValues>) => {
       state.currentGameTime = payload;
     },
+
     stopTimer: (state) => {
       state.isPaused = true;
     },
+
     resumeTimer: (state) => {
       state.isPaused = false;
     },
-    setPulseFlag: (state, { payload }) => {
+
+    setPulseFlag: (state, { payload }: PayloadAction<boolean>) => {
       state.pulseFlag = payload;
     },
+
     resetTimer: (state) => {
       if (state.timerInterval) {
         clearInterval(state.timerInterval);
@@ -64,26 +81,35 @@ const timersSlice = createSlice({
       state.newRecordFlag = false;
       state.lostFlag = false;
     },
-    setNewBestTime: (state, { payload: currentSize }) => {
+
+    setNewBestTime: (
+      state,
+      { payload: currentSize }: PayloadAction<SettingsSizeClass>
+    ) => {
       state.bestTime = state.currentGameTime;
       state.newRecordFlag = true;
       const previousBestTime = getStorageItem("bestTime");
       previousBestTime[currentSize] = state.currentGameTime;
       setStorageItem("bestTime", previousBestTime);
     },
-    setLostFlag: (state, { payload }) => {
+
+    setLostFlag: (state, { payload }: PayloadAction<boolean>) => {
       state.lostFlag = payload;
     },
   },
   extraReducers: (builder) =>
-    builder.addCase(startTimer.fulfilled, (state, { payload }) => {
-      state.timerInterval = payload.newTimerInterval;
-    }),
+    builder.addCase(
+      startTimer.fulfilled,
+      (state, { payload }: PayloadAction<number>) => {
+        state.timerInterval = payload;
+      }
+    ),
 });
 
-const getBestTime = () => {
+const getBestTime = (): BestTimeLocalStorageFormat => {
   let bestTime = getStorageItem("bestTime");
   if (!bestTime) {
+    console.log(bestTime);
     bestTime = {};
     navTags.map((item) => {
       if (item.tag === "size") {
@@ -94,7 +120,7 @@ const getBestTime = () => {
     });
     setStorageItem("bestTime", bestTime);
   }
-  return bestTime;
+  return bestTime as BestTimeLocalStorageFormat;
 };
 
 export const {
