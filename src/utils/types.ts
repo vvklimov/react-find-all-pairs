@@ -207,3 +207,55 @@ export type ReversedTimerUnitFormat = {
   sec: string | number | null;
   msec: string | number | null;
 };
+
+export type HeroCenter = {
+  heroLeft?: number;
+  heroRight?: number;
+  heroBottom?: number;
+  heroTop?: number;
+  heroCenterX?: number;
+  heroCenterY?: number;
+};
+
+export type CardCoordinates = {
+  cardCenterX: number;
+  cardCenterY: number;
+};
+
+export type CardsCenter = {
+  [key: number]: CardCoordinates;
+};
+export type MoveCardsToDestination = {
+  [key: number]: { destCoord: string };
+};
+export type TransfersState = {
+  heroCenter: HeroCenter;
+  cardsCenter: CardsCenter;
+  moveToCenter: MoveCardsToDestination;
+  moveToRight: MoveCardsToDestination;
+  moveToLeft: MoveCardsToDestination;
+  currentPosition: MoveCardsToDestination;
+  moveToDefaultPosition: "translate(0px, 0px)";
+  visible: boolean;
+  isLoaded: boolean;
+  snakeLikeArrivalPending: boolean;
+  heightAspectRatio: boolean;
+};
+export type updateCurrentPositionCommands =
+  | "moveToCenter"
+  | "moveToRight"
+  | "moveToLeft";
+
+export type TranslateCardsCommands =
+  | updateCurrentPositionCommands
+  | "moveCardsAway";
+
+export type CardCompleteCoordinates = {
+  index: number;
+  centerX: number;
+  centerY: number;
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
+};
