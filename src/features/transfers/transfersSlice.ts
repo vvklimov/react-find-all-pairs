@@ -138,10 +138,11 @@ const transfersSlice = createSlice({
     },
   },
 
-  extraReducers: (builder) =>
+  extraReducers: (builder) => {
     builder.addCase(snakeLikeArrival.fulfilled, (state) => {
       state.snakeLikeArrivalPending = false;
-    }),
+    });
+  },
 });
 
 export const {

@@ -97,13 +97,17 @@ const timersSlice = createSlice({
       state.lostFlag = payload;
     },
   },
-  extraReducers: (builder) =>
+
+  extraReducers: (builder) => {
     builder.addCase(
       startTimer.fulfilled,
-      (state, { payload }: PayloadAction<number>) => {
-        state.timerInterval = payload;
+      (state, { payload }: PayloadAction<number | undefined>) => {
+        if (payload) {
+          state.timerInterval = payload;
+        }
       }
-    ),
+    );
+  },
 });
 
 const getBestTime = (): BestTimeLocalStorageFormat => {

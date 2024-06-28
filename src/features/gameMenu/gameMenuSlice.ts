@@ -30,13 +30,14 @@ const gameMenuSlice = createSlice({
       state.textContent = payload;
     },
   },
-  extraReducers: (builder) =>
+  extraReducers: (builder) => {
     builder.addCase(
       setShowGameMenu.fulfilled,
       (state, { payload }: PayloadAction<boolean>) => {
         state.show = payload;
       }
-    ),
+    );
+  },
 });
 
 export const { setTextContent } = gameMenuSlice.actions;
