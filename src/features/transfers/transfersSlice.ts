@@ -1,7 +1,13 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { translateCardsThunk, snakeLikeArrivalThunk } from "./transfersThunk";
+import {
+  CardCompleteCoordinates,
+  TransfersState,
+  TranslateCardsCommands,
+  updateCurrentPositionCommands,
+} from "../../utils/types";
 
-const initialState = {
+const initialState: TransfersState = {
   heroCenter: {},
   cardsCenter: {},
   moveToCenter: {},
@@ -17,24 +23,14 @@ const initialState = {
 
 export const translateCards = createAsyncThunk(
   "transfers/translateCards",
-  async (payload, { getState, dispatch, rejectWithValue }) => {
-    return translateCardsThunk({
-      payload,
-      getState,
-      dispatch,
-      rejectWithValue,
-    });
+  async (payload: TranslateCardsCommands, thunkAPI) => {
+    return translateCardsThunk(payload, thunkAPI);
   }
 );
 export const snakeLikeArrival = createAsyncThunk(
   "transfers/snakeLikeArrival",
-  async (payload, { getState, dispatch, rejectWithValue }) => {
-    return snakeLikeArrivalThunk({
-      payload,
-      getState,
-      dispatch,
-      rejectWithValue,
-    });
+  async (payload: boolean, thunkAPI) => {
+    return snakeLikeArrivalThunk(payload, thunkAPI);
   }
 );
 
@@ -78,11 +74,15 @@ const transfersSlice = createSlice({
       }
     },
 
-    setCardsTransitions: (state, { payload }) => {
+    setCardsTransitions: (
+      state,
+      { payload }: PayloadAction<CardCompleteCoordinates[]>
+    ) => {
       state.cardsCenter = {};
       state.moveToCenter = {};
       state.moveToRight = {};
       state.moveToLeft = {};
+
       payload.forEach((card) => {
         const {
           index,
@@ -90,42 +90,50 @@ const transfersSlice = createSlice({
           centerY: cardCenterY,
           right: cardRight,
           left: cardLeft,
-          top: cardTop,
-          bottom: cardBottom,
         } = card;
-        const { heroCenterX, heroCenterY, heroRight, heroLeft } =
-          state.heroCenter;
+        const { heroCenterX, heroCenterY, heroRight } = state.heroCenter;
         state.cardsCenter[index] = { cardCenterX, cardCenterY };
-        state.moveToCenter[index] = {
-          destCoord: `translate(${heroCenterX - cardCenterX}px, ${
-            heroCenterY - cardCenterY
-          }px)`,
-        };
-        state.moveToLeft[index] = {
-          destCoord: `translate(${-heroRight / 2 - cardRight - 20}px, ${
-            heroCenterY - cardCenterY
-          }px)`,
-        };
-        state.moveToRight[index] = {
-          destCoord: `translate(${heroRight - cardLeft + 20}px, ${
-            heroCenterY - cardCenterY
-          }px)`,
-        };
+
+        if (heroCenterX && heroCenterY && heroRight) {
+          state.moveToCenter[index] = {
+            destCoord: `translate(${heroCenterX - cardCenterX}px, ${
+              heroCenterY - cardCenterY
+            }px)`,
+          };
+          state.moveToLeft[index] = {
+            destCoord: `translate(${-heroRight / 2 - cardRight - 20}px, ${
+              heroCenterY - cardCenterY
+            }px)`,
+          };
+          state.moveToRight[index] = {
+            destCoord: `translate(${heroRight - cardLeft + 20}px, ${
+              heroCenterY - cardCenterY
+            }px)`,
+          };
+        }
       });
     },
-    updateCurrentPosition: (state, { payload }) => {
-      state.currentPosition = state[payload];
+    updateCurrentPosition: (
+      state,
+      { payload }: PayloadAction<updateCurrentPositionCommands>
+    ) => {
+      if (payload in state) {
+        state.currentPosition = state[payload];
+      }
     },
-    setVisibility: (state, { payload }) => {
+    setVisibility: (state, { payload }: PayloadAction<boolean>) => {
       state.visible = payload;
     },
-    moveToCardsDefaultPosition: (state, { payload }) => {
+    moveToCardsDefaultPosition: (state, { payload }: PayloadAction<number>) => {
       delete state.currentPosition[payload];
     },
-    setIsLoaded: (state, { payload }) => {
+    setIsLoaded: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoaded = payload;
     },
-    setSnakeLikeArrivalPending: (state, { payload }) => {
+    setSnakeLikeArrivalPending: (
+      state,
+      { payload }: PayloadAction<boolean>
+    ) => {
       state.snakeLikeArrivalPending = payload;
     },
   },
