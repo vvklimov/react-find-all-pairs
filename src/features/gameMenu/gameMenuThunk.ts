@@ -1,19 +1,20 @@
+import { GetThunkAPI } from "@reduxjs/toolkit/react";
 import { GAMEOVER_FAILURE, GAMEOVER_SUCCESS } from "../../gameStateNames";
 import { setTextContent } from "./gameMenuSlice";
+import { AsyncThunkConfig } from "../../store";
+import { GameMenuTextContentName } from "../../utils/types";
 
-export const setShowGameMenuThunk = async ({
-  payload,
-  dispatch,
-  getState,
-  rejectWithValue,
-}) => {
+export const setShowGameMenuThunk = async (
+  payload: boolean,
+  { getState, dispatch, rejectWithValue }: GetThunkAPI<AsyncThunkConfig>
+) => {
   try {
     if (payload) {
       const { gameState } = getState().gameState;
       const { newRecordFlag, currentGameTime } = getState().timers;
       const { settingsAreEqual } = getState().settings;
 
-      let textContentName;
+      let textContentName: GameMenuTextContentName;
       if (gameState === GAMEOVER_SUCCESS) {
         if (newRecordFlag) {
           textContentName = "newRecord";
@@ -31,6 +32,8 @@ export const setShowGameMenuThunk = async ({
     }
     return Promise.resolve(payload);
   } catch (error) {
-    return rejectWithValue(error.message);
+    return rejectWithValue({
+      error: `error in setShowGameMenuThunk: ${error}`,
+    });
   }
 };
