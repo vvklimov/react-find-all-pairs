@@ -1,5 +1,7 @@
+import { GetThunkAPI } from "@reduxjs/toolkit";
 import { IDLE } from "../../gameStateNames";
 import { timeout } from "../../utils/helpers";
+import { TranslateCardsCommands } from "../../utils/types";
 import { flipAllCardsBack, setOnClickEnabled } from "../deck/deckSlice";
 import { setGameState } from "../gameState/gameStateSlice";
 import { setShowSidebar } from "../sidebar/sidebarSlice";
@@ -9,13 +11,12 @@ import {
   setVisibility,
   updateCurrentPosition,
 } from "./transfersSlice";
+import { AsyncThunkConfig } from "../../store";
 
-export const translateCardsThunk = async ({
-  dispatch,
-  rejectWithValue,
-  getState,
-  payload,
-}) => {
+export const translateCardsThunk = async (
+  payload: TranslateCardsCommands,
+  { dispatch, rejectWithValue, getState }: GetThunkAPI<AsyncThunkConfig>
+) => {
   try {
     if (payload === "moveCardsAway") {
       const { showSidebar } = getState().sidebar;
@@ -42,17 +43,15 @@ export const translateCardsThunk = async ({
     }
     return Promise.resolve();
   } catch (error) {
-    return rejectWithValue(error.message);
+    return rejectWithValue({ error: `error in translateCardsThunk` });
   }
 };
-export const snakeLikeArrivalThunk = async ({
-  dispatch,
-  rejectWithValue,
-  getState,
-  payload,
-}) => {
+export const snakeLikeArrivalThunk = async (
+  firstLoad: boolean = false,
+  { dispatch, rejectWithValue, getState }: GetThunkAPI<AsyncThunkConfig>
+) => {
   try {
-    if (payload) {
+    if (firstLoad) {
       await dispatch(setSnakeLikeArrivalPending(true));
     }
     const { onClickEnabled } = getState().deck;
@@ -62,7 +61,6 @@ export const snakeLikeArrivalThunk = async ({
     await dispatch(setVisibility(true));
     const permutatedArray = getState().deck.permutatedArray;
     for (const card of permutatedArray) {
-      // console.log(card);
       await dispatch(moveToCardsDefaultPosition(card));
       await timeout(200);
     }
@@ -70,6 +68,6 @@ export const snakeLikeArrivalThunk = async ({
 
     return Promise.resolve(dispatch(setOnClickEnabled(true)));
   } catch (error) {
-    return rejectWithValue(error.message);
+    return rejectWithValue({ error: `error in snakeLikeArrivalThunk` });
   }
 };

@@ -31,7 +31,7 @@ const useHandleLoading = () => {
           dispatch(setIsLoaded(true));
           dispatch(updateCurrentPosition("moveToLeft"));
           await timeout(100);
-          dispatch(snakeLikeArrival("firstLoad"));
+          dispatch(snakeLikeArrival(true));
         },
       });
     };
