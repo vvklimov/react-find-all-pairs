@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { setShowGameMenuThunk } from "./gameMenuThunk";
-const initialState = {
+import { GameMenuState, GameMenuTextContent } from "../../utils/types";
+const initialState: GameMenuState = {
   show: false,
   textContent: {
     textContentName: "default",
@@ -14,27 +15,28 @@ const initialState = {
 
 export const setShowGameMenu = createAsyncThunk(
   "gameMenu/setShowGameMenu",
-  async (payload, { getState, dispatch, rejectWithValue }) => {
-    return setShowGameMenuThunk({
-      dispatch,
-      getState,
-      rejectWithValue,
-      payload,
-    });
+  async (payload, thunkAPI) => {
+    return setShowGameMenuThunk(payload, thunkAPI);
   }
 );
 const gameMenuSlice = createSlice({
   name: "gameMenu",
   initialState,
   reducers: {
-    setTextContent: (state, { payload }) => {
+    setTextContent: (
+      state,
+      { payload }: PayloadAction<GameMenuTextContent>
+    ) => {
       state.textContent = payload;
     },
   },
   extraReducers: (builder) =>
-    builder.addCase(setShowGameMenu.fulfilled, (state, { payload }) => {
-      state.show = payload;
-    }),
+    builder.addCase(
+      setShowGameMenu.fulfilled,
+      (state, { payload }: PayloadAction<boolean>) => {
+        state.show = payload;
+      }
+    ),
 });
 
 export const { setTextContent } = gameMenuSlice.actions;

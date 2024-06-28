@@ -122,3 +122,25 @@ export type SettingsState = {
   arrayLength: number;
   themesWereEqual: boolean;
 };
+
+export type Timer = {
+  min: string;
+  sec: string;
+  msec: string;
+};
+
+export type GameMenuTextContentName =
+  | "newRecord"
+  | "won"
+  | "lost"
+  | "applyNewSettings"
+  | "default";
+
+export type GameMenuTextContent = {
+  textContentName: GameMenuTextContentName;
+  currentGameTime: Timer;
+};
+export type GameMenuState = {
+  show: boolean;
+  textContent: GameMenuTextContent;
+};
