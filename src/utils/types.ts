@@ -123,7 +123,7 @@ export type SettingsState = {
   themesWereEqual: boolean;
 };
 
-export type Timer = {
+export type TimerValues = {
   min: string;
   sec: string;
   msec: string;
@@ -138,9 +138,72 @@ export type GameMenuTextContentName =
 
 export type GameMenuTextContent = {
   textContentName: GameMenuTextContentName;
-  currentGameTime: Timer;
+  currentGameTime: TimerValues;
 };
 export type GameMenuState = {
   show: boolean;
   textContent: GameMenuTextContent;
+};
+
+export type TimerClass = "target-time" | "current-game-time" | "best-time";
+
+export type TimerNameTextContent = "target time:" | "time:" | "best time:";
+
+export type Timer = {
+  timerClass: TimerClass;
+  timerName: TimerNameTextContent;
+  defaultValues: TimerValues;
+};
+
+export type DefaultTimers = {
+  targetTime: Timer;
+  currentGameTime: Timer;
+  bestTime: Timer;
+};
+
+export type TimerName = "targetTime" | "currentGameTime" | "bestTime";
+
+export type TimersState = {
+  defaultTimers: DefaultTimers;
+  targetTime: TimerValues;
+  currentGameTime: TimerValues;
+  bestTime: TimerValues;
+  timerInterval: null | number;
+  isPaused: boolean;
+  pulseFlag: boolean;
+  newRecordFlag: boolean;
+  lostFlag: boolean;
+};
+
+export type TargetTimeTimerValues = {
+  mins: string;
+  secs: string;
+  msecs: string;
+};
+export type TargetTimeValues = {
+  easy16: TargetTimeTimerValues;
+  normal16: TargetTimeTimerValues;
+  hard16: TargetTimeTimerValues;
+  easy20: TargetTimeTimerValues;
+  normal20: TargetTimeTimerValues;
+  hard20: TargetTimeTimerValues;
+  easy24: TargetTimeTimerValues;
+  normal24: TargetTimeTimerValues;
+  hard24: TargetTimeTimerValues;
+  easy36: TargetTimeTimerValues;
+  normal36: TargetTimeTimerValues;
+  hard36: TargetTimeTimerValues;
+};
+
+export type BestTimeLocalStorageFormat = {
+  "16-cards": TimerValues;
+  "20-cards": TimerValues;
+  "24-cards": TimerValues;
+  "36-cards": TimerValues;
+};
+
+export type ReversedTimerUnitFormat = {
+  min: string | number | null;
+  sec: string | number | null;
+  msec: string | number | null;
 };
