@@ -20,15 +20,15 @@ const initialState: DeckState = {
   lastFlippedCard: null,
   onClickEnabled: false,
   pairsToWin: null,
-  permutatedArray: [],
+  permutedArray: [],
   startNewGamePending: false,
   startNewGameCallCounter: 0,
   foundCards: [],
 };
 
-const popBuffer = (permutatedArray: number[], buffer: number[]) => {
+const popBuffer = (permutedArray: number[], buffer: number[]) => {
   if (buffer.length > 0) {
-    permutatedArray.push(...buffer);
+    permutedArray.push(...buffer);
     buffer.length = 0;
   }
   return;
@@ -149,21 +149,21 @@ const deckSlice = createSlice({
     setOddEvenRow: (state) => {
       const shuffledArray = [...state.shuffledArray];
       const buffer: number[] = [];
-      const permutatedArray: number[] = [];
+      const permutedArray: number[] = [];
 
       shuffledArray.forEach((_, index) => {
         if (Math.ceil((index + 1) / state.gridIntValue) % 2 !== 0) {
           // in case previous index was in even row we want to push items from the buffer
-          popBuffer(permutatedArray, buffer);
-          // add to the end of permutated array
-          permutatedArray.push(index);
+          popBuffer(permutedArray, buffer);
+          // add to the end of permuted array
+          permutedArray.push(index);
         } else {
           // adding indexes to the beginning of the buffer array
           buffer.unshift(index);
         }
       });
-      popBuffer(permutatedArray, buffer);
-      state.permutatedArray = permutatedArray;
+      popBuffer(permutedArray, buffer);
+      state.permutedArray = permutedArray;
     },
     setStartNewGamePending: (state, { payload }: PayloadAction<boolean>) => {
       state.startNewGamePending = payload;

@@ -59,8 +59,8 @@ export const snakeLikeArrivalThunk = async (
       dispatch(setOnClickEnabled(false));
     }
     await dispatch(setVisibility(true));
-    const permutatedArray = getState().deck.permutatedArray;
-    for (const card of permutatedArray) {
+    const permutedArray = getState().deck.permutedArray;
+    for (const card of permutedArray) {
       await dispatch(moveToCardsDefaultPosition(card));
       await timeout(200);
     }

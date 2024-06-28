@@ -106,7 +106,7 @@ export type DeckState = {
   lastFlippedCard: LastFlippedCard | null;
   onClickEnabled: boolean;
   pairsToWin: number | null;
-  permutatedArray: number[];
+  permutedArray: number[];
   startNewGamePending: boolean;
   startNewGameCallCounter: number;
   foundCards: number[];
