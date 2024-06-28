@@ -18,18 +18,17 @@ const BackgroundSlide = ({ bg, distance }: BackgroundSlideProps) => {
   const currentTheme: string = useAppSelector(
     (state) => state.settings.settings.themes
   );
-  console.log(currentTheme);
 
   const destination: number = bgDest[currentTheme as keyof typeof bgDest];
-  if (theme === "dark-fantasy" && src.length) {
-    console.log(src);
 
+  if (theme === "dark-fantasy" && src.length) {
     const chosenBg: number = useMemo(
       () => Math.floor(Math.random() * src.length),
       []
     );
     src = src[chosenBg];
   }
+
   return (
     <div
       onDragStart={(e) => e.preventDefault()}
