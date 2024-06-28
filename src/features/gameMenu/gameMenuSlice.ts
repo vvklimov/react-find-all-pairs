@@ -15,7 +15,7 @@ const initialState: GameMenuState = {
 
 export const setShowGameMenu = createAsyncThunk(
   "gameMenu/setShowGameMenu",
-  async (payload, thunkAPI) => {
+  async (payload: boolean, thunkAPI) => {
     return setShowGameMenuThunk(payload, thunkAPI);
   }
 );
