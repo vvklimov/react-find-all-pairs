@@ -114,7 +114,14 @@ import JSCard17 from "../assets/images/decks/javascript/images/svelte.png";
 import JSCard18 from "../assets/images/decks/javascript/images/Vue.png";
 import SurpriseMeDeck from "../assets/images/decks/random_images/surprise_me_deck.png";
 
-import type { NavTag, Background, Settings, Decks } from "./types";
+import type {
+  NavTag,
+  Background,
+  Settings,
+  Decks,
+  DefaultTimers,
+  TargetTimeValues,
+} from "./types";
 
 const navTags: NavTag[] = [
   {
@@ -355,7 +362,7 @@ const decks: Decks = {
     cardsSrc: [],
   },
 };
-const timers = {
+const timers: DefaultTimers = {
   targetTime: {
     timerClass: "target-time",
     timerName: "target time:",
@@ -384,7 +391,7 @@ const timers = {
     },
   },
 };
-const targetTimeValues = {
+const targetTimeValues: TargetTimeValues = {
   easy16: {
     mins: "01",
     secs: "00",
