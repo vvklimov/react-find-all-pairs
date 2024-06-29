@@ -1,10 +1,10 @@
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual } from "react-redux";
 import GameMenuTextContent from "./GameMenuTextContent";
 import GameMenuCloseBtn from "./GameMenuCloseBtn";
 import StartNewGameBtn from "./StartNewGameBtn";
-
+import { useAppSelector } from "../../utils/hooks";
 const GameMenu = () => {
-  const { show, textContent } = useSelector((state) => {
+  const { show, textContent } = useAppSelector((state) => {
     return {
       show: state.gameMenu.show,
       textContent: state.gameMenu.textContent,

@@ -1,9 +1,8 @@
-import { useDispatch } from "react-redux";
 import { setShowGameMenu } from "../../features/gameMenu/gameMenuSlice";
 import { startNewGame } from "../../features/deck/deckSlice";
-
+import { useAppDispatch } from "../../utils/hooks";
 const StartNewGameBtn = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleStartNewGame = () => {
     dispatch(setShowGameMenu(false));
     dispatch(startNewGame());

@@ -1,6 +1,21 @@
-const GameMenuTextContent = ({ textContent }) => {
+import type { GameMenuTextContent, TimerValues } from "../../utils/types";
+type WonAndNewRecordProps = { time: TimerValues; name: string };
+type Templates = {
+  newRecord: ({ time, name }: WonAndNewRecordProps) => JSX.Element;
+  won: ({ time, name }: WonAndNewRecordProps) => JSX.Element;
+  lost: () => JSX.Element;
+  applyNewSettings: () => JSX.Element;
+  default: () => JSX.Element;
+};
+
+const GameMenuTextContent = ({
+  textContent,
+}: {
+  textContent: GameMenuTextContent;
+}) => {
   const { textContentName: name, currentGameTime: time } = textContent;
-  const templates = {
+
+  const templates: Templates = {
     newRecord: Won,
     won: Won,
     lost: Lost,
@@ -16,7 +31,7 @@ const GameMenuTextContent = ({ textContent }) => {
 };
 export default GameMenuTextContent;
 
-const Won = ({ time, name }) => {
+const Won = ({ time, name }: WonAndNewRecordProps) => {
   const { min, sec, msec } = time;
   return (
     <>
