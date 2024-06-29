@@ -34,19 +34,21 @@ const timeout = async (time: number) => {
   return await new Promise((resolve) => setTimeout(resolve, time));
 };
 
-const getContainerData = (ref: HTMLElement, index: number) => {
-  const { top, left, right, bottom } = ref?.getBoundingClientRect();
-  const centerY = (bottom - top) / 2 + top;
-  const centerX = (right - left) / 2 + left;
-  return {
-    index,
-    centerX,
-    centerY,
-    top,
-    left,
-    right,
-    bottom,
-  };
+const getContainerData = (ref: HTMLElement | null, index = 0) => {
+  if (ref) {
+    const { top, left, right, bottom } = ref?.getBoundingClientRect();
+    const centerY = (bottom - top) / 2 + top;
+    const centerX = (right - left) / 2 + left;
+    return {
+      index,
+      centerX,
+      centerY,
+      top,
+      left,
+      right,
+      bottom,
+    };
+  }
 };
 
 export {
