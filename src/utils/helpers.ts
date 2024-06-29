@@ -35,20 +35,18 @@ const timeout = async (time: number) => {
 };
 
 const getContainerData = (ref: HTMLElement | null, index = 0) => {
-  if (ref) {
-    const { top, left, right, bottom } = ref?.getBoundingClientRect();
-    const centerY = (bottom - top) / 2 + top;
-    const centerX = (right - left) / 2 + left;
-    return {
-      index,
-      centerX,
-      centerY,
-      top,
-      left,
-      right,
-      bottom,
-    };
-  }
+  const { top, left, right, bottom } = ref?.getBoundingClientRect() as DOMRect;
+  const centerY = (bottom - top) / 2 + top;
+  const centerX = (right - left) / 2 + left;
+  return {
+    index,
+    centerX,
+    centerY,
+    top,
+    left,
+    right,
+    bottom,
+  };
 };
 
 export {
