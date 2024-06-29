@@ -1,30 +1,40 @@
-const getStorageItem = (item) => {
-  return JSON.parse(localStorage.getItem(item)) || null;
+import { BestTimeLocalStorageFormat, Settings } from "./types";
+
+const getStorageItem = (item: string) => {
+  const storageItem = localStorage.getItem(item);
+  return storageItem ? JSON.parse(storageItem) : null;
 };
 
-const setStorageItem = (name, item) => {
-  localStorage.setItem(name, JSON.stringify(item));
-  return getStorageItem(name);
+const setStorageItem = (
+  itemName: string,
+  value: BestTimeLocalStorageFormat | Settings
+) => {
+  localStorage.setItem(itemName, JSON.stringify(value));
+  return getStorageItem(itemName);
 };
 
-const getRandomNumber = (from, to) => Math.floor(Math.random() * to + from);
+const getRandomNumber = (from: number, to: number) =>
+  Math.floor(Math.random() * to + from);
 
-const debounce = (func, delay) => {
-  let timeoutId;
+function debounce<T extends unknown[]>(
+  func: (...args: T) => void,
+  delay: number
+): (...args: T) => void {
+  let timeoutId: ReturnType<typeof setTimeout>;
 
-  return function (...args) {
+  return function (this: unknown, ...args: T): void {
     clearTimeout(timeoutId);
 
     timeoutId = setTimeout(() => {
       func.apply(this, args);
     }, delay);
   };
-};
-const timeout = async (time) => {
+}
+const timeout = async (time: number) => {
   return await new Promise((resolve) => setTimeout(resolve, time));
 };
 
-const getContainerData = (ref, index) => {
+const getContainerData = (ref: HTMLElement, index: number) => {
   const { top, left, right, bottom } = ref?.getBoundingClientRect();
   const centerY = (bottom - top) / 2 + top;
   const centerX = (right - left) / 2 + left;
