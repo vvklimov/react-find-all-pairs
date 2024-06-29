@@ -121,6 +121,7 @@ import type {
   Decks,
   DefaultTimers,
   TargetTimeValues,
+  DeckAR,
 } from "./types";
 
 const navTags: NavTag[] = [
@@ -462,7 +463,7 @@ const targetTimeValues: TargetTimeValues = {
   },
 };
 
-const deckAR = {
+const deckAR: DeckAR = {
   16: "10/11",
   20: "10/12",
   24: "8/7",

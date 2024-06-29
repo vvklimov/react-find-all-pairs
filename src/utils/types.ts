@@ -259,3 +259,10 @@ export type CardCompleteCoordinates = {
   right: number;
   bottom: number;
 };
+
+export type DeckAR = {
+  16: string;
+  20: string;
+  24: string;
+  36: string;
+};
