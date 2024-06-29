@@ -1,10 +1,14 @@
-import { useDispatch } from "react-redux";
 import { debounce, getContainerData } from "../../../utils/helpers";
 import { setOddEvenRow, setupGrid } from "../../../features/deck/deckSlice";
 import { setHeroCenter } from "../../../features/transfers/transfersSlice";
 import { useEffect } from "react";
-const useHandleResize = (currentSize, heroRef, shuffledArray) => {
-  const dispatch = useDispatch();
+import { useAppDispatch } from "../../../utils/hooks";
+const useHandleResize = (
+  currentSize: number,
+  heroRef: React.MutableRefObject<HTMLDivElement | null>,
+  shuffledArray: number[]
+) => {
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const handleResize = () => {
       dispatch(setupGrid({ currentSize }));
