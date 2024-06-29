@@ -1,7 +1,17 @@
-import { shallowEqual, useSelector } from "react-redux";
-
-const TimerUnitFormat = ({ unitClass, unitName, timerName }) => {
-  const { pulseFlag, newRecordFlag, lostFlag, unitValue } = useSelector(
+import { shallowEqual } from "react-redux";
+import { useAppSelector } from "../../utils/hooks";
+import { TimerName } from "../../utils/types";
+type TimerUnitFormatProps = {
+  timerName: TimerName;
+  unitName: "m" | "s" | "ms";
+  unitClass: "min" | "sec" | "msec";
+};
+const TimerUnitFormat = ({
+  unitClass,
+  unitName,
+  timerName,
+}: TimerUnitFormatProps) => {
+  const { pulseFlag, newRecordFlag, lostFlag, unitValue } = useAppSelector(
     (state) => {
       return {
         pulseFlag: state.timers.pulseFlag,
