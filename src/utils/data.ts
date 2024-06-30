@@ -226,7 +226,7 @@ const bgDest = {
   "surprise-me": 4,
 };
 const defaultSettings: Settings = {
-  difficulty: "normal",
+  difficulty: "easy",
   size: "16-cards",
   themes: "dark-fantasy",
   other: {
