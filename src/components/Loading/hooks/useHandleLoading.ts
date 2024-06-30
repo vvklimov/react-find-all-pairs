@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { shallowEqual } from "react-redux";
 import preloadImages from "image-preload";
 import { getShuffledArray } from "../../../features/deck/deckSlice";
 import { timeout } from "../../../utils/helpers";
@@ -8,8 +8,10 @@ import {
   snakeLikeArrival,
   updateCurrentPosition,
 } from "../../../features/transfers/transfersSlice";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
+
 const useHandleLoading = () => {
-  const { showRules, currentSize, currentTheme, arrayLength } = useSelector(
+  const { showRules, currentSize, currentTheme, arrayLength } = useAppSelector(
     (state) => {
       return {
         showRules: state.settings.settings.other["show-rules"],
@@ -20,7 +22,7 @@ const useHandleLoading = () => {
     },
     shallowEqual
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const handleLoading = () => {
       dispatch(getShuffledArray({ arrayLength, currentSize, currentTheme }));
