@@ -38,7 +38,7 @@ export type CardFlipProps = LastFlippedCard & { cardsAreEqual: boolean };
 
 export const cardFlip = createAsyncThunk<
   CardFlipProps,
-  CardFlipProps,
+  LastFlippedCard,
   AsyncThunkConfig
 >("deck/cardFlip", async (payload, thunkAPI) => {
   return cardFlipThunk(payload, thunkAPI);

@@ -16,12 +16,14 @@ import {
   setPairsToWin,
   setStartNewGameCallCounter,
   setStartNewGamePending,
+  type CardFlipProps,
 } from "./deckSlice";
 import { AsyncThunkConfig } from "../../store";
-import { CardFlipProps } from "./deckSlice";
+import { LastFlippedCard } from "../../utils/types";
 import { GetThunkAPI } from "@reduxjs/toolkit";
+
 export const cardFlipThunk = async (
-  payload: CardFlipProps,
+  payload: LastFlippedCard,
   { dispatch, getState, rejectWithValue }: GetThunkAPI<AsyncThunkConfig>
 ) => {
   try {
