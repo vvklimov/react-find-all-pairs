@@ -38,7 +38,6 @@ const DeckContainer = ({
             {...decks[currentTheme]}
             cardIndex={cardIndex}
             index={index}
-            currentSize={currentSize}
             forwardedRef={cardsRef}
           />
         );
