@@ -65,6 +65,7 @@ export const startTimerThunk = async ({
           };
           dispatch(updateCurrentGameTime(newTimerValues));
           const currentTimeValue = reversedTimerUnitFormat(newTimerValues);
+
           if (currentTimeValue && targetTimeValue) {
             // if remains 5 seconds or less before time is up, then set pulse flag
 
@@ -108,14 +109,11 @@ const timerUnitFormat = (timerValue: number): string => {
   return `${timerValue}`;
 };
 
-const reversedTimerUnitFormat = (timer: TimerValues): number | null => {
+const reversedTimerUnitFormat = (timer: TimerValues): number => {
   let { min, sec, msec }: ReversedTimerUnitFormat = timer;
-  min = parseInt(min) || null;
-  sec = parseInt(sec) || null;
-  msec = parseInt(msec) * 10 || null;
-  if (min && sec && msec) {
-    const total = min * 60 * 1000 + sec * 1000 + msec;
-    return total;
-  }
-  return null;
+  min = parseInt(min);
+  sec = parseInt(sec);
+  msec = parseInt(msec) * 10;
+  const total = min * 60 * 1000 + sec * 1000 + msec;
+  return total;
 };
