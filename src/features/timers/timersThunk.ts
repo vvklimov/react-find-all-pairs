@@ -109,8 +109,6 @@ const timerUnitFormat = (timerValue: number): string => {
 };
 
 const reversedTimerUnitFormat = (timer: TimerValues): number | null => {
-  console.log(timer);
-
   let { min, sec, msec }: ReversedTimerUnitFormat = timer;
   min = parseInt(min) || null;
   sec = parseInt(sec) || null;

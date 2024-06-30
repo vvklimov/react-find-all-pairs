@@ -1,15 +1,9 @@
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual } from "react-redux";
+import { useAppSelector } from "./utils/hooks";
 
-import {
-  Navbar,
-  Hero,
-  Footer,
-  Sidebar,
-  Loading,
-  GameMenu,
-} from "./components/";
+import { Navbar, Hero, Footer, Sidebar, Loading, GameMenu } from "./components";
 function App() {
-  const { isLoaded } = useSelector((state) => {
+  const { isLoaded } = useAppSelector((state) => {
     return {
       isLoaded: state.transfers.isLoaded,
     };
