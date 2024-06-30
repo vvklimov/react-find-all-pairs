@@ -1,8 +1,14 @@
-import { updateSettings } from "../../features/settings/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks";
-import type { SettingsOtherClass, SubtagClass, Tag } from "../../utils/types";
+import { updateSettings } from "@/features";
+import {
+  useAppDispatch,
+  useAppSelector,
+  type SettingsOtherClass,
+  type SubtagClass,
+  type Tag,
+} from "@/utils";
 
 type SettingsBtnProps = { tag: Tag; subtagClass: SubtagClass };
+
 const SettingsBtn = ({ tag, subtagClass }: SettingsBtnProps) => {
   const tempSettings = useAppSelector((state) => state.settings.tempSettings);
   const dispatch = useAppDispatch();

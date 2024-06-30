@@ -1,11 +1,9 @@
 import { useRef } from "react";
 import { shallowEqual } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
-import { RandomImageQuery } from "../../API/randomImage";
-import { RandomPersonQuery } from "../../API/randomPerson";
-import DeckContainer from "./DeckContainer";
-import useHandleResize from "./hooks/useHandleResize";
-import { useAppSelector } from "../../utils/hooks";
+import { useAppSelector } from "@/utils";
+import { RandomImageQuery, RandomPersonQuery } from "@/API";
+import { DeckContainer, useHandleResize } from "@/components";
 
 const HeroContainer = () => {
   const heroRef = useRef<HTMLDivElement | null>(null);

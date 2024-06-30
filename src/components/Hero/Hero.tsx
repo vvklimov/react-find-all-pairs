@@ -1,6 +1,4 @@
-import BackgroundSlider from "../BackgroundSlider/BackgroundSlider";
-import HeroContainer from "../Deck/HeroContainer";
-import Timers from "../Timers/Timers";
+import { BackgroundSlider, HeroContainer, Timers } from "@/components";
 
 const Hero = () => {
   return (

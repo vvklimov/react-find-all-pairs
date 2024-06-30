@@ -1,4 +1,5 @@
-import useShowGameMenu from "./hooks/useShowGameMenu";
+import { useShowGameMenu } from "@/components";
+
 const ApplyChangesBtn = () => {
   const { showGameMenu } = useShowGameMenu();
   return (

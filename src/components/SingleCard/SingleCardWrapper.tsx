@@ -1,8 +1,8 @@
-import { shallowEqual } from "react-redux";
 import { memo } from "react";
-import SingleCard from "./SingleCard";
-import { useAppSelector } from "../../utils/hooks";
-import type { SingleCardWrapperProps } from "../../utils/types";
+import { shallowEqual } from "react-redux";
+import { useAppSelector, type SingleCardWrapperProps } from "@/utils";
+import { SingleCard } from "@/components";
+
 const SingleCardWrapper = ({
   deckImg,
   cardsSrc,

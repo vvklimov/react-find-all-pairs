@@ -1,11 +1,6 @@
 import { useEffect } from "react";
-import {
-  setCardsAspectRatio,
-  setCardsTransitions,
-} from "../../../features/transfers/transfersSlice";
-import { getContainerData } from "../../../utils/helpers";
-import { HeroCenter } from "../../../utils/types";
-import { useAppDispatch } from "../../../utils/hooks";
+import { setCardsAspectRatio, setCardsTransitions } from "@/features";
+import { getContainerData, useAppDispatch, type HeroCenter } from "@/utils";
 
 const useHandleCardsTransitions = (
   cardsRef: React.MutableRefObject<HTMLDivElement[]>,

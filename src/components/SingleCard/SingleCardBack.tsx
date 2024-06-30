@@ -1,8 +1,12 @@
-import { useAppDispatch, useAppSelector } from "../../utils/hooks";
-import { cardFlip } from "../../features/deck/deckSlice";
 import { memo } from "react";
-import CardImage from "./CardImage";
-import { SingleCardBackProps } from "../../utils/types";
+import {
+  useAppDispatch,
+  useAppSelector,
+  type SingleCardBackProps,
+} from "@/utils";
+import { cardFlip } from "@/features";
+import { CardImage } from "@/components";
+
 const SingleCardBack = ({ index, cardIndex, deckImg }: SingleCardBackProps) => {
   const dispatch = useAppDispatch();
   const onClickEnabled = useAppSelector((state) => state.deck.onClickEnabled);

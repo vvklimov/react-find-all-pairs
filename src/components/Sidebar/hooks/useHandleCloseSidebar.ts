@@ -1,10 +1,9 @@
 import { shallowEqual } from "react-redux";
 import { useEffect } from "react";
-import { setShowSidebar } from "../../../features/sidebar/sidebarSlice";
-import { timeout } from "../../../utils/helpers";
-import { setGameState } from "../../../features/gameState/gameStateSlice";
-import { PAUSE, RESUME } from "../../../gameStateNames";
-import { useAppSelector, useAppDispatch } from "../../../utils/hooks";
+import { useAppSelector, useAppDispatch, timeout } from "@/utils";
+import { setShowSidebar, setGameState } from "@/features";
+import { PAUSE, RESUME } from "@/gameStateNames";
+
 const useHandleCloseSidebar = () => {
   const { showSidebar, gameState } = useAppSelector((state) => {
     return {

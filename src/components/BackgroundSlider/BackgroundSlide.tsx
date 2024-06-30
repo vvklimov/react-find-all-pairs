@@ -1,7 +1,6 @@
 import { useMemo } from "react";
-import { bgDest } from "../../utils/data";
-import SlideImage from "./SlideImage";
-import { useAppSelector } from "../../utils/hooks";
+import { bgDest, useAppSelector } from "@/utils";
+import { SlideImage } from "@/components";
 
 type bg = {
   src: string | string[];

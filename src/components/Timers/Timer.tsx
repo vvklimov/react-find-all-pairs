@@ -1,9 +1,9 @@
-import TimerUnitFormat from "./TimerUnitFormat";
 import { useEffect } from "react";
 import { shallowEqual } from "react-redux";
-import { setupTimers } from "../../features/timers/timersSlice";
-import { TimerName } from "../../utils/types";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks";
+import { useAppDispatch, useAppSelector, type TimerName } from "@/utils";
+import { setupTimers } from "@/features";
+import { TimerUnitFormat } from "@/components";
+
 const Timer = ({ name }: { name: TimerName }) => {
   const dispatch = useAppDispatch();
   const { defaultTimers, settings } = useAppSelector((state) => {

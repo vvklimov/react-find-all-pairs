@@ -1,6 +1,6 @@
-import { setShowGameMenu } from "../../features/gameMenu/gameMenuSlice";
-import { startNewGame } from "../../features/deck/deckSlice";
-import { useAppDispatch } from "../../utils/hooks";
+import { setShowGameMenu, startNewGame } from "@/features";
+import { useAppDispatch } from "@/utils";
+
 const StartNewGameBtn = () => {
   const dispatch = useAppDispatch();
   const handleStartNewGame = () => {

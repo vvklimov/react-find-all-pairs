@@ -1,8 +1,7 @@
-import { debounce, getContainerData } from "../../../utils/helpers";
-import { setOddEvenRow, setupGrid } from "../../../features/deck/deckSlice";
-import { setHeroCenter } from "../../../features/transfers/transfersSlice";
 import { useEffect } from "react";
-import { useAppDispatch } from "../../../utils/hooks";
+import { debounce, getContainerData, useAppDispatch } from "@/utils";
+import { setOddEvenRow, setupGrid, setHeroCenter } from "@/features";
+
 const useHandleResize = (
   currentSize: number,
   heroRef: React.MutableRefObject<HTMLDivElement | null>,

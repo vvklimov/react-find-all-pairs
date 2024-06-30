@@ -1,4 +1,4 @@
-import { GameStateName } from "./utils/types";
+import { type GameStateName } from "./utils";
 
 export const IDLE: GameStateName = "IDLE";
 export const PAUSE: GameStateName = "PAUSE";

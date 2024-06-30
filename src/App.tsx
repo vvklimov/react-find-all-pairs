@@ -1,7 +1,7 @@
 import { shallowEqual } from "react-redux";
-import { useAppSelector } from "./utils/hooks";
+import { useAppSelector } from "@/utils";
+import { Navbar, Hero, Footer, Sidebar, Loading, GameMenu } from "@/components";
 
-import { Navbar, Hero, Footer, Sidebar, Loading, GameMenu } from "./components";
 function App() {
   const { isLoaded } = useAppSelector((state) => {
     return {

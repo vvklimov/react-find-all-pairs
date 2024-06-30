@@ -1,8 +1,7 @@
-import { useAppDispatch } from "../../../utils/hooks";
-import { setShowGameMenu } from "../../../features/gameMenu/gameMenuSlice";
-import { setGameState } from "../../../features/gameState/gameStateSlice";
-import { PAUSE } from "../../../gameStateNames";
 import { useCallback } from "react";
+import { useAppDispatch } from "@/utils";
+import { PAUSE } from "@/gameStateNames";
+import { setShowGameMenu, setGameState } from "@/features";
 
 const useShowGameMenu = () => {
   const dispatch = useAppDispatch();

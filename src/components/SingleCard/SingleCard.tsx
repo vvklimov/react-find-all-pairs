@@ -1,8 +1,6 @@
 import { memo } from "react";
-import SingleCardBack from "./SingleCardBack";
-import SingleCardFront from "./SingleCardFront";
-import useIsFlipped from "./hooks/useIsFlipped";
-import type { SingleCardProps } from "../../utils/types";
+import { type SingleCardProps } from "@/utils";
+import { useIsFlipped, SingleCardFront, SingleCardBack } from "@/components";
 
 const SingleCard = ({
   index,

@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { shallowEqual } from "react-redux";
 import preloadImages from "image-preload";
-import { getShuffledArray } from "../../../features/deck/deckSlice";
-import { timeout } from "../../../utils/helpers";
+import { timeout, useAppDispatch, useAppSelector } from "@/utils";
 import {
   setIsLoaded,
   snakeLikeArrival,
   updateCurrentPosition,
-} from "../../../features/transfers/transfersSlice";
-import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
+  getShuffledArray,
+} from "@/features";
 
 const useHandleLoading = () => {
   const { showRules, currentSize, currentTheme, arrayLength } = useAppSelector(

@@ -1,6 +1,5 @@
 import axios from "axios";
-import { decks } from "../utils/data";
-import { SettingsThemeClass } from "../utils/types";
+import { decks, type SettingsThemeClass } from "@/utils";
 const url = `https://randomuser.me/api?results=`;
 type PersonShape = { picture: { large: string } };
 

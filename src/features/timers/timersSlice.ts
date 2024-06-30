@@ -113,7 +113,6 @@ const timersSlice = createSlice({
 const getBestTime = (): BestTimeLocalStorageFormat => {
   let bestTime = getStorageItem("bestTime");
   if (!bestTime) {
-    console.log(bestTime);
     bestTime = {};
     navTags.map((item) => {
       if (item.tag === "size") {

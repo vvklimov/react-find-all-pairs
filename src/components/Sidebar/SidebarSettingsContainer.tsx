@@ -1,6 +1,8 @@
-import { Tag, Subtag } from "../../utils/types";
-import SingleSetting from "../SingleSetting/SingleSetting";
+import { type Tag, type Subtag } from "@/utils";
+import { SingleSetting } from "@/components";
+
 type SidebarSettingsContainerProps = { tag: Tag; subtags: Subtag[] };
+
 const SidebarSettingsContainer = ({
   tag,
   subtags,

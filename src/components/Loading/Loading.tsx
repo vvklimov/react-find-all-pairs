@@ -1,4 +1,4 @@
-import useHandleLoading from "./hooks/useHandleLoading";
+import { useHandleLoading } from "@/components";
 
 const Loading = () => {
   const { showRules } = useHandleLoading();

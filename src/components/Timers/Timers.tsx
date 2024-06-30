@@ -1,4 +1,4 @@
-import Timer from "./Timer";
+import { Timer } from "@/components";
 
 const Timers = () => {
   return (

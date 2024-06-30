@@ -1,5 +1,6 @@
-import useShowGameMenu from "../Navbar/hooks/useShowGameMenu";
-import { useAppSelector } from "../../utils/hooks";
+import { useAppSelector } from "@/utils";
+import { useShowGameMenu } from "@/components";
+
 const SidebarNewGameBtn = () => {
   const settingsAreEqual = useAppSelector(
     (state) => state.settings.settingsAreEqual

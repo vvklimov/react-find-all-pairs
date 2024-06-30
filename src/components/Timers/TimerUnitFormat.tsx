@@ -1,11 +1,12 @@
 import { shallowEqual } from "react-redux";
-import { useAppSelector } from "../../utils/hooks";
-import { TimerName } from "../../utils/types";
+import { useAppSelector, type TimerName } from "@/utils";
+
 type TimerUnitFormatProps = {
   timerName: TimerName;
   unitName: "m" | "s" | "ms";
   unitClass: "min" | "sec" | "msec";
 };
+
 const TimerUnitFormat = ({
   unitClass,
   unitName,

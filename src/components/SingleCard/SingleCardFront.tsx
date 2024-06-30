@@ -1,9 +1,10 @@
 import { memo, useState, useEffect } from "react";
-import CardImage from "./CardImage";
 import { shallowEqual } from "react-redux";
-import { useAppSelector } from "../../utils/hooks";
+import { CardImage } from "@/components";
+import { useAppSelector } from "@/utils";
 
 type SingleCardFrontProps = { src: string; index: number };
+
 const SingleCardFront = ({ src, index }: SingleCardFrontProps) => {
   const { isHidden } = useHideCards(index);
   return (

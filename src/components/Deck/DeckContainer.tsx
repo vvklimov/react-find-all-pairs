@@ -1,11 +1,13 @@
 import { useRef, memo } from "react";
 import { shallowEqual } from "react-redux";
 import { nanoid } from "nanoid";
-import { deckAR, decks } from "../../utils/data";
-import { useAppSelector } from "../../utils/hooks";
-import type { SettingsThemeClass } from "../../utils/types";
-import SingleCardWrapper from "../SingleCard/SingleCardWrapper";
-import useHandleCardsTransitions from "./hooks/useHandleCardsTransitions";
+import {
+  deckAR,
+  decks,
+  useAppSelector,
+  type SettingsThemeClass,
+} from "@/utils";
+import { SingleCardWrapper, useHandleCardsTransitions } from "@/components";
 
 type DeckContainerProps = {
   currentSize: number;

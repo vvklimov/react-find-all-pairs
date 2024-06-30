@@ -1,6 +1,6 @@
 import { memo } from "react";
-import { backgrounds } from "../../utils/data";
-import BackgroundSlide from "./BackgroundSlide";
+import { backgrounds } from "@/utils";
+import { BackgroundSlide } from "@/components";
 
 const BackgroundSlider = () => {
   return (

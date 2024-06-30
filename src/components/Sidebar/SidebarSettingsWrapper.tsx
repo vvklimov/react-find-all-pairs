@@ -1,5 +1,6 @@
-import { navTags } from "../../utils/data";
-import SidebarSettingsContainer from "./SidebarSettingsContainer";
+import { navTags } from "@/utils";
+import { SidebarSettingsContainer } from "@/components";
+
 const SidebarSettingsWrapper = () => {
   return (
     <section className="sidebar-settings-wrapper">

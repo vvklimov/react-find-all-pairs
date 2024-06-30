@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
-import { timeout } from "../../../utils/helpers";
-import { GAME, PAUSE, RESUME } from "../../../gameStateNames";
-import { setGameState } from "../../../features/gameState/gameStateSlice";
+import { GAME, PAUSE, RESUME } from "@/gameStateNames";
+import { timeout, useAppDispatch, useAppSelector } from "@/utils";
+import { setGameState } from "@/features";
 
 const useHandleMouseHover = () => {
   const dispatch = useAppDispatch();

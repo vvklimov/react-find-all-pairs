@@ -1,7 +1,10 @@
-import SidebarCloseBtn from "./SidebarCloseBtn";
-import SidebarNewGameBtn from "./SidebarNewGameBtn";
-import SidebarSettingsWrapper from "./SidebarSettingsWrapper";
-import useHandleCloseSidebar from "./hooks/useHandleCloseSidebar";
+import {
+  SidebarCloseBtn,
+  SidebarNewGameBtn,
+  SidebarSettingsWrapper,
+  useHandleCloseSidebar,
+} from "@/components";
+
 const Sidebar = () => {
   const { handleCloseSidebar, showSidebar } = useHandleCloseSidebar();
 

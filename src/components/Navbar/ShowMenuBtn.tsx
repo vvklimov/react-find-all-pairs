@@ -1,11 +1,10 @@
-import { useDispatch } from "react-redux";
-import { setShowSidebar } from "../../features/sidebar/sidebarSlice";
-import { setGameState } from "../../features/gameState/gameStateSlice";
 import { useCallback } from "react";
-import { PAUSE } from "../../gameStateNames";
-const ShowMenuBtn = () => {
-  const dispatch = useDispatch();
+import { useAppDispatch } from "@/utils";
+import { setShowSidebar, setGameState } from "@/features";
+import { PAUSE } from "@/gameStateNames";
 
+const ShowMenuBtn = () => {
+  const dispatch = useAppDispatch();
   const showMenu = useCallback(() => {
     dispatch(setShowSidebar(true));
     dispatch(setGameState(PAUSE));

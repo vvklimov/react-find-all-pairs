@@ -1,4 +1,4 @@
-import { Tag } from "../../utils/types";
+import { type Tag } from "@/utils";
 type NavBtnProps = { gradient: boolean; tag: Tag };
 const NavBtn = ({ gradient, tag }: NavBtnProps) => {
   return (

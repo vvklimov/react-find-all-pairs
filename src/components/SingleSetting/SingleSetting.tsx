@@ -1,5 +1,5 @@
-import type { Subtag, Tag } from "../../utils/types";
-import SettingsBtn from "./SettingsBtn";
+import type { Subtag, Tag } from "@/utils";
+import { SettingsBtn } from "@/components";
 
 type SingleSettingProps = {
   subtag: Subtag;
