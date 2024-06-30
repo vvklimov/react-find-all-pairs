@@ -266,3 +266,16 @@ export type DeckAR = {
   24: string;
   36: string;
 };
+
+export type SingleCardBackProps = {
+  index: number;
+  cardIndex: number;
+  deckImg: string;
+};
+
+export type SingleCardProps = SingleCardBackProps & {
+  cardsSrc: { cardSrc: string }[];
+};
+export type SingleCardWrapperProps = SingleCardProps & {
+  forwardedRef: React.MutableRefObject<HTMLDivElement[]>;
+};

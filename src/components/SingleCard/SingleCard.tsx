@@ -2,7 +2,14 @@ import { memo } from "react";
 import SingleCardBack from "./SingleCardBack";
 import SingleCardFront from "./SingleCardFront";
 import useIsFlipped from "./hooks/useIsFlipped";
-const SingleCard = ({ index, cardIndex, deckImg, cardsSrc }) => {
+import type { SingleCardProps } from "../../utils/types";
+
+const SingleCard = ({
+  index,
+  cardIndex,
+  deckImg,
+  cardsSrc,
+}: SingleCardProps) => {
   const { cardSrc: src } = cardsSrc[cardIndex] ?? {};
   const { isFlipped } = useIsFlipped(index);
   return (

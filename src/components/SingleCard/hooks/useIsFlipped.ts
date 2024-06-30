@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-const useIsFlipped = (index) => {
-  const { flippedCards } = useSelector((state) => {
+import { shallowEqual } from "react-redux";
+import { useAppSelector } from "../../../utils/hooks";
+const useIsFlipped = (index: number) => {
+  const { flippedCards } = useAppSelector((state) => {
     return {
       flippedCards: state.deck.flippedCards,
     };

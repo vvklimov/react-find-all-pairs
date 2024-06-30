@@ -1,8 +1,10 @@
 import { memo, useState, useEffect } from "react";
 import CardImage from "./CardImage";
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual } from "react-redux";
+import { useAppSelector } from "../../utils/hooks";
 
-const SingleCardFront = ({ src, index }) => {
+type SingleCardFrontProps = { src: string; index: number };
+const SingleCardFront = ({ src, index }: SingleCardFrontProps) => {
   const { isHidden } = useHideCards(index);
   return (
     <div
@@ -17,8 +19,8 @@ const SingleCardFront = ({ src, index }) => {
 
 export default memo(SingleCardFront);
 
-const useHideCards = (index) => {
-  const { foundCards, hideFoundCards } = useSelector((state) => {
+const useHideCards = (index: number) => {
+  const { foundCards, hideFoundCards } = useAppSelector((state) => {
     return {
       foundCards: state.deck.foundCards,
       hideFoundCards: state.settings.settings.other["hide-found-cards"],
@@ -26,7 +28,7 @@ const useHideCards = (index) => {
   }, shallowEqual);
   const [isHidden, setIsHidden] = useState(foundCards?.includes(index));
   useEffect(() => {
-    const handleHideCards = (value) => {
+    const handleHideCards = (value: boolean) => {
       if (isHidden === value) return;
       setIsHidden(value);
     };

@@ -1,15 +1,17 @@
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual } from "react-redux";
 import { memo } from "react";
 import SingleCard from "./SingleCard";
+import { useAppSelector } from "../../utils/hooks";
+import type { SingleCardWrapperProps } from "../../utils/types";
 const SingleCardWrapper = ({
   deckImg,
   cardsSrc,
   cardIndex,
   index,
   forwardedRef,
-}) => {
+}: SingleCardWrapperProps) => {
   const { moveToDefaultPosition, destCoord, visible, heightAspectRatio } =
-    useSelector((state) => {
+    useAppSelector((state) => {
       return {
         moveToDefaultPosition: state.transfers.moveToDefaultPosition,
         destCoord: state.transfers.currentPosition[index]?.destCoord,
@@ -17,11 +19,16 @@ const SingleCardWrapper = ({
         heightAspectRatio: state.transfers.heightAspectRatio,
       };
     }, shallowEqual);
+
   return (
     <div
       className="single-card-wrapper center-items"
       onDragStart={(e) => e.preventDefault()}
-      ref={(el) => (forwardedRef.current[index] = el)}
+      ref={(el) => {
+        if (forwardedRef && el) {
+          forwardedRef.current[index] = el;
+        }
+      }}
     >
       <div
         className={`single-card-container  ${
