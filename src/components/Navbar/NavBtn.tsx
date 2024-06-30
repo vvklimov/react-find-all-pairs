@@ -1,4 +1,6 @@
-const NavBtn = ({ gradient, tag }) => {
+import { Tag } from "../../utils/types";
+type NavBtnProps = { gradient: boolean; tag: Tag };
+const NavBtn = ({ gradient, tag }: NavBtnProps) => {
   return (
     <button
       className={`tag-btn tag-btn-gradient nav-btn ${

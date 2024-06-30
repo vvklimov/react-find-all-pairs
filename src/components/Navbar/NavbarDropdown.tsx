@@ -1,8 +1,10 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../utils/hooks";
+import { NavTag } from "../../utils/types";
 import ApplyChangesBtn from "./ApplyChangesBtn";
 import SettingsContainer from "./SettingsContainer";
-const NavbarDropdown = ({ show, subtags, tag }) => {
-  const settingsAreEqual = useSelector(
+type NavbarDropdownProps = NavTag & { show: boolean };
+const NavbarDropdown = ({ show, subtags, tag }: NavbarDropdownProps) => {
+  const settingsAreEqual = useAppSelector(
     (state) => state.settings.settingsAreEqual
   );
   return (

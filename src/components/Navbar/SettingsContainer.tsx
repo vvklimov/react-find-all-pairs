@@ -1,5 +1,6 @@
 import SingleSetting from "../SingleSetting/SingleSetting";
-const SettingsContainer = ({ subtags, tag }) => {
+import type { NavTag } from "../../utils/types";
+const SettingsContainer = ({ subtags, tag }: NavTag) => {
   return (
     <div className="settings-container">
       {subtags.map((subtag, index) => {

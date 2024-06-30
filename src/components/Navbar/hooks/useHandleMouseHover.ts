@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 import { timeout } from "../../../utils/helpers";
 import { GAME, PAUSE, RESUME } from "../../../gameStateNames";
 import { setGameState } from "../../../features/gameState/gameStateSlice";
 
 const useHandleMouseHover = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
   const [gradient, setGradient] = useState(false);
-  const gameState = useSelector((state) => state.gameState.gameState);
+  const gameState = useAppSelector((state) => state.gameState.gameState);
+
   const handleMouseEnter = () => {
     setShowDropdown(true);
     setGradient(true);
@@ -16,12 +17,12 @@ const useHandleMouseHover = () => {
       dispatch(setGameState(PAUSE));
     }
   };
-  const handleMouseLeave = async (e) => {
+  const handleMouseLeave = async (e: React.MouseEvent<HTMLElement>) => {
     setShowDropdown(false);
     setGradient(false);
     if (
       gameState === PAUSE &&
-      !e?.relatedTarget?.classList?.contains("nav-btn")
+      !(e.relatedTarget as Element).classList?.contains("nav-btn")
     ) {
       await timeout(300);
       dispatch(setGameState(RESUME));
