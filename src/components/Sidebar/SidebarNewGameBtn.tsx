@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
 import useShowGameMenu from "../Navbar/hooks/useShowGameMenu";
+import { useAppSelector } from "../../utils/hooks";
 const SidebarNewGameBtn = () => {
-  const settingsAreEqual = useSelector(
+  const settingsAreEqual = useAppSelector(
     (state) => state.settings.settingsAreEqual
   );
   const { showGameMenu } = useShowGameMenu();

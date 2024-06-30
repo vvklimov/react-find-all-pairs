@@ -1,8 +1,8 @@
-import type { SubtagClass, SubtagName, Tag } from "../../utils/types";
+import type { Subtag, Tag } from "../../utils/types";
 import SettingsBtn from "./SettingsBtn";
 
 type SingleSettingProps = {
-  subtag: { subtagName: SubtagName; subtagClass: SubtagClass };
+  subtag: Subtag;
   tag: Tag;
 };
 const SingleSetting = ({ subtag, tag }: SingleSettingProps) => {

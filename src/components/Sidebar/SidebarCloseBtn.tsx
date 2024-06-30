@@ -1,5 +1,6 @@
 import { FaTimes } from "react-icons/fa";
-const SidebarCloseBtn = ({ handleCloseSidebar }) => {
+type SidebarCloseBtnProps = { handleCloseSidebar: () => Promise<void> };
+const SidebarCloseBtn = ({ handleCloseSidebar }: SidebarCloseBtnProps) => {
   return (
     <button className="close-btn btn" onClick={handleCloseSidebar}>
       <FaTimes />
