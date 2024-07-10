@@ -19,7 +19,7 @@ The game objective is pretty simple: find all card pairs before time is up.
 
 ## Getting Started
 
-To get started and play Find All Pairs you can visit [the project demo](https://reactfindallpairs.netlify.app/) and start enjoying the game right away.
+To get started and play Find All Pairs you can visit [the project demo](https://findallpairs.netlify.app/) and start enjoying the game right away.
 
 If you want to test or play with the code yourself:
 
